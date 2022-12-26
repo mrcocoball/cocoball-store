@@ -1,2 +1,2 @@
-# cocoball-store
+# cocoball-store (가칭)
 cocoball store
