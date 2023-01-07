@@ -1,2 +1,2 @@
-# cocoball-store (가칭)
-cocoball store
+# Date-planner (가칭)
+Date planner
