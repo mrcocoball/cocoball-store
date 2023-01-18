@@ -44,7 +44,7 @@ public class Place {
     private Long reviewCount;
 
     private Place(Category category, String placeName, String placeId, String addressName, String region_1depth_name,
-                  String region_2depth_name, String region_3depth_name, String longitude, String latitude) {
+                  String region_2depth_name, String region_3depth_name, String longitude, String latitude, Long reviewCount, Long reviewScore) {
         this.category = category;
         this.placeName = placeName;
         this.placeId = placeId;
@@ -54,12 +54,8 @@ public class Place {
         this.region_3depth_name = region_3depth_name;
         this.longitude = longitude;
         this.latitude = latitude;
-    }
-
-    public static Place of(Category category, String placeName, String placeId, String addressName, String region_1depth_name,
-                           String region_2depth_name, String region_3depth_name, String longitude, String latitude) {
-        return new Place(category, placeName, placeId, addressName, region_1depth_name, region_2depth_name,
-                region_3depth_name,longitude, latitude);
+        this.reviewCount = reviewCount;
+        this.reviewScore = reviewScore;
     }
 
     public void addScoreAndCount(Long score) {
