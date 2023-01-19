@@ -1,8 +1,7 @@
-package com.dateplanner.constrant;
+package com.dateplanner.constrant.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
-import com.dateplanner.constrant.entity.BaseEntity;
 import com.querydsl.core.types.dsl.*;
 
 import com.querydsl.core.types.PathMetadata;
@@ -16,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultSupertypeSerializer")
 public class QBaseEntity extends EntityPathBase<BaseEntity> {
 
-    private static final long serialVersionUID = -694565919L;
+    private static final long serialVersionUID = -2050649390L;
 
     public static final QBaseEntity baseEntity = new QBaseEntity("baseEntity");
 
