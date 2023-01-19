@@ -15,11 +15,11 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QCategory extends EntityPathBase<Category> {
 
-    private static final long serialVersionUID = -1558988054L;
+    private static final long serialVersionUID = -1020313941L;
 
     public static final QCategory category = new QCategory("category");
 
-    public final com.dateplanner.constrant.QBaseEntity _super = new com.dateplanner.constrant.QBaseEntity(this);
+    public final com.dateplanner.constrant.entity.QBaseEntity _super = new com.dateplanner.constrant.entity.QBaseEntity(this);
 
     public final StringPath categoryName = createString("categoryName");
 

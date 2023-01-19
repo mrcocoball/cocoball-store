@@ -16,13 +16,13 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QPlace extends EntityPathBase<Place> {
 
-    private static final long serialVersionUID = 222462619L;
+    private static final long serialVersionUID = -1933148550L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QPlace place = new QPlace("place");
 
-    public final com.dateplanner.constrant.QBaseEntity _super = new com.dateplanner.constrant.QBaseEntity(this);
+    public final com.dateplanner.constrant.entity.QBaseEntity _super = new com.dateplanner.constrant.entity.QBaseEntity(this);
 
     public final StringPath addressName = createString("addressName");
 
