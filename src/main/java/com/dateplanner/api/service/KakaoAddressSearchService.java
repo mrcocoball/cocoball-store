@@ -48,7 +48,7 @@ public class KakaoAddressSearchService {
 
         // URI 호출
         URI uri = kakaoUriBuilderService.buildUriForAddressSearch(address);
-        log.info("[KakaoAddressSearchService requestAddressSearch] URI converting complete", uri);
+        log.info("[KakaoAddressSearchService requestAddressSearch] URI converting complete, {}", uri);
 
         // 요청 헤더 세팅
         HttpHeaders headers = new HttpHeaders();

@@ -42,7 +42,7 @@ public class KakaoCategorySearchService {
 
         // URI 호출
         URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category);
-        log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete", uri);
+        log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);
 
         // 요청 헤더 세팅
         HttpHeaders headers = new HttpHeaders();
