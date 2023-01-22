@@ -1,5 +1,6 @@
 package com.dateplanner.place.dto;
 
+import com.dateplanner.place.entity.Place;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +46,19 @@ public class PlaceDto {
 
     private Long reviewScore;
     private Long reviewCount;
+
+    public static PlaceDto from(Place entity) {
+        return PlaceDto.builder()
+                .placeName(entity.getPlaceName())
+                .placeId(entity.getPlaceId())
+                .placeUrl(entity.getPlaceUrl())
+                .addressName(entity.getAddressName())
+                .region1DepthName(entity.getRegion1DepthName())
+                .region2DepthName(entity.getRegion2DepthName())
+                .region3DepthName(entity.getRegion3DepthName())
+                .reviewScore(entity.getReviewScore())
+                .reviewCount(entity.getReviewCount())
+                .build();
+    }
 
 }

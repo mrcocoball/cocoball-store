@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+
 @Slf4j(topic = "DTO")
 @Getter
 @AllArgsConstructor
@@ -29,17 +31,6 @@ public class DocumentDto {
     @JsonProperty("address_name")
     private String addressName;
 
-    /*
-    @JsonProperty("region_1depth_name")
-    private String region1DepthName;
-
-    @JsonProperty("region_2depth_name")
-    private String region2DepthName;
-
-    @JsonProperty("region_3depth_name")
-    private String region3DepthName;
-     */
-
     @JsonProperty("x")
     private String longitude;
 
@@ -48,5 +39,18 @@ public class DocumentDto {
 
     @JsonProperty("distance")
     private String distance;
+    
+    private String region1DepthName;
+
+    private String region2DepthName;
+
+    private String region3DepthName;
+
+    public void splitAddress(String addressName) {
+        String[] arr = addressName.split(" ", 3);
+        this.region1DepthName = arr[0];
+        this.region2DepthName = arr[1];
+        this.region3DepthName = arr[2];
+    }
 
 }
