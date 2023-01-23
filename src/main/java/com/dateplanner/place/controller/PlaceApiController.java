@@ -1,6 +1,8 @@
 package com.dateplanner.place.controller;
 
 import com.dateplanner.api.dto.DocumentDto;
+import com.dateplanner.api.dto.KakaoApiResponseDto;
+import com.dateplanner.api.dto.MetaDto;
 import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.service.PlaceApiService;
 import com.dateplanner.place.service.PlaceService;
@@ -16,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "PlaceApiController")
@@ -32,17 +33,32 @@ public class PlaceApiController {
     private final PlaceApiService placeApiService;
     private final PlaceService placeService;
 
+
     /**
-     * 초기 버전은 KAKAO 카테고리 검색 결과를 받아 페이징 / 정렬 처리를 하고 화면 처리를 하지만
-     * 추후 추가 기능이 붙어야 한다면 고도화가 필요할 것으로 보인다. (DB에 저장된 장소들 / 카카오 API에서 가져온 정보들 분리해서 출력)
+     * 카카오 주소 검색 API + 카테고리 장소 검색 결과를 그대로 화면으로 처리
+     */
+    @Operation(summary = "Place List", description = "[GET] 주소, 카테고리로 장소 리스트 출력 (KAKAO)")
+    @GetMapping("/api/v1/placesKakao")
+    public Page<DocumentDto> placesKakaoV1(String address, String category, @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+
+        DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
+        KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
+        placeService.placePersist(dto);
+        return placeApiService.getPlacesByKakao(dto, pageable);
+    }
+
+
+    /**
+     * 카카오 주소 검색 API으로 반환한 좌표 + 주소 기준 DB 조회 후 거리 계산하여 장소 출력 후 화면으로 처리
      */
     @Operation(summary = "Place List", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
-    public Page<DocumentDto> placesV1(String address, String category, @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+    public Page<PlaceDto> placesV1(String address, String category, @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
-        List<DocumentDto> dtos =  placeService.placeSearch(address, category);
-        placeService.placePersist(dtos);
-        return placeApiService.places(dtos, pageable);
+        DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
+        KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
+        placeService.placePersist(dto);
+        return placeApiService.getPlacesByKeyword(addressDto, dto, pageable);
     }
 
     @Operation(summary = "Place", description = "[GET] 장소 ID로 단일 장소 정보 조회")
@@ -50,6 +66,24 @@ public class PlaceApiController {
     public PlaceDto getPlaceV1(@PathVariable("place_id")String placeId) {
 
         return placeApiService.getPlace(placeId);
+    }
+
+
+    /**
+     * API 테스트 비교용 메서드
+     */
+    @Operation(summary = "KAKAO", description = "[GET] 카카오 API Meta Dto 테스트용")
+    @GetMapping("/api/v1/test/meta")
+    public MetaDto testMetaV1(String address, String category) {
+
+        return placeService.getMetaDto(address, category);
+    }
+
+    @Operation(summary = "KAKAO", description = "[GET] 카카오 API Document Dto 테스트용")
+    @GetMapping("/api/v1/test/document")
+    public List<DocumentDto> testDocumentV1(String address, String category) {
+
+        return placeService.getDocumentDto(address, category);
     }
 
 }

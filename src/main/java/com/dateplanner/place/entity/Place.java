@@ -28,6 +28,9 @@ public class Place extends BaseEntity {
 
     private String addressName;
 
+    @Column(name = "road_address_name")
+    private String roadAddressName;
+
     @Column(name = "region_1depth_name")
     private String region1DepthName;
 
@@ -37,23 +40,24 @@ public class Place extends BaseEntity {
     @Column(name = "region_3depth_name")
     private String region3DepthName;
 
-    private String longitude;
+    private double longitude;
 
-    private String latitude;
+    private double latitude;
 
     private Long reviewScore;
 
     private Long reviewCount;
 
     private Place(Category category, String placeName, String placeId, String placeUrl, String addressName,
-                  String region1DepthName, String region2DepthName, String region3DepthName,
-                  String longitude, String latitude, Long reviewScore, Long reviewCount) {
+                  String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
+                  double longitude, double latitude, Long reviewScore, Long reviewCount) {
 
         this.category = category;
         this.placeName = placeName;
         this.placeId = placeId;
         this.placeUrl = placeUrl;
         this.addressName = addressName;
+        this.roadAddressName = roadAddressName;
         this.region1DepthName = region1DepthName;
         this.region2DepthName = region2DepthName;
         this.region3DepthName = region3DepthName;
@@ -65,10 +69,10 @@ public class Place extends BaseEntity {
     }
 
     public static Place of(Category category, String placeName, String placeId, String placeUrl, String addressName,
-                           String region1DepthName, String region2DepthName, String region3DepthName,
-                           String longitude, String latitude, Long reviewScore, Long reviewCount) {
+                           String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
+                           double longitude, double latitude, Long reviewScore, Long reviewCount) {
 
-        return new Place(category, placeName, placeId, placeUrl, addressName,
+        return new Place(category, placeName, placeId, placeUrl, addressName, roadAddressName,
                 region1DepthName, region2DepthName, region3DepthName, longitude, latitude, reviewScore, reviewCount);
     }
 
