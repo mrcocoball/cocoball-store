@@ -29,6 +29,9 @@ public class PlaceDto {
     @JsonProperty("address_name")
     private String addressName;
 
+    @JsonProperty("road_address_name")
+    private String roadAddressName;
+
     @JsonProperty("region_1depth_name")
     private String region1DepthName;
 
@@ -39,23 +42,31 @@ public class PlaceDto {
     private String region3DepthName;
 
     @JsonProperty("x")
-    private String longitude;
+    private double longitude;
 
     @JsonProperty("y")
-    private String latitude;
+    private double latitude;
 
+    @JsonProperty("review_score")
     private Long reviewScore;
+
+    @JsonProperty("review_count")
     private Long reviewCount;
 
     public static PlaceDto from(Place entity) {
         return PlaceDto.builder()
+                .id(entity.getId())
+                .categoryGroupId(entity.getCategory().getId())
                 .placeName(entity.getPlaceName())
                 .placeId(entity.getPlaceId())
                 .placeUrl(entity.getPlaceUrl())
                 .addressName(entity.getAddressName())
+                .roadAddressName(entity.getRoadAddressName())
                 .region1DepthName(entity.getRegion1DepthName())
                 .region2DepthName(entity.getRegion2DepthName())
                 .region3DepthName(entity.getRegion3DepthName())
+                .longitude(entity.getLongitude())
+                .latitude(entity.getLatitude())
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
                 .build();

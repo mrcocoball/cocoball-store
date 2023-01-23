@@ -31,19 +31,25 @@ public class DocumentDto {
     @JsonProperty("address_name")
     private String addressName;
 
+    @JsonProperty("road_address_name")
+    private String roadAddressName;
+
     @JsonProperty("x")
-    private String longitude;
+    private double longitude;
 
     @JsonProperty("y")
-    private String latitude;
+    private double latitude;
 
     @JsonProperty("distance")
-    private String distance;
-    
+    private double distance;
+
+    @JsonProperty("region_1depth_name")
     private String region1DepthName;
 
+    @JsonProperty("region_2depth_name")
     private String region2DepthName;
 
+    @JsonProperty("region_3depth_name")
     private String region3DepthName;
 
     public void splitAddress(String addressName) {
