@@ -51,6 +51,18 @@
         </layout>
    	</appender>
 
+    <!-- 보안에 사용 -->
+    <appender name="SECURITY" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <layout>
+            <pattern>
+                [SECURITY] ${LOG_PATTERN}
+            </pattern>
+        </layout>
+   	</appender>
+
 
     <logger name="SERVICE_LOG" level="INFO" additivitty="false">
         <appender-ref ref="SERVICE" />
@@ -66,6 +78,10 @@
 
     <logger name="DTO_LOG" level="INFO" additivitty="false">
         <appender-ref ref="DTO" />
+    </logger>
+
+    <logger name="SECURITY_LOG" level="INFO" additivitty="false">
+        <appender-ref ref="SECURITY" />
     </logger>
 
 
