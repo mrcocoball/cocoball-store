@@ -226,4 +226,7 @@ gradle-app.setting
 ### Querydsl
 /src/main/generated
 
+### secretkey
+application-jwt.yml
+
 # End of https://www.toptal.com/developers/gitignore/api/intellij+all,visualstudiocode,java,windows,gradle,macos
