@@ -1,4 +1,4 @@
-package com.dateplanner.constrant.entity;
+package com.dateplanner.constant.entity;
 
 import lombok.Getter;
 import lombok.ToString;

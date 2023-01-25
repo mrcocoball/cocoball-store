@@ -39,6 +39,8 @@ public class KakaoCategorySearchService {
     )
     public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, String category) {
 
+        // TODO : URI Builder 쪽에서 장소 검색하기 API의 1page값만 가지고 오고 있어 수정 필요
+
         // URI 호출
         URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category);
         log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);

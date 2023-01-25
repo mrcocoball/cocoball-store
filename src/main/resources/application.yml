@@ -9,6 +9,7 @@ spring:
         - common
       prod:
         - common
+    include: jwt
 
 ---
 
@@ -45,7 +46,12 @@ spring:
     init:
       mode: always
 
+springdoc:
+  paths-to-match:
+    - /api/**
+
 logging:
   level:
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.SQL: debug
+    #org.hibernate.type.descriptor.sql.BasicBinder: trace
 ---

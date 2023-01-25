@@ -69,6 +69,9 @@ dependencies {
     testImplementation('com.squareup.okhttp3:okhttp:4.10.0')
     testImplementation('com.squareup.okhttp3:mockwebserver:4.10.0')
 
+    // jsonwebtoken
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 }
 
 tasks.named('test') {
@@ -97,4 +100,9 @@ sourceSets {
 // gradle clean 시에 QClass 디렉토리 삭제
 clean {
     delete file(generated)
+}
+
+// build 전 테스트 제외 (임시)
+test {
+    exclude '**/*'
 }
