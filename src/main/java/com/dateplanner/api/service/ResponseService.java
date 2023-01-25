@@ -77,6 +77,18 @@ public class ResponseService {
 
     }
 
+    /**
+     * 실패 결과 처리 (코드 및 메시지 전달)
+     */
+    public CommonResult getFailResult(int code, String msg) {
+
+        CommonResult result = new CommonResult();
+        result.setSuccess(false);
+        setFailResult(result, code, msg);
+        return result;
+
+    }
+
 
     /**
      * API 요청 성공 시 응답 모델을 성공 데이터로 세팅
@@ -97,6 +109,17 @@ public class ResponseService {
         result.setSuccess(false);
         result.setCode(CommonResponse.FAIL.getCode());
         result.setMsg(CommonResponse.FAIL.getMsg());
+
+    }
+
+    /**
+     * API 요청 실패 시 응답 모델을 실패 데이터로 세팅 (코드, 메시지 추가)
+     */
+    private void setFailResult(CommonResult result, int code, String msg) {
+
+        result.setSuccess(false);
+        result.setCode(code);
+        result.setMsg(msg);
 
     }
 
