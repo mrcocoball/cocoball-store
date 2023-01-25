@@ -76,7 +76,7 @@ public class PlaceService {
 
         // 전달 받은 장소 리스트 DB 내 중복 여부 체크 후 DB에 저장
         // TODO: 현재 중복 여부 체크를 할 때마다 반복문으로 select 쿼리가 나가고 있어 성능 이슈 우려 있음, 추후 리팩토링 필요
-        log.info("[PlaceService placeSearchAndSave] DocumentDto -> Repository save start");
+        log.info("[PlaceService placePersist] DocumentDto -> Repository save start");
         int convertResultCount = 0;
         int nestedResultCount = 0;
 
