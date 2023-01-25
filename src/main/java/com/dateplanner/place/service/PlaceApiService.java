@@ -1,7 +1,7 @@
 package com.dateplanner.place.service;
 
-import com.dateplanner.api.dto.DocumentDto;
-import com.dateplanner.api.dto.KakaoApiResponseDto;
+import com.dateplanner.kakao.dto.DocumentDto;
+import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
