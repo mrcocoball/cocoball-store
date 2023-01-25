@@ -1,8 +1,7 @@
 package com.dateplanner.place.entity;
 
-import com.dateplanner.constrant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseEntity;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;

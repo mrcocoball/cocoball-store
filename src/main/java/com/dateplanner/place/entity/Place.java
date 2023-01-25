@@ -1,12 +1,14 @@
 package com.dateplanner.place.entity;
 
-import com.dateplanner.constrant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 
+@Slf4j(topic = "ENTITY")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
