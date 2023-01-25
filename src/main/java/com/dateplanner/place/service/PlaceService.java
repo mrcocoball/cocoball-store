@@ -32,12 +32,12 @@ public class PlaceService {
      * KAKAO 주소 검색하기 API 호출하여 주소 및 좌표 변환 -> 카테고리 검색 및 DB 조회에 활용
      */
 
-    public DocumentDto convertingPlaceLongitudeAndLatitude(String address) {
+    public DocumentDto getPlaceLongitudeAndLatitude(String address) {
 
         List<DocumentDto> addressResults = kakaoAddressSearchService.requestAddressSearch(address).getDocumentList();
 
         if (Objects.isNull(addressResults) || addressResults.isEmpty()) {
-            log.error("[PlaceService placeSearch] address search result is null");
+            log.error("[PlaceService getPlaceLongitudeAndLatitude] address search result is null");
             return null;
         }
 
@@ -50,6 +50,9 @@ public class PlaceService {
      */
 
     public KakaoApiResponseDto placeSearchByKakao(DocumentDto addressDto, String category) {
+
+        // TODO : URI Builder 쪽에서 장소 검색하기 API의 1page값만 가지고 오고 있어 수정 필요
+
         return kakaoCategorySearchService.requestCategorySearch(
                 Double.valueOf(addressDto.getLatitude()), Double.valueOf(addressDto.getLongitude()), MAX_LADIUS, category);
     }
@@ -115,12 +118,12 @@ public class PlaceService {
      * API 호출 결과 비교용 메서드
      */
     public MetaDto getMetaDto(String address, String category) {
-        DocumentDto addressDto = convertingPlaceLongitudeAndLatitude(address);
+        DocumentDto addressDto = getPlaceLongitudeAndLatitude(address);
         return placeSearchByKakao(addressDto, category).getMetaDto();
     }
 
     public List<DocumentDto> getDocumentDto(String address, String category) {
-        DocumentDto addressDto = convertingPlaceLongitudeAndLatitude(address);
+        DocumentDto addressDto = getPlaceLongitudeAndLatitude(address);
         return placeSearchByKakao(addressDto, category).getDocumentList();
     }
 }

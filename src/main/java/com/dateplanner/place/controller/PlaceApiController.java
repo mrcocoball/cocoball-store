@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +47,7 @@ public class PlaceApiController {
                                                  @Parameter(description = "카테고리 코드") String category,
                                                  @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
-        DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
+        DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
         placeService.placePersist(dto);
         return responseService.getPageResult(placeApiService.getPlacesByKakao(dto, pageable));
@@ -64,10 +63,10 @@ public class PlaceApiController {
                                          @Parameter(description = "카테고리 코드") String category,
                                          @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
-        DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
+        DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
         placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlacesByKeyword(addressDto, dto, pageable));
+        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, pageable));
     }
 
     @Operation(summary = "Place", description = "[GET] 장소 ID로 단일 장소 정보 조회")

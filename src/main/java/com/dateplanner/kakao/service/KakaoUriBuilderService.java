@@ -55,6 +55,8 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("radius", meterRadius);
         uriBuilder.queryParam("sort", "distance");
 
+        // TODO : 현재 요청 파라미터 값에 page가 없어 기본값인 1(1페이지)이 적용되고 있어 최대 3페이지까지의 값을 가져오도록 URI를 변경해야 함
+
         URI uri = uriBuilder.build().encode().toUri(); // UTF-8로 인코딩해줌
         log.info("[KakaoUriBuilderService buildUriForCategorySearch] uri: {}", uri);
 
