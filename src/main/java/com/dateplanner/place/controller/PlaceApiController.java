@@ -1,12 +1,16 @@
 package com.dateplanner.place.controller;
 
-import com.dateplanner.api.dto.DocumentDto;
-import com.dateplanner.api.dto.KakaoApiResponseDto;
-import com.dateplanner.api.dto.MetaDto;
+import com.dateplanner.api.model.PageResult;
+import com.dateplanner.api.model.SingleResult;
+import com.dateplanner.api.service.ResponseService;
+import com.dateplanner.kakao.dto.DocumentDto;
+import com.dateplanner.kakao.dto.KakaoApiResponseDto;
+import com.dateplanner.kakao.dto.MetaDto;
 import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.service.PlaceApiService;
 import com.dateplanner.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +36,7 @@ public class PlaceApiController {
 
     private final PlaceApiService placeApiService;
     private final PlaceService placeService;
+    private final ResponseService responseService;
 
 
     /**
@@ -39,12 +44,14 @@ public class PlaceApiController {
      */
     @Operation(summary = "Place List", description = "[GET] 주소, 카테고리로 장소 리스트 출력 (KAKAO)")
     @GetMapping("/api/v1/placesKakao")
-    public Page<DocumentDto> placesKakaoV1(String address, String category, @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+    public PageResult<DocumentDto> placesKakaoV1(@Parameter(description = "입력 주소") String address,
+                                                 @Parameter(description = "카테고리 코드") String category,
+                                                 @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
         DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
         placeService.placePersist(dto);
-        return placeApiService.getPlacesByKakao(dto, pageable);
+        return responseService.getPageResult(placeApiService.getPlacesByKakao(dto, pageable));
     }
 
 
@@ -53,19 +60,21 @@ public class PlaceApiController {
      */
     @Operation(summary = "Place List", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
-    public Page<PlaceDto> placesV1(String address, String category, @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+    public PageResult<PlaceDto> placesV1(@Parameter(description = "입력 주소") String address,
+                                         @Parameter(description = "카테고리 코드") String category,
+                                         @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
         DocumentDto addressDto = placeService.convertingPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
         placeService.placePersist(dto);
-        return placeApiService.getPlacesByKeyword(addressDto, dto, pageable);
+        return responseService.getPageResult(placeApiService.getPlacesByKeyword(addressDto, dto, pageable));
     }
 
     @Operation(summary = "Place", description = "[GET] 장소 ID로 단일 장소 정보 조회")
     @GetMapping("/api/v1/places/{place_id}")
-    public PlaceDto getPlaceV1(@PathVariable("place_id")String placeId) {
+    public SingleResult<PlaceDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id")String placeId) {
 
-        return placeApiService.getPlace(placeId);
+        return responseService.getSingleResult(placeApiService.getPlace(placeId));
     }
 
 

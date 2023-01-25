@@ -1,6 +1,6 @@
-package com.dateplanner.api.service;
+package com.dateplanner.kakao.service;
 
-import com.dateplanner.api.dto.KakaoApiResponseDto;
+import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,10 +19,10 @@ import java.net.URI;
 @Slf4j(topic = "SERVICE")
 @Service
 @RequiredArgsConstructor
-public class KakaoCategorySearchService {
+public class KakaoAddressSearchService {
 
     /**
-     * requestCategorySearch : 입력받은 위도, 경도, 범위, 카테고리로 KAKAO_카테고리로 장소 검색하기 API 호출
+     * requestAddressSearch : 입력받은 주소값으로 KAKAO_주소 검색하기 API 호출
      * recover : 호출 실패 시 처리 메서드
      */
 
@@ -38,11 +38,17 @@ public class KakaoCategorySearchService {
             maxAttempts = 2, // 초기 요청 포함 2회 재요청
             backoff = @Backoff(delay = 2000) // 딜레이 2초
     )
-    public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, String category) {
+    public KakaoApiResponseDto requestAddressSearch(String address) {
+
+        // validation
+        if (ObjectUtils.isEmpty(address)) {
+            log.info("[KakaoAddressSearchService requestAddressSearch] address is null");
+            return null;
+        }
 
         // URI 호출
-        URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category);
-        log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);
+        URI uri = kakaoUriBuilderService.buildUriForAddressSearch(address);
+        log.info("[KakaoAddressSearchService requestAddressSearch] URI converting complete, {}", uri);
 
         // 요청 헤더 세팅
         HttpHeaders headers = new HttpHeaders();
@@ -55,9 +61,8 @@ public class KakaoCategorySearchService {
 
     @Recover
     public KakaoApiResponseDto recover(RuntimeException e, String address) {
-        log.error("[KakaoCategorySearchService requestCategorySearch] address is null", address, e.getMessage());
+        log.error("[KakaoAddressSearchService requestAddressSearch] address is null", address, e.getMessage());
         return null;
     }
-
 
 }

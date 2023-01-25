@@ -1,4 +1,4 @@
-package com.dateplanner.api.service;
+package com.dateplanner.kakao.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

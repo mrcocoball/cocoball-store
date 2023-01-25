@@ -1,6 +1,6 @@
-package com.dateplanner.api.service
+package com.dateplanner.kakao.service
 
-import org.junit.jupiter.api.DisplayName
+
 import spock.lang.Specification
 
 import java.nio.charset.StandardCharsets

@@ -1,4 +1,4 @@
-package com.dateplanner.api.service
+package com.dateplanner.kakao.service
 
 import com.dateplanner.AbstractIntegrationTest
 import org.springframework.beans.factory.annotation.Autowired

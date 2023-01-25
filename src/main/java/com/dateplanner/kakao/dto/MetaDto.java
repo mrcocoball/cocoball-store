@@ -1,4 +1,4 @@
-package com.dateplanner.api.dto;
+package com.dateplanner.kakao.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -6,18 +6,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-
 @Slf4j(topic = "DTO")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class KakaoApiResponseDto {
+public class MetaDto {
 
-    @JsonProperty("meta")
-    private MetaDto metaDto;
+    @JsonProperty("same_name")
+    private RegionInfoDto sameName;
 
-    @JsonProperty("documents")
-    private List<DocumentDto> documentList;
+    @JsonProperty("total_count")
+    private Integer totalCount;
 
 }
