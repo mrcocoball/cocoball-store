@@ -11,19 +11,23 @@ import com.dateplanner.place.service.PlaceApiService;
 import com.dateplanner.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "PlaceApiController")
+@Tag(name = "PlaceApiController - 장소 검색 API")
 @RequiredArgsConstructor
 @RestController
 public class PlaceApiController {
@@ -39,11 +43,19 @@ public class PlaceApiController {
     private final ResponseService responseService;
 
 
+    @PreAuthorize("isAuthenticated()")
+    @Parameters({
+            @Parameter(
+                    name = "X-AUTH-TOKEN",
+                    description = "로그인 성공 후 AccessToken",
+                    required = true, in = ParameterIn.HEADER
+            )
+    })
     @Operation(summary = "장소 검색", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
-    public PageResult<PlaceDto> placesV1(@Parameter(description = "입력 주소") String address,
-                                         @Parameter(description = "카테고리 코드") String category,
-                                         @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+    public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
+                                            @Parameter(description = "카테고리 코드") String category,
+                                            @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
@@ -51,11 +63,21 @@ public class PlaceApiController {
         return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, pageable));
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @Parameters({
+            @Parameter(
+                    name = "X-AUTH-TOKEN",
+                    description = "로그인 성공 후 AccessToken",
+                    required = true, in = ParameterIn.HEADER
+            )
+    })
     @Operation(summary = "장소 단건 조회", description = "[GET] 장소 ID로 단일 장소 정보 조회")
     @GetMapping("/api/v1/places/{place_id}")
-    public SingleResult<PlaceDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id")String placeId) {
+    public SingleResult<PlaceDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id")String placeId,
+                                             Principal principal) {
 
-        return responseService.getSingleResult(placeApiService.getPlace(placeId));
+        String uid = principal.getName();
+        return responseService.getSingleResult(placeApiService.getPlace(placeId, uid));
     }
 
 
