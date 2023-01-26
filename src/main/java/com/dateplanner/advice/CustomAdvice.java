@@ -19,6 +19,11 @@ public class CustomAdvice {
 
     private final ResponseService responseService;
 
+
+    /**
+     * 회원 가입, 인증, 인가 관련
+     */
+
     @ExceptionHandler(CustomAuthenticationEntrypointException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customAuthenticationEntrypointException(HttpServletRequest request, CustomAuthenticationEntrypointException e) {
@@ -74,6 +79,37 @@ public class CustomAdvice {
         return responseService.getFailResult
                 (ErrorCode.TOKEN_INVALID.getCode(), ErrorCode.TOKEN_INVALID.getDescription());
     }
+
+
+    /**
+     * 비즈니스 로직 관련
+     */
+
+    @ExceptionHandler(PlaceNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult placeNotFoundApiException(HttpServletRequest request, PlaceNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.PLACE_NOT_FOUND.getCode(), ErrorCode.PLACE_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(BookmarkNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult bookmarkNotFoundApiException(HttpServletRequest request, BookmarkNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.BOOKMARK_NOT_FOUND.getCode(), ErrorCode.BOOKMARK_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(BookmarkDuplicateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult bookmarkDuplicateException(HttpServletRequest request, BookmarkDuplicateException e) {
+        return responseService.getFailResult
+                (ErrorCode.BOOKMARK_DUPLICATED.getCode(), ErrorCode.BOOKMARK_DUPLICATED.getDescription());
+    }
+
+
+    /**
+     * 기타 예외 관련
+     */
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
