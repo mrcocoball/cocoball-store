@@ -1,9 +1,12 @@
 package com.dateplanner.place.dto;
 
+import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.place.entity.Place;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 @Slf4j(topic = "DTO")
 @Getter
@@ -52,8 +55,12 @@ public class PlaceDto {
 
     @JsonProperty("review_count")
     private Long reviewCount;
+    
+    @JsonProperty("bookmarked")
+    private boolean bookmarked;
 
-    public static PlaceDto from(Place entity) {
+    public static PlaceDto from(Place entity, boolean isBookmarked) {
+
         return PlaceDto.builder()
                 .id(entity.getId())
                 .categoryGroupId(entity.getCategory().getId())
@@ -69,6 +76,7 @@ public class PlaceDto {
                 .latitude(entity.getLatitude())
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
+                .bookmarked(isBookmarked)
                 .build();
     }
 

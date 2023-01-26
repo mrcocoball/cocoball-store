@@ -1,6 +1,6 @@
 package com.dateplanner.security.entity;
 
-import com.dateplanner.constant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseTimeEntity;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "refresh_token")
-public class RefreshToken extends BaseEntity {
+public class RefreshToken extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

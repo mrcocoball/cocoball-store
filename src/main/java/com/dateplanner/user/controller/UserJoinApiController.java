@@ -4,23 +4,22 @@ import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
 import com.dateplanner.security.dto.TokenDto;
 import com.dateplanner.security.dto.TokenRequestDto;
-import com.dateplanner.security.jwt.JwtProvider;
 import com.dateplanner.user.dto.UserJoinRequestDto;
 import com.dateplanner.user.dto.UserLoginRequestDto;
-import com.dateplanner.user.dto.UserLoginResponseDto;
 import com.dateplanner.user.service.UserJoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "UserJoinApiController")
+@Tag(name = "UserJoinApiController - 회원가입, 로그인, 토큰 발급 API")
 @RequiredArgsConstructor
 @RestController
 public class UserJoinApiController {

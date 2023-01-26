@@ -1,5 +1,8 @@
 package com.dateplanner.place.service;
 
+import com.dateplanner.advice.exception.PlaceNotFoundApiException;
+import com.dateplanner.api.PaginationService;
+import com.dateplanner.bookmark.service.BookmarkService;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import com.dateplanner.place.dto.PlaceDto;
@@ -7,21 +10,23 @@ import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Service
 public class PlaceApiService {
 
     private final PlaceRepository placeRepository;
+    private final BookmarkService bookmarkService;
+    private final PaginationService paginationService;
 
     private static final int MAX_LADIUS = 5; // km
 
@@ -33,9 +38,8 @@ public class PlaceApiService {
 
         List<DocumentDto> dtos = dto.getDocumentList();
 
-        final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), dtos.size());
-        return new PageImpl<>(dtos.subList(start, end), pageable, dtos.size());
+        return paginationService.listToPage(dtos, pageable);
+
     }
 
     /**
@@ -54,7 +58,7 @@ public class PlaceApiService {
         // 1depth_name, 2depth_name 기준으로 장소 Dto 가져오기
         List<PlaceDto> placeDtos = placeRepository.findByAddressNameStartingWith(searchAddress)
                 .stream()
-                .map(PlaceDto::from)
+                .map(place -> PlaceDto.from(place, false))
                 .collect(Collectors.toList());
 
         log.info("[PlaceApiService getPlacesByKeyword] places {} found", placeDtos.size());
@@ -79,16 +83,17 @@ public class PlaceApiService {
         log.info("[PlaceApiService getPlacesByKeyword] finally places {} found", result.size());
 
         // 페이징 처리
-        final int start = (int) pageable.getOffset();
-        final int end = Math.min((start + pageable.getPageSize()), result.size());
-        return new PageImpl<>(result.subList(start, end), pageable, result.size());
+        return paginationService.listToPage(result, pageable);
     }
 
     /**
      * KAKAO API 상의 place_id를 DB에서 조회하여 정보를 가져온다 (상세 정보, 리뷰 유무, 평점, 리뷰 수 등)
      */
-    public PlaceDto getPlace(String placeId) {
-        return placeRepository.findByPlaceId(placeId).map(PlaceDto::from).orElseThrow(EntityNotFoundException::new);
+    public PlaceDto getPlace(String placeId, String uid) {
+
+        boolean isBookmarked = bookmarkService.isExist(placeId, uid);
+
+        return placeRepository.findByPlaceId(placeId).map(place -> PlaceDto.from(place, isBookmarked)).orElseThrow(PlaceNotFoundApiException::new);
     }
 
 
