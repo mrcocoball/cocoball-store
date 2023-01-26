@@ -1,6 +1,6 @@
 package com.dateplanner.user.entity;
 
-import com.dateplanner.constant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class User extends BaseEntity implements UserDetails {
+public class User extends BaseTimeEntity implements UserDetails {
 
     @Id
     @Column(length = 50)

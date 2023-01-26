@@ -1,6 +1,6 @@
 package com.dateplanner.place.entity;
 
-import com.dateplanner.constant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Entity
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category extends BaseEntity implements Persistable<String> {
+public class Category extends BaseTimeEntity implements Persistable<String> {
 
     @Id
     @Column(name = "category_id")

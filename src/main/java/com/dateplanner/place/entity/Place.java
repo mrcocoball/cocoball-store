@@ -1,6 +1,6 @@
 package com.dateplanner.place.entity;
 
-import com.dateplanner.constant.entity.BaseEntity;
+import com.dateplanner.constant.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Place extends BaseEntity {
+public class Place extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
