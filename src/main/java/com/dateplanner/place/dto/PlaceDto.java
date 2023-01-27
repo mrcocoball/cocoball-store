@@ -55,6 +55,9 @@ public class PlaceDto {
 
     @JsonProperty("review_count")
     private Long reviewCount;
+
+    @JsonProperty("avg_review_score")
+    private double avgReviewScore;
     
     @JsonProperty("bookmarked")
     private boolean bookmarked;
@@ -76,8 +79,22 @@ public class PlaceDto {
                 .latitude(entity.getLatitude())
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
+                .avgReviewScore(calculateAvgScore(entity.getReviewScore(), entity.getReviewCount()))
                 .bookmarked(isBookmarked)
                 .build();
+    }
+
+    public static double calculateAvgScore(Long reviewScore, Long reviewCount) {
+
+        if (reviewScore == null || reviewScore == 0L) {
+            return 0;
+        }
+
+        if (reviewCount == null || reviewCount == 0L) {
+            return 0;
+        }
+
+        return (double) reviewScore / reviewCount;
     }
 
 }
