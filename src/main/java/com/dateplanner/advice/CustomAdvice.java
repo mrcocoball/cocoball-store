@@ -85,6 +85,8 @@ public class CustomAdvice {
      * 비즈니스 로직 관련
      */
 
+    // TODO : BindException, DataIntegrityViolationException, NoSuchElementException, EmptyResultDataAccessException 추가 필요
+
     @ExceptionHandler(PlaceNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult placeNotFoundApiException(HttpServletRequest request, PlaceNotFoundApiException e) {
@@ -104,6 +106,13 @@ public class CustomAdvice {
     protected CommonResult bookmarkDuplicateException(HttpServletRequest request, BookmarkDuplicateException e) {
         return responseService.getFailResult
                 (ErrorCode.BOOKMARK_DUPLICATED.getCode(), ErrorCode.BOOKMARK_DUPLICATED.getDescription());
+    }
+
+    @ExceptionHandler(ReviewNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult reviewNotFoundApiException(HttpServletRequest request, ReviewNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.REVIEW_NOT_FOUND.getCode(), ErrorCode.REVIEW_NOT_FOUND.getDescription());
     }
 
 
