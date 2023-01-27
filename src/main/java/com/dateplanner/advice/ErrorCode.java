@@ -14,6 +14,7 @@ public enum ErrorCode {
     PLACE_NOT_FOUND(6004, "장소 정보를 찾을 수 없습니다"),
     BOOKMARK_NOT_FOUND(6005, "북마크 정보를 찾을 수 없습니다"),
     BOOKMARK_DUPLICATED(6006, "이미 북마크가 저장되어 있습니다"),
+    REVIEW_NOT_FOUND(6007, "리뷰를 찾을 수 없습니다"),
 
     // 인증 관련
     AUTHENTICATION_FAILED(9000, "해당 리소스에 접근하기 위한 권한이 없습니다"),
