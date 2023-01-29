@@ -1,4 +1,6 @@
-<included>
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
 
     <!-- 기본 설정 -->
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
@@ -92,4 +94,4 @@ DEBUG < ... < INFO < WARN < ERROR
         <appender-ref ref="CONSOLE"/> <!-- console-appender 기본 설정 -->
     </root>
 
-</included>
+</configuration>
