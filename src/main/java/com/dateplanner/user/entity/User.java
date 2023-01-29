@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "USERS")
 @EntityListeners(AuditingEntityListener.class)
 public class User extends BaseTimeEntity implements UserDetails {
 
