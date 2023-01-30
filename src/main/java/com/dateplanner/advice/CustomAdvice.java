@@ -24,6 +24,8 @@ public class CustomAdvice {
      * 회원 가입, 인증, 인가 관련
      */
 
+    // TODO : TokenExpiredException 추가 필요
+
     @ExceptionHandler(CustomAuthenticationEntrypointException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customAuthenticationEntrypointException(HttpServletRequest request, CustomAuthenticationEntrypointException e) {
@@ -113,6 +115,20 @@ public class CustomAdvice {
     protected CommonResult reviewNotFoundApiException(HttpServletRequest request, ReviewNotFoundApiException e) {
         return responseService.getFailResult
                 (ErrorCode.REVIEW_NOT_FOUND.getCode(), ErrorCode.REVIEW_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(PlanNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult planFoundApiException(HttpServletRequest request, PlanNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.PLAN_NOT_FOUND.getCode(), ErrorCode.PLAN_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(DetailPlanNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult detailPlanFoundApiException(HttpServletRequest request, DetailPlanNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.DETAIL_PLAN_NOT_FOUND.getCode(), ErrorCode.DETAIL_PLAN_NOT_FOUND.getDescription());
     }
 
 
