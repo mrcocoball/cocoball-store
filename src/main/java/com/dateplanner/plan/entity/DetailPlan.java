@@ -52,4 +52,12 @@ public class DetailPlan extends BaseTimeEntity implements Comparable<DetailPlan>
 		this.plan = null;
 	}
 
+    public void changePlace(Place place) { this.place = place; }
+
+    public void changeKpid(String kpid) { this.kpid = kpid; }
+
+    public void changeOrd(int ord) {
+        this.ord = ord;
+    }
+
 }
