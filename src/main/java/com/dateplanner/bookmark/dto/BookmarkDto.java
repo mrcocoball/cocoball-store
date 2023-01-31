@@ -21,6 +21,9 @@ public class BookmarkDto {
     private String uid;
     private String placeId;
     private String placeName;
+    private String addressName;
+    private double longitude;
+    private double latitude;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
@@ -30,6 +33,9 @@ public class BookmarkDto {
                 .uid(entity.getUser().getUid())
                 .placeId(entity.getPlace().getPlaceId())
                 .placeName(entity.getPlace().getPlaceName())
+                .addressName(entity.getPlace().getAddressName())
+                .longitude(entity.getPlace().getLongitude())
+                .latitude(entity.getPlace().getLatitude())
                 .createdAt(entity.getCreatedAt())
                 .build();
     }
