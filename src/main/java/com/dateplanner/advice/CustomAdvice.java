@@ -133,14 +133,16 @@ public class CustomAdvice {
 
 
     /**
-     * 기타 예외 관련
+     * 기타 예외 관련 (일단 개발 중이므로 잠시 주석 처리)
      */
 
+    /*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult Exception(HttpServletRequest request, Exception e) {
         return responseService.getFailResult
                 (ErrorCode.INTERNAL_SERVER_ERROR.getCode(), ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
     }
+     */
 
 }
