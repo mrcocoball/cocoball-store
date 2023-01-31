@@ -47,7 +47,7 @@ public class PlanApiController {
     @PostMapping(value = "/api/v1/plans", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> savePlansV1(
             @Parameter(description = "사용자 정보", required = true) Principal principal,
-            @Parameter(description = "리뷰 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
+            @Parameter(description = "플랜 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
 
         dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
 
@@ -87,7 +87,7 @@ public class PlanApiController {
     @GetMapping("/api/v1/plans/{id}")
     public SingleResult<PlanDto> getPlanV1(
             @Parameter(description = "사용자 정보", required = true) Principal principal,
-            @Parameter(description = "리뷰 ID", required = true) @PathVariable("id") Long id) {
+            @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
 
         String uid = principal.getName();
 
@@ -106,12 +106,13 @@ public class PlanApiController {
     @PutMapping(value = "/api/v1/plans/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> updatePlanV1(
             @Parameter(description = "사용자 정보", required = true) Principal principal,
-            @Parameter(description = "리뷰 ID", required = true) @PathVariable("id") Long id,
-            @Parameter(description = "리뷰 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
+            @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id,
+            @Parameter(description = "플랜 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
 
         /**
-         * 여기서는 사용자 ID(uid), 리뷰 ID를 서버에서 직접 주입해주고 있으나
+         * 여기서는 사용자 ID(uid), 플랜 ID를 서버에서 직접 주입해주고 있으나
          * 가능하다면 프론트엔드에서 현재 보고 있는 사용자 ID(uid), title를 받아서 dto에 주입해줘야 함
+         * 위의 단건 조회 API를 통해 수정 전 데이터를 가져오고 처리해야 한다
          */
 
         dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
