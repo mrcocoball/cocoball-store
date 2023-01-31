@@ -7,7 +7,7 @@ services:
       context: ./database
     image: mrcocoball/backend-database
     environment:
-      - MARIADB_DATABASE=date_planner
+      - MARIADB_DATABASE=backend-database
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./database/config:/etc/mysql/conf.d
@@ -15,9 +15,9 @@ services:
     env_file:
       - .env
     ports:
-      - "3306:3306"
-  test_app:
-    container_name: test_app
+      - "3307:3306"
+  backend-app:
+    container_name: backend-app
     depends_on: # DB 컨테이너 실행 후 WEB을 실행시킴
       - backend-database
     image: mrcocoball/dateplanner_backend:dev
@@ -29,4 +29,4 @@ services:
     ports:
       - "81:8084" # 기본 포트
     restart: always # depends on은 실행 순서만 컨트롤, 컨테이너 안의 서비스가 실행 가능한 상태인지는 확인하지 않으므로
-                    # DB / Redis가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정
+                    # DB가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정

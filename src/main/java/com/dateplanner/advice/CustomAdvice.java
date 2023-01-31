@@ -24,6 +24,8 @@ public class CustomAdvice {
      * 회원 가입, 인증, 인가 관련
      */
 
+    // TODO : TokenExpiredException 추가 필요
+
     @ExceptionHandler(CustomAuthenticationEntrypointException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customAuthenticationEntrypointException(HttpServletRequest request, CustomAuthenticationEntrypointException e) {
@@ -115,16 +117,32 @@ public class CustomAdvice {
                 (ErrorCode.REVIEW_NOT_FOUND.getCode(), ErrorCode.REVIEW_NOT_FOUND.getDescription());
     }
 
+    @ExceptionHandler(PlanNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult planFoundApiException(HttpServletRequest request, PlanNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.PLAN_NOT_FOUND.getCode(), ErrorCode.PLAN_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(DetailPlanNotFoundApiException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult detailPlanFoundApiException(HttpServletRequest request, DetailPlanNotFoundApiException e) {
+        return responseService.getFailResult
+                (ErrorCode.DETAIL_PLAN_NOT_FOUND.getCode(), ErrorCode.DETAIL_PLAN_NOT_FOUND.getDescription());
+    }
+
 
     /**
-     * 기타 예외 관련
+     * 기타 예외 관련 (일단 개발 중이므로 잠시 주석 처리)
      */
 
+    /*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult Exception(HttpServletRequest request, Exception e) {
         return responseService.getFailResult
                 (ErrorCode.INTERNAL_SERVER_ERROR.getCode(), ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
     }
+     */
 
 }

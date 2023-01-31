@@ -33,7 +33,7 @@ public class ReviewApiService {
         return paginationService.listToPage(dtos, pageable);
     }
 
-    public Page<ReviewDto> getReviewListByUId(String uid, Pageable pageable) {
+    public Page<ReviewDto> getReviewListByUid(String uid, Pageable pageable) {
 
         log.info("[ReviewApiService getReviewList] get review list start...");
         List<ReviewDto> dtos = reviewRepository.findByUser_Uid(uid).stream().map(ReviewDto::from).collect(Collectors.toList());

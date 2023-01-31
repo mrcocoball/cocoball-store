@@ -89,7 +89,7 @@ public class ReviewApiController {
         ;
         log.info("authentication, uid : {}", uid);
 
-        return responseService.getPageResult(reviewApiService.getReviewListByUId(uid, pageable));
+        return responseService.getPageResult(reviewApiService.getReviewListByUid(uid, pageable));
     }
 
     @PreAuthorize("isAuthenticated()")
