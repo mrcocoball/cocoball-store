@@ -1,16 +1,15 @@
 package com.dateplanner.plan.dto;
 
-import com.dateplanner.place.entity.Place;
 import com.dateplanner.plan.entity.Plan;
-import com.dateplanner.review.entity.Review;
 import com.dateplanner.user.entity.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j(topic = "DTO")
 @Getter

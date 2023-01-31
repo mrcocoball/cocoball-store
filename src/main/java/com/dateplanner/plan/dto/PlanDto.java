@@ -4,6 +4,7 @@ import com.dateplanner.plan.entity.Plan;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class PlanDto {
                 .detailPlans(entity.getDetailPlans()
                         .stream()
                         .map(DetailPlanDto::from)
+                        .sorted(Comparator.comparing(DetailPlanDto::getOrd))
                         .collect(Collectors.toList()))
                 .build();
     }
