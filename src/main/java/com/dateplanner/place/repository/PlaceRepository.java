@@ -12,5 +12,5 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     Optional<Place> findByPlaceId(String placeId);
 
-    List<Place> findByAddressNameStartingWith(String address);
+    List<Place> findByAddressNameStartingWithAndCategory_Id(String address, String category);
 }

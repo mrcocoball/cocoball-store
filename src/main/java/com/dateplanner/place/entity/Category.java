@@ -2,6 +2,7 @@ package com.dateplanner.place.entity;
 
 import com.dateplanner.constant.entity.BaseTimeEntity;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;
@@ -9,11 +10,15 @@ import org.springframework.data.domain.Persistable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import java.util.Objects;
 
 @Entity
 @Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Category extends BaseTimeEntity implements Persistable<String> {
+@Table(name = "category")
+public class Category extends BaseTimeEntity {
 
     @Id
     @Column(name = "category_id")
@@ -25,20 +30,27 @@ public class Category extends BaseTimeEntity implements Persistable<String> {
         this.id = id;
     }
 
+    private Category(String id, String categoryName) {
+        this.id = id;
+        this.categoryName = categoryName;
+    }
+
     public static Category of(String id) {
         return new Category(id);
     }
 
-    // persistable 재정의
+    public static Category of(String id, String categoryName) { return new Category(id, categoryName); }
 
     @Override
-    public String getId() {
-        return id;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Category)) return false;
+        Category category = (Category) o;
+        return id != null && Objects.equals(id, category.getId());
     }
 
     @Override
-    public boolean isNew() {
-        return getCreatedAt() == null;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }
