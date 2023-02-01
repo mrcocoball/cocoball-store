@@ -76,6 +76,9 @@ dependencies {
     // jsonwebtoken
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
+    // testcontainers
+    testImplementation 'org.testcontainers:mariadb:1.17.1'
+
 }
 
 tasks.named('test') {
