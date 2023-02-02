@@ -1,14 +1,16 @@
 package com.dateplanner.review.entity;
 
 import com.dateplanner.constant.entity.BaseTimeEntity;
+import com.dateplanner.image.entity.Image;
 import com.dateplanner.place.entity.Place;
 import com.dateplanner.user.entity.User;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j(topic = "ENTITY")
 @Entity
@@ -37,7 +39,13 @@ public class Review extends BaseTimeEntity {
 
     private Long reviewScore;
 
-    // TODO : 추후 이미지 추가
+    @OneToMany(mappedBy = "review",
+            cascade = {CascadeType.ALL},
+            fetch = FetchType.LAZY,
+            orphanRemoval = true)
+    @BatchSize(size = 20)
+    private Set<Image> images = new HashSet<>();
+
 
     private Review(User user, Place place, String kpid, String title, String description, Long reviewScore) {
         this.user = user;
@@ -62,6 +70,23 @@ public class Review extends BaseTimeEntity {
 
     public void changeReviewScore(Long score) {
         this.reviewScore = score;
+    }
+
+    public void addImage(String uuid, String fileName) {
+
+        Image image = Image.builder()
+                .uuid(uuid)
+                .fileName(fileName)
+                .review(this)
+                .ord(images.size())
+                .build();
+        images.add(image);
+    }
+
+    public void clearImages() {
+
+        images.forEach(image -> image.changeReview(null));
+        this.images.clear();
     }
 
 }

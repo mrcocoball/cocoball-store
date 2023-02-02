@@ -54,6 +54,18 @@ public class ReviewService {
 
         place.addScoreAndCount(dto.getReviewScore()); // 업데이트된 리뷰 점수 반영
 
+        // 첨부파일 처리
+        review.clearImages();
+
+        if(dto.getFileNames() != null) {
+            for (String fileName : dto.getFileNames()) {
+                String[] arr = fileName.split("_", 2);
+                review.addImage(arr[0], arr[1]);
+            }
+        }
+
+        reviewRepository.save(review);
+
         return review.getId();
     }
 

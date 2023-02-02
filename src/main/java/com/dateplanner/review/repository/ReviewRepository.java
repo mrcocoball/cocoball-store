@@ -9,13 +9,13 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @EntityGraph(attributePaths = {"user", "place"})
+    @EntityGraph(attributePaths = {"user", "place", "images"})
     List<Review> findByKpid(String placeId);
 
-    @EntityGraph(attributePaths = {"user", "place"})
+    @EntityGraph(attributePaths = {"user", "place", "images"})
     List<Review> findByUser_Uid(String placeId);
 
     @Override
-    @EntityGraph(attributePaths = {"user", "place"})
+    @EntityGraph(attributePaths = {"user", "place", "images"})
     Optional<Review> findById(Long id);
 }
