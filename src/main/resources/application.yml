@@ -25,6 +25,8 @@ spring:
   config:
     activate:
       on-profile: common
+  jpa:
+    open-in-view: false
 
 kakao:
   rest:
@@ -56,6 +58,17 @@ spring:
   sql:
     init:
       mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: D:\\upload
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: D:\\upload
 
 ---
 spring:
@@ -64,7 +77,6 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-#    url: jdbc:mariadb://localhost:4000/date_planner
     url: jdbc:mariadb://backend-database:3306/backend-database
     username: ${SPRING_DATASOURCE_USERNAME}
     password: ${SPRING_DATASOURCE_PASSWORD}
@@ -83,4 +95,16 @@ spring:
   sql:
     init:
       mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: /home/mrcocoball/date_planner/image
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: /home/mrcocoball/date_planner/image
+
 ---

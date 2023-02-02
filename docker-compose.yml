@@ -1,4 +1,4 @@
-version: "3.8"
+version: "2" # 원래 3.8이었으나 리눅스 환경에서 build 하기 위해 2.0으로 변경
 services:
   backend-database:
     container_name: backend-database
@@ -11,7 +11,7 @@ services:
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./database/config:/etc/mysql/conf.d
-      #- ./database/init:/docker-entrypoint-initdb.d
+      - ./database/init:/docker-entrypoint-initdb.d
     env_file:
       - .env
     ports:
@@ -28,5 +28,8 @@ services:
       - KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}
     ports:
       - "81:8084" # 기본 포트
+    volumes:
+      - /home/mrcocoball/date_planner/image:/home/mrcocoball/date_planner/image
+      # 호스트 경로 : 컨테이너 내부 경로 mount(연결) (해당 내용 지정 안할 경우 컨테이너 내부의 경로에만 저장이 됨)
     restart: always # depends on은 실행 순서만 컨트롤, 컨테이너 안의 서비스가 실행 가능한 상태인지는 확인하지 않으므로
-                    # DB가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정
+    # DB가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정
