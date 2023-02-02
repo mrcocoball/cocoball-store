@@ -4,6 +4,7 @@ import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
+import com.dateplanner.image.service.FileService;
 import com.dateplanner.review.dto.ReviewDto;
 import com.dateplanner.review.dto.ReviewRequestDto;
 import com.dateplanner.review.service.ReviewApiService;
@@ -15,6 +16,9 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -22,7 +26,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "ReviewApiController - 리뷰 기능 API")
@@ -32,6 +38,7 @@ public class ReviewApiController {
 
     private final ReviewApiService reviewApiService;
     private final ReviewService reviewService;
+    private final FileService fileService;
     private final ResponseService responseService;
 
 
@@ -154,8 +161,11 @@ public class ReviewApiController {
          * 사용자 정보 uid를 토대로 DB에서 삭제하려는 북마크의 uid와 비교를 한 후 삭제 처리를 해야할 것으로 보임
          */
 
+        ReviewDto dto = reviewApiService.getReview(id);
         reviewService.deleteReview(id);
+        fileService.removeFilesInDto(dto);
 
         return responseService.getSuccessResult();
     }
+
 }

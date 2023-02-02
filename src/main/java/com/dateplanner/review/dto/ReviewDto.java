@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "DTO")
 @Getter
@@ -34,6 +36,9 @@ public class ReviewDto {
 
     private Long reviewScore;
 
+    // 첨부파일 이름 리스트
+    private List<String> fileNames;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
@@ -41,6 +46,13 @@ public class ReviewDto {
     private LocalDateTime modifiedAt;
 
     public static ReviewDto from(Review entity) {
+
+        List<String> fileNames = entity.getImages()
+                .stream()
+                .sorted()
+                .map(image -> image.getUuid() + "_" + image.getFileName())
+                .collect(Collectors.toList());
+
         return ReviewDto.builder()
                 .id(entity.getId())
                 .uid(entity.getUser().getUid())
@@ -51,6 +63,7 @@ public class ReviewDto {
                 .title(entity.getTitle())
                 .description(entity.getDescription())
                 .reviewScore(entity.getReviewScore())
+                .fileNames(fileNames)
                 .createdAt(entity.getCreatedAt())
                 .modifiedAt(entity.getModifiedAt())
                 .build();

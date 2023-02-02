@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "DTO")
 @Getter
@@ -35,7 +37,10 @@ public class ReviewRequestDto {
     @Max(5)
     private Long reviewScore;
 
-    private ReviewRequestDto(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore) {
+    // 첨부 파일 주소
+    private List<String> fileNames;
+
+    private ReviewRequestDto(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
         this.id = id;
         this.uid = uid;
         this.pid = pid;
@@ -46,13 +51,22 @@ public class ReviewRequestDto {
             reviewScore = 0L;
         }
         this.reviewScore = reviewScore;
+        this.fileNames = fileNames;
     }
 
-    public static ReviewRequestDto of(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore) {
-        return new ReviewRequestDto(id, uid, pid, placeId, title, description, reviewScore);
+    public static ReviewRequestDto of(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
+        return new ReviewRequestDto(id, uid, pid, placeId, title, description, reviewScore, fileNames);
     }
 
     public static ReviewRequestDto from(Review entity) {
+
+        // 리뷰 내의 파일명 가져오기
+        List<String> fileNames = entity.getImages()
+                .stream()
+                .sorted()
+                .map(image -> image.getUuid() + "_" + image.getFileName())
+                .collect(Collectors.toList());
+
         return new ReviewRequestDto(
                 entity.getId(),
                 entity.getUser().getUid(),
@@ -60,12 +74,14 @@ public class ReviewRequestDto {
                 entity.getPlace().getPlaceId(),
                 entity.getTitle(),
                 entity.getDescription(),
-                entity.getReviewScore()
+                entity.getReviewScore(),
+                fileNames
         );
     }
 
     public Review toEntity(User user, Place place, String title, String description, Long reviewScore) {
-        return Review.of(
+
+        Review review = Review.of(
                 user,
                 place,
                 place.getPlaceId(),
@@ -73,6 +89,17 @@ public class ReviewRequestDto {
                 description,
                 reviewScore
         );
+
+        List<String> fileNames = this.fileNames;
+
+        if (fileNames != null) {
+            fileNames.forEach(fileName -> {
+                String[] arr = fileName.split("_", 2);
+                review.addImage(arr[0], arr[1]);
+            });
+        }
+
+        return review;
     }
 
 }
