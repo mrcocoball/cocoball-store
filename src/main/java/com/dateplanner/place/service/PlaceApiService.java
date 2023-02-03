@@ -48,24 +48,25 @@ public class PlaceApiService {
      * @param addressDto 주소 검색 API로 전달 받은 DocumentDto
      * @param dto 카테고리 검색 API로 전달 받은 KakaoApiResponseDto
      */
-    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, String category, Pageable pageable) {
 
-        // 거리가 가장 가까운 장소 가져오기 + 해당 장소의 1depth_name, 2depth_name 가져오기
+    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List, String category, Pageable pageable) {
+
+        // 거리가 가장 가까운 장소 가져오기 + 해당 장소의 1depth_name 가져오기
         DocumentDto documentDto = dto.getDocumentList().get(0);
-        String searchAddress = documentDto.getRegion1DepthName() + " " + documentDto.getRegion2DepthName();
+        String region1 = documentDto.getRegion1DepthName();
 
-        log.info("[PlaceApiService getPlacesByKeyword] target address : {}", searchAddress);
+        log.info("[PlaceApiService getPlaces] target address : {}, {}", region1, region2List);
 
         // 인덱스 계산용 시간 측정
         long beforeTime = System.currentTimeMillis();
 
         // 1depth_name, 2depth_name 기준으로 장소 Dto 가져오기
-        List<PlaceDto> placeDtos = placeRepository.findByAddressNameStartingWithAndCategory_Id(searchAddress, category)
+        List<PlaceDto> placeDtos = placeRepository.findByRegion1DepthNameAndRegion2DepthNameAndCategory(region1, region2List, category)
                 .stream()
                 .map(place -> PlaceDto.from(place, false))
                 .collect(Collectors.toList());
 
-        log.info("[PlaceApiService getPlacesByKeyword] places {} found", placeDtos.size());
+        log.info("[PlaceApiService getPlaces] places {} found", placeDtos.size());
 
         // 인덱스 계산용 시간 측정
         long afterTime = System.currentTimeMillis();
@@ -74,7 +75,7 @@ public class PlaceApiService {
         // 장소 Dto 와 기준점과의 거리 계산하여 필터링 후 최종 리스트에 저장
         double latitude = addressDto.getLatitude();
         double longitude = addressDto.getLongitude();
-        log.info("[PlaceApiService getPlacesByKeyword] target latitude {}, target longitude {}", latitude, longitude);
+        log.info("[PlaceApiService getPlaces] target latitude {}, target longitude {}", latitude, longitude);
 
         List<PlaceDto> result = new ArrayList<>();
 
@@ -89,7 +90,7 @@ public class PlaceApiService {
             }
         }
 
-        log.info("[PlaceApiService getPlacesByKeyword] finally places {} found", result.size());
+        log.info("[PlaceApiService getPlaces] finally places {} found", result.size());
 
         // 페이징 처리
         return paginationService.listToPage(result, pageable);

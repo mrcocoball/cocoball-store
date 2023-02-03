@@ -61,7 +61,7 @@ public class PlaceService {
      * 카테고리 장소 검색 결과를 DB에 저장하기
      */
 
-    public Map<String, Long> placePersist(KakaoApiResponseDto dto) {
+    public List<String> placePersist(KakaoApiResponseDto dto) {
 
         // 저장 시간 비교 계산용 측정
         long beforeTime = System.currentTimeMillis();
@@ -74,7 +74,7 @@ public class PlaceService {
         if (Objects.isNull(results) || results.isEmpty()) {
             log.error("[PlaceService placePersistV2] category search result is null");
             resultMap.put("number of saved places : ", null);
-            return resultMap;
+            throw new SearchResultNotFoundException();
         }
 
         // 전달 받은 장소 리스트 DB 내 중복 여부 체크 후 DB에 저장
@@ -99,12 +99,7 @@ public class PlaceService {
 
         log.info("[PlaceService placePersistV2] get placeId list");
 
-        List<String> totalPlaceIds = new ArrayList<>();
-
-        for (String region2 : region2List) {
-            List<String> placeIds = placeRepository.findPlaceIdByRegion1DepthNameAndRegion2DepthName(region1DepthName, region2);
-            totalPlaceIds.addAll(placeIds);
-        }
+        List<String> placeIds = placeRepository.findPlaceIdByRegion1DepthNameAndRegion2DepthName(region1DepthName, region2List);
 
         log.info("[PlaceService placePersistV2] duplication check and persist");
 
@@ -112,11 +107,11 @@ public class PlaceService {
 
             result.splitAddress(result.getAddressName());
 
-            if (totalPlaceIds.contains(result.getPlaceId())) {
+            if (placeIds.contains(result.getPlaceId())) {
                 nestedResultCount += 1;
             }
 
-            if (!totalPlaceIds.contains(result.getPlaceId())) {
+            if (!placeIds.contains(result.getPlaceId())) {
                 placeRepository.save(Place.of(
                         Category.of(result.getCategoryGroupId()),
                         result.getPlaceName(),
@@ -137,13 +132,13 @@ public class PlaceService {
 
         // 저장 시간 비교 계산용 측정
         long afterTime = System.currentTimeMillis();
-        log.info("elapsed time : " + (afterTime-beforeTime));
+        log.info("elapsed time : " + (afterTime - beforeTime));
 
         resultMap.put("number of saved places : ", Long.valueOf(convertResultCount));
         resultMap.put("number of nested places : ", Long.valueOf(nestedResultCount));
         resultMap.put("total number of searched places : ", Long.valueOf(results.size()));
         log.info("persist complete, {}", resultMap);
-        return resultMap;
+        return region2List;
     }
 
 

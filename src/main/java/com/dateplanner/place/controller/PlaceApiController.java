@@ -57,7 +57,7 @@ public class PlaceApiController {
     })
     @Operation(summary = "장소 검색", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
-    public PageResult<PlaceDto> getPlacesV2(@Parameter(description = "입력 주소") String address,
+    public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
                                             @Parameter(description = "카테고리 코드, AD5 숙박, AT4 관광명소, CE7 카페, " +
                                                     "CS2 편의점, CT1 문화시설, FD6 음식점, MT1 대형 마트, " +
                                                     "OL7 주유소 충전소, PK6 주차장, SW8 지하철") String category,
@@ -67,8 +67,8 @@ public class PlaceApiController {
 
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
-        placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, category, pageable));
+        List<String> region2List = placeService.placePersist(dto);
+        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, category, pageable));
     }
 
     @PreAuthorize("isAuthenticated()")
