@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ErrorCode {
 
+    // 비즈니스 로직 관련
     USER_NOT_FOUND(6000, "유저를 찾을 수 없습니다"),
     EMAIL_DUPLICATED(6001, "이미 회원가입된 이메일입니다"),
     USER_ID_DUPLICATED(6002, "이미 회원가입된 ID입니다"),
@@ -17,6 +18,10 @@ public enum ErrorCode {
     REVIEW_NOT_FOUND(6007, "리뷰를 찾을 수 없습니다"),
     PLAN_NOT_FOUND(6008, "플랜 정보를 찾을 수 없습니다"),
     DETAIL_PLAN_NOT_FOUND(6009, "세부 플랜 정보를 찾을 수 없습니다"),
+    REQUEST_FAILED(6010, "REST API 호출에 실패하였습니다"),
+    SEARCH_RESULT_NOT_FOUND(6011, "검색 결과를 찾을 수 없습니다"),
+    ADDRESS_INVALID(6012, "주소가 입력되지 않았거나 잘못된 입력 주소입니다"),
+    CATEGORY_INVALID(6013, "유효하지 않은 카테고리입니다"),
 
     // 인증 관련
     AUTHENTICATION_FAILED(9000, "해당 리소스에 접근하기 위한 권한이 없습니다"),
