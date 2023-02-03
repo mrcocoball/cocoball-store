@@ -10,6 +10,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 
 @Slf4j(topic = "ENTITY")
+@Table(indexes = {
+        @Index(columnList = "kpid"),
+        @Index(columnList = "createdAt")
+})
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
