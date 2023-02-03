@@ -1,5 +1,6 @@
 package com.dateplanner.place.service;
 
+import com.dateplanner.advice.exception.SearchResultNotFoundException;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import com.dateplanner.kakao.dto.MetaDto;
@@ -40,7 +41,7 @@ public class PlaceService {
 
         if (Objects.isNull(addressResults) || addressResults.isEmpty()) {
             log.error("[PlaceService getPlaceLongitudeAndLatitude] address search result is null");
-            return null;
+            throw new SearchResultNotFoundException();
         }
 
         return addressResults.get(0);

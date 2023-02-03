@@ -1,5 +1,6 @@
 package com.dateplanner.kakao.service;
 
+import com.dateplanner.advice.exception.CustomRetryException;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +34,11 @@ public class KakaoCategorySearchService {
 
 
     @Retryable(
-            value = {RuntimeException.class}, // RuntimeException 발생 시
+            value = {CustomRetryException.class}, // CustomRetryException 발생 시
             maxAttempts = 2, // 초기 요청 포함 2회 재요청
             backoff = @Backoff(delay = 2000) // 딜레이 2초
     )
-    public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, String category) {
+    public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, String category) throws CustomRetryException {
 
         // TODO : URI Builder 쪽에서 장소 검색하기 API의 1page값만 가지고 오고 있어 수정 필요
 
@@ -55,8 +56,8 @@ public class KakaoCategorySearchService {
     }
 
     @Recover
-    public KakaoApiResponseDto recover(RuntimeException e, String address) {
-        log.error("[KakaoCategorySearchService requestCategorySearch] address is null", address, e.getMessage());
+    public KakaoApiResponseDto recover(CustomRetryException e) {
+        log.error("[KakaoCategorySearchService requestCategorySearch] request failed, {}", e.getMessage());
         return null;
     }
 

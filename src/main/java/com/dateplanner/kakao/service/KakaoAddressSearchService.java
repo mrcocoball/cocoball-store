@@ -1,5 +1,7 @@
 package com.dateplanner.kakao.service;
 
+import com.dateplanner.advice.exception.AddressInvalidException;
+import com.dateplanner.advice.exception.CustomRetryException;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,16 +36,16 @@ public class KakaoAddressSearchService {
 
 
     @Retryable(
-            value = {RuntimeException.class}, // RuntimeException 발생 시
+            value = {CustomRetryException.class}, // CustomRetryException 발생 시
             maxAttempts = 2, // 초기 요청 포함 2회 재요청
             backoff = @Backoff(delay = 2000) // 딜레이 2초
     )
-    public KakaoApiResponseDto requestAddressSearch(String address) {
+    public KakaoApiResponseDto requestAddressSearch(String address) throws CustomRetryException {
 
         // validation
         if (ObjectUtils.isEmpty(address)) {
             log.info("[KakaoAddressSearchService requestAddressSearch] address is null");
-            return null;
+            throw new AddressInvalidException();
         }
 
         // URI 호출
@@ -60,8 +62,8 @@ public class KakaoAddressSearchService {
     }
 
     @Recover
-    public KakaoApiResponseDto recover(RuntimeException e, String address) {
-        log.error("[KakaoAddressSearchService requestAddressSearch] address is null", address, e.getMessage());
+    public KakaoApiResponseDto recover(CustomRetryException e) {
+        log.error("[KakaoAddressSearchService requestAddressSearch] request failed, {}", e.getMessage());
         return null;
     }
 

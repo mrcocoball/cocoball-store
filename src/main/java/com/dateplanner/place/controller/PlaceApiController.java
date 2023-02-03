@@ -1,5 +1,6 @@
 package com.dateplanner.place.controller;
 
+import com.dateplanner.advice.exception.CategoryInvalidException;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
@@ -41,6 +43,7 @@ public class PlaceApiController {
     private final PlaceApiService placeApiService;
     private final PlaceService placeService;
     private final ResponseService responseService;
+    private static final String[] CATEGORIES = {"AD5", "AT4", "CE7", "CS2", "CT1", "FD6", "MT1", "OL7", "PK6", "SW8"};
 
 
     @PreAuthorize("isAuthenticated()")
@@ -54,8 +57,12 @@ public class PlaceApiController {
     @Operation(summary = "장소 검색", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
     public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
-                                            @Parameter(description = "카테고리 코드, AD5 숙박, AT4 관광명소, CE7 카페, CS2 편의점, CT1 문화시설, FD6 음식점, MT1 대형 마트, OL7 주유소 충전소, PK6 주차장, SW8 지하철") String category,
+                                            @Parameter(description = "카테고리 코드, AD5 숙박, AT4 관광명소, CE7 카페, " +
+                                                    "CS2 편의점, CT1 문화시설, FD6 음식점, MT1 대형 마트, " +
+                                                    "OL7 주유소 충전소, PK6 주차장, SW8 지하철") String category,
                                             @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
+
+        if(!Arrays.stream(CATEGORIES).anyMatch(category::equals)) {throw new CategoryInvalidException();}
 
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
