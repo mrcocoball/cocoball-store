@@ -55,6 +55,9 @@ public class PlaceApiService {
 
         log.info("[PlaceApiService getPlacesByKeyword] target address : {}", searchAddress);
 
+        // 인덱스 계산용 시간 측정
+        long beforeTime = System.currentTimeMillis();
+
         // 1depth_name, 2depth_name 기준으로 장소 Dto 가져오기
         List<PlaceDto> placeDtos = placeRepository.findByAddressNameStartingWithAndCategory_Id(searchAddress, category)
                 .stream()
@@ -62,6 +65,10 @@ public class PlaceApiService {
                 .collect(Collectors.toList());
 
         log.info("[PlaceApiService getPlacesByKeyword] places {} found", placeDtos.size());
+
+        // 인덱스 계산용 시간 측정
+        long afterTime = System.currentTimeMillis();
+        log.info("elapsed time : " + (afterTime-beforeTime));
 
         // 장소 Dto 와 기준점과의 거리 계산하여 필터링 후 최종 리스트에 저장
         double latitude = addressDto.getLatitude();
