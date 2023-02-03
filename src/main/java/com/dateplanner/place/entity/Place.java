@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 
 @Slf4j(topic = "ENTITY")
+@Table(indexes = {
+        @Index(columnList = "placeId"),
+        @Index(columnList = "createdAt")
+})
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

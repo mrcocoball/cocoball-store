@@ -26,9 +26,16 @@ public class ReviewApiService {
 
     public Page<ReviewDto> getReviewListByPlaceId(String placeId, Pageable pageable) {
 
+        // 인덱스 계산용 시간 측정
+        long beforeTime = System.currentTimeMillis();
+
         log.info("[ReviewApiService getReviewList] get review list start...");
         List<ReviewDto> dtos = reviewRepository.findByKpid(placeId).stream().map(ReviewDto::from).collect(Collectors.toList());
         log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.size());
+
+        // 인덱스 계산용 시간 측정
+        long afterTime = System.currentTimeMillis();
+        log.info("elapsed time : " + (afterTime-beforeTime));
 
         return paginationService.listToPage(dtos, pageable);
     }

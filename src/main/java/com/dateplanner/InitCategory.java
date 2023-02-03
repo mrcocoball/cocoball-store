@@ -1,6 +1,9 @@
 package com.dateplanner;
 
 import com.dateplanner.place.entity.Category;
+import com.dateplanner.place.entity.Place;
+import com.dateplanner.review.entity.Review;
+import com.dateplanner.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,14 @@ public class InitCategory {
 
         @Transactional
         public void init() {
+
+            /*
+            // Mock User 생성
+            User user = User.of("test", "tset", "test", "test", false, false);
+            em.persist(user);
+             */
+
+
             Category CE7 = Category.of("CE7", "카페");
             Category MT1 = Category.of("MT1", "대형 마트");
             Category CS2 = Category.of("CS2", "편의점");
@@ -48,6 +59,25 @@ public class InitCategory {
             em.persist(AT4);
             em.persist(AD5);
             em.persist(FD6);
+
+            /*
+            // 장소
+            for (int i = 0; i < 1000; i++) {
+                Long number = Long.valueOf(i);
+                Place place = Place.of(CE7, "장소" + i, Long.toString(number),
+                        "url", "서울시 관악구 청룡동", "add0", "add1", "add2", "add3", 10, 10, 1L,5L);
+                em.persist(place);
+            }
+
+            // 리뷰
+            for (int i = 0; i < 1000; i++) {
+                Place place = Place.of(CE7, "장소", "1001", "url", "서울시 관악구 청룡동", "add0", "add1", "add2", "add3", 10, 10, 1L, 5L);
+                em.persist(place);
+                Review review = Review.of(user, place, "1001", "title", "description", 5L);
+                em.persist(review);
+            }
+             */
+
         }
     }
 }
