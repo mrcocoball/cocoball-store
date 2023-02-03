@@ -5,6 +5,7 @@ import com.dateplanner.api.PaginationService;
 import com.dateplanner.bookmark.service.BookmarkService;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
+import com.dateplanner.place.dto.PlaceDetailDto;
 import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
@@ -83,6 +84,7 @@ public class PlaceApiService {
             log.info("id : {}, distance : {}", placeDto.getId(), distance);
 
             if(distance <= MAX_LADIUS) {
+                placeDto.setDistance(distance * 1000);
                 result.add(placeDto);
             }
         }
@@ -96,11 +98,11 @@ public class PlaceApiService {
     /**
      * KAKAO API 상의 place_id를 DB에서 조회하여 정보를 가져온다 (상세 정보, 리뷰 유무, 평점, 리뷰 수 등)
      */
-    public PlaceDto getPlace(String placeId, String uid) {
+    public PlaceDetailDto getPlace(String placeId, String uid) {
 
         boolean isBookmarked = bookmarkService.isExist(placeId, uid);
 
-        return placeRepository.findByPlaceId(placeId).map(place -> PlaceDto.from(place, isBookmarked)).orElseThrow(PlaceNotFoundApiException::new);
+        return placeRepository.findByPlaceId(placeId).map(place -> PlaceDetailDto.from(place, isBookmarked)).orElseThrow(PlaceNotFoundApiException::new);
     }
 
 
