@@ -37,7 +37,7 @@ public class KakaoUriBuilderService {
 
     }
 
-    public URI buildUriForCategorySearch(double latitude, double longitude, int radius, String category) {
+    public URI buildUriForCategorySearch(double latitude, double longitude, int radius, String category, int page) {
 
         /**
          * 입력 위도, 경도, 반경거리 기반
@@ -54,8 +54,7 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("x", longitude);
         uriBuilder.queryParam("radius", meterRadius);
         uriBuilder.queryParam("sort", "distance");
-
-        // TODO : 현재 요청 파라미터 값에 page가 없어 기본값인 1(1페이지)이 적용되고 있어 최대 3페이지까지의 값을 가져오도록 URI를 변경해야 함
+        uriBuilder.queryParam("page", page);
 
         URI uri = uriBuilder.build().encode().toUri(); // UTF-8로 인코딩해줌
         log.info("[KakaoUriBuilderService buildUriForCategorySearch] uri: {}", uri);
