@@ -24,6 +24,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("update User u set u.password = :password where u.uid = :uid")
     void updatePassword(@Param("password") String password, @Param("uid") String uid);
 
+    @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByUid(String uid);
 
     boolean existsById(String uid);
