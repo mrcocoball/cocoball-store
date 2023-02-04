@@ -37,7 +37,6 @@ public class InitCategory {
             em.persist(user);
              */
 
-
             Category CE7 = Category.of("CE7", "카페");
             Category MT1 = Category.of("MT1", "대형 마트");
             Category CS2 = Category.of("CS2", "편의점");
@@ -61,17 +60,19 @@ public class InitCategory {
             em.persist(FD6);
 
             /*
-            // 장소
+            // 장소 1000건
             for (int i = 0; i < 1000; i++) {
                 Long number = Long.valueOf(i);
                 Place place = Place.of(CE7, "장소" + i, Long.toString(number),
-                        "url", "서울시 관악구 청룡동", "add0", "add1", "add2", "add3", 10, 10, 1L,5L);
+                        "url", "서울 관악구 청룡동", "add0", "서울", "관악구", "청룡동", 126.94, 37.47, number * number, number);
                 em.persist(place);
             }
+            */
 
+            /*
             // 리뷰
             for (int i = 0; i < 1000; i++) {
-                Place place = Place.of(CE7, "장소", "1001", "url", "서울시 관악구 청룡동", "add0", "add1", "add2", "add3", 10, 10, 1L, 5L);
+                Place place = Place.of(CE7, "장소", "1001", "url", "서울 관악구 청룡동", "add0", "서울", "관악구", "청룡동", 10, 10, 1L, 5L);
                 em.persist(place);
                 Review review = Review.of(user, place, "1001", "title", "description", 5L);
                 em.persist(review);

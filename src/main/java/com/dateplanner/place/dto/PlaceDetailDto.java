@@ -1,19 +1,19 @@
 package com.dateplanner.place.dto;
 
-import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.place.entity.Place;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
 
 @Slf4j(topic = "DTO")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PlaceDto {
+public class PlaceDetailDto {
 
     private Long id;
 
@@ -59,11 +59,13 @@ public class PlaceDto {
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 
-    private double distance;
+    @JsonProperty("bookmarked")
+    private boolean bookmarked;
 
-    public static PlaceDto from(Place entity, boolean isBookmarked) {
 
-        return PlaceDto.builder()
+    public static PlaceDetailDto from(Place entity, boolean isBookmarked) {
+
+        return PlaceDetailDto.builder()
                 .id(entity.getId())
                 .categoryGroupId(entity.getCategory().getId())
                 .placeName(entity.getPlaceName())
@@ -79,6 +81,7 @@ public class PlaceDto {
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
                 .avgReviewScore(calculateAvgScore(entity.getReviewScore(), entity.getReviewCount()))
+                .bookmarked(isBookmarked)
                 .build();
     }
 
@@ -93,10 +96,6 @@ public class PlaceDto {
         }
 
         return (double) reviewScore / reviewCount;
-    }
-
-    public void setDistance(double distance) {
-        this.distance = Double.parseDouble(String.format("%.2f", distance));
     }
 
 }

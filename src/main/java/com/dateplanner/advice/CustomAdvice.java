@@ -131,6 +131,34 @@ public class CustomAdvice {
                 (ErrorCode.DETAIL_PLAN_NOT_FOUND.getCode(), ErrorCode.DETAIL_PLAN_NOT_FOUND.getDescription());
     }
 
+    @ExceptionHandler(CustomRetryException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult customRetryException(HttpServletRequest request, CustomRetryException e) {
+        return responseService.getFailResult
+                (ErrorCode.REQUEST_FAILED.getCode(), ErrorCode.REQUEST_FAILED.getDescription());
+    }
+
+    @ExceptionHandler(SearchResultNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult searchResultNotFoundException(HttpServletRequest request, SearchResultNotFoundException e) {
+        return responseService.getFailResult
+                (ErrorCode.SEARCH_RESULT_NOT_FOUND.getCode(), ErrorCode.SEARCH_RESULT_NOT_FOUND.getDescription());
+    }
+
+    @ExceptionHandler(AddressInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult addressInvalidException(HttpServletRequest request, AddressInvalidException e) {
+        return responseService.getFailResult
+                (ErrorCode.ADDRESS_INVALID.getCode(), ErrorCode.ADDRESS_INVALID.getDescription());
+    }
+
+    @ExceptionHandler(CategoryInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult categoryInvalidException(HttpServletRequest request, CategoryInvalidException e) {
+        return responseService.getFailResult
+                (ErrorCode.CATEGORY_INVALID.getCode(), ErrorCode.CATEGORY_INVALID.getDescription());
+    }
+
 
     /**
      * 기타 예외 관련 (일단 개발 중이므로 잠시 주석 처리)
