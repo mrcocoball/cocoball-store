@@ -49,12 +49,11 @@ public class PlaceService {
      * 변환된 주소 + 카테고리 + 설정 범위로 KAKAO 카테고리로 장소 검색하기 API 호출하여 장소 리스트 전달 받기
      */
 
-    public KakaoApiResponseDto placeSearchByKakao(DocumentDto addressDto, String category) {
 
-        // TODO : URI Builder 쪽에서 장소 검색하기 API의 1page값만 가지고 오고 있어 수정 필요
+    public KakaoApiResponseDto placeSearchByKakao(DocumentDto addressDto, List<String> categories) {
 
         return kakaoCategorySearchService.requestCategorySearch(
-                Double.valueOf(addressDto.getLatitude()), Double.valueOf(addressDto.getLongitude()), MAX_LADIUS, category);
+                Double.valueOf(addressDto.getLatitude()), Double.valueOf(addressDto.getLongitude()), MAX_LADIUS, categories);
     }
 
     /**
@@ -139,19 +138,5 @@ public class PlaceService {
         resultMap.put("total number of searched places : ", Long.valueOf(results.size()));
         log.info("persist complete, {}", resultMap);
         return region2List;
-    }
-
-
-    /**
-     * API 호출 결과 비교용 메서드
-     */
-    public MetaDto getMetaDto(String address, String category) {
-        DocumentDto addressDto = getPlaceLongitudeAndLatitude(address);
-        return placeSearchByKakao(addressDto, category).getMetaDto();
-    }
-
-    public List<DocumentDto> getDocumentDto(String address, String category) {
-        DocumentDto addressDto = getPlaceLongitudeAndLatitude(address);
-        return placeSearchByKakao(addressDto, category).getDocumentList();
     }
 }

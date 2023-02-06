@@ -23,6 +23,10 @@ public class PlanDto {
 
     private List<DetailPlanDto> detailPlans;
 
+    private boolean finished;
+
+    private String comment;
+
     public static PlanDto from(Plan entity) {
         return PlanDto.builder()
                 .id(entity.getId())
@@ -33,6 +37,8 @@ public class PlanDto {
                         .map(DetailPlanDto::from)
                         .sorted(Comparator.comparing(DetailPlanDto::getOrd))
                         .collect(Collectors.toList()))
+                .finished(entity.isFinished())
+                .comment(entity.getComment())
                 .build();
     }
 }

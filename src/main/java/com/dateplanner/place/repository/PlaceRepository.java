@@ -16,12 +16,13 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     Optional<Place> findByPlaceId(String placeId);
 
     @Query("select p from Place p left join fetch p.category c " +
-            "where p.region1DepthName = :region1 and p.region2DepthName in :region2s and c.id = :category")
+            "where p.region1DepthName = :region1 and p.region2DepthName in :region2s and c.id in :categories")
     List<Place> findByRegion1DepthNameAndRegion2DepthNameAndCategory(@Param("region1") String region1,
                                                                      @Param("region2s") List<String> region2List,
-                                                                     @Param("category") String category);
+                                                                     @Param("categories") List<String> categories);
 
     @Query("select p.placeId from Place p where p.region1DepthName = :region1 and p.region2DepthName in :region2s")
     List<String> findPlaceIdByRegion1DepthNameAndRegion2DepthName(@Param("region1") String region1,
                                                                   @Param("region2s") List<String> region2list);
+
 }

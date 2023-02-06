@@ -23,6 +23,10 @@ public class Plan extends BaseTimeEntity {
 
     private String title;
 
+    private boolean finished;
+
+    private String comment;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uid")
     private User user;
@@ -33,14 +37,19 @@ public class Plan extends BaseTimeEntity {
             orphanRemoval = true)
     private List<DetailPlan> detailPlans = new ArrayList<>();
 
-
-    private Plan(User user, String title) {
+    private Plan(User user, String title, boolean finished, String comment) {
         this.user = user;
         this.title = title;
+        this.finished = finished;
+        this.comment = comment;
+    }
+
+    public static Plan of(User user, String title, boolean finished, String comment) {
+        return new Plan(user, title, finished, comment);
     }
 
     public static Plan of(User user, String title) {
-        return new Plan(user, title);
+        return new Plan(user, title, false, null);
     }
 
     public void changeTitle(String title) {
@@ -59,5 +68,11 @@ public class Plan extends BaseTimeEntity {
         detailPlans.forEach(detailPlan -> detailPlan.changePlan(null));
         this.detailPlans.clear();
     }
+
+    public void setFinished() {
+        this.finished = true;
+    }
+
+    public void changeComment(String comment) { this.comment = comment; }
 
 }

@@ -20,6 +20,9 @@ public class PlaceDetailDto {
     @JsonProperty("category_group_id")
     private String categoryGroupId;
 
+    @JsonProperty("category_name")
+    private String categoryName;
+
     @JsonProperty("place_name")
     private String placeName;
 
@@ -68,6 +71,7 @@ public class PlaceDetailDto {
         return PlaceDetailDto.builder()
                 .id(entity.getId())
                 .categoryGroupId(entity.getCategory().getId())
+                .categoryName(entity.getCategory().getCategoryName())
                 .placeName(entity.getPlaceName())
                 .placeId(entity.getPlaceId())
                 .placeUrl(entity.getPlaceUrl())
