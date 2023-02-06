@@ -49,7 +49,8 @@ public class PlaceApiService {
      * @param dto 카테고리 검색 API로 전달 받은 KakaoApiResponseDto
      */
 
-    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List, String category, Pageable pageable) {
+
+    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List, List<String> categories, Pageable pageable) {
 
         // 거리가 가장 가까운 장소 가져오기 + 해당 장소의 1depth_name 가져오기
         DocumentDto documentDto = dto.getDocumentList().get(0);
@@ -61,7 +62,7 @@ public class PlaceApiService {
         long beforeTime = System.currentTimeMillis();
 
         // 1depth_name, 2depth_name 기준으로 장소 Dto 가져오기
-        List<PlaceDto> placeDtos = placeRepository.findByRegion1DepthNameAndRegion2DepthNameAndCategory(region1, region2List, category)
+        List<PlaceDto> placeDtos = placeRepository.findByRegion1DepthNameAndRegion2DepthNameAndCategory(region1, region2List, categories)
                 .stream()
                 .map(place -> PlaceDto.from(place, false))
                 .collect(Collectors.toList());

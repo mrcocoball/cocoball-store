@@ -23,6 +23,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
@@ -44,44 +45,32 @@ public class PlaceApiController {
     private final PlaceApiService placeApiService;
     private final PlaceService placeService;
     private final ResponseService responseService;
-    private static final String[] CATEGORIES = {"AD5", "AT4", "CE7", "CS2", "CT1", "FD6", "MT1", "OL7", "PK6", "SW8"};
+    private static final String[] CATEGORIES = {"AT4", "CE7", "CT1", "FD6", "SW8"};
 
 
-    @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "장소 검색", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
     @GetMapping("/api/v1/places")
     public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
-                                            @Parameter(description = "카테고리 코드, AD5 숙박, AT4 관광명소, CE7 카페, " +
-                                                    "CS2 편의점, CT1 문화시설, FD6 음식점, MT1 대형 마트, " +
-                                                    "OL7 주유소 충전소, PK6 주차장, SW8 지하철") String category,
+                                            @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
+                                            @RequestParam(value = "categories", required = false, defaultValue = "") List<String> categories,
                                             @PageableDefault(size = 10, sort = "avgReviewScore") Pageable pageable) {
 
-        if(!Arrays.stream(CATEGORIES).anyMatch(category::equals)) {throw new CategoryInvalidException();}
+        // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
+        for (String category : categories) {
+            if (!Arrays.stream(CATEGORIES).anyMatch(category::equals)) {
+                throw new CategoryInvalidException();
+            }
+        }
 
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
-        KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
+        KakaoApiResponseDto dto = placeService.placeSearchByKakao(addressDto, categories);
         List<String> region2List = placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, category, pageable));
+        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable));
     }
 
-    @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "장소 단건 조회", description = "[GET] 장소 ID로 단일 장소 정보 조회")
     @GetMapping("/api/v1/places/{place_id}")
-    public SingleResult<PlaceDetailDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id")String placeId,
+    public SingleResult<PlaceDetailDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id") String placeId,
                                                    Principal principal) {
 
         String uid = principal.getName();
@@ -89,9 +78,8 @@ public class PlaceApiController {
     }
 
 
-    /**
-     * API 테스트 비교용 메서드
-     */
+    // API 테스트 비교용 메서드
+    /*
     @Operation(summary = "장소 검색 (KAKAO)", description = "[GET] 주소, 카테고리로 장소 리스트 출력 (KAKAO)")
     @GetMapping("/api/v1/placesKakao")
     public PageResult<DocumentDto> placesKakaoV1(@Parameter(description = "입력 주소") String address,
@@ -99,7 +87,7 @@ public class PlaceApiController {
                                                  @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
 
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
-        KakaoApiResponseDto dto =  placeService.placeSearchByKakao(addressDto, category);
+        KakaoApiResponseDto dto = placeService.placeSearchByKakao(addressDto, category);
         placeService.placePersist(dto);
         return responseService.getPageResult(placeApiService.getPlacesByKakao(dto, pageable));
     }
@@ -117,5 +105,7 @@ public class PlaceApiController {
 
         return placeService.getDocumentDto(address, category);
     }
+
+     */
 
 }

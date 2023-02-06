@@ -41,26 +41,32 @@ public class KakaoCategorySearchService {
             maxAttempts = 2, // 초기 요청 포함 2회 재요청
             backoff = @Backoff(delay = 2000) // 딜레이 2초
     )
-    public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, String category) throws CustomRetryException {
+    public KakaoApiResponseDto requestCategorySearch(double latitude, double longitude, int radius, List<String> categories) throws CustomRetryException {
 
         KakaoApiResponseDto responseDto = new KakaoApiResponseDto();
         List<DocumentDto> totalDocumentList = new ArrayList<>();
 
-        for (int i = 1; i<=3; i++) {
+        // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
 
-            // URI 호출
-            URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category, i);
-            log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);
+        for (String category : categories) {
 
-            // 요청 헤더 세팅
-            HttpHeaders headers = new HttpHeaders();
-            headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey);
-            HttpEntity httpEntity = new HttpEntity<>(headers);
+            for (int i = 1; i<=3; i++) {
 
-            // KAKAO 주소 검색하기 호출
-            KakaoApiResponseDto dto =  restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
-            List<DocumentDto> documentList = dto.getDocumentList();
-            totalDocumentList.addAll(documentList);
+                // URI 호출
+                URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category, i);
+                log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);
+
+                // 요청 헤더 세팅
+                HttpHeaders headers = new HttpHeaders();
+                headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey);
+                HttpEntity httpEntity = new HttpEntity<>(headers);
+
+                // KAKAO 주소 검색하기 호출
+                KakaoApiResponseDto dto =  restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
+                List<DocumentDto> documentList = dto.getDocumentList();
+                totalDocumentList.addAll(documentList);
+
+            }
 
         }
 
