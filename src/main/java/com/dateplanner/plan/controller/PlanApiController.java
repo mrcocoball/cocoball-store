@@ -155,7 +155,7 @@ public class PlanApiController {
             )
     })
     @Operation(summary = "플랜 완료 처리, 사용자 로그인이 되어야 하며 플랜 ID 필요, 작성자와 동일해야 함", description = "[PUT] 플랜 완료 처리")
-    @PutMapping(value = "/api/v1/plans/{id}/finish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping("/api/v1/plans/{id}/finish")
     public SingleResult<Long> finishPlanV1(
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
 
