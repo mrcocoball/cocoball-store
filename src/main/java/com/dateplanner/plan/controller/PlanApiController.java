@@ -146,4 +146,26 @@ public class PlanApiController {
         return responseService.getSuccessResult();
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @Parameters({
+            @Parameter(
+                    name = "X-AUTH-TOKEN",
+                    description = "로그인 성공 후 AccessToken",
+                    required = true, in = ParameterIn.HEADER
+            )
+    })
+    @Operation(summary = "플랜 완료 처리, 사용자 로그인이 되어야 하며 플랜 ID 필요, 작성자와 동일해야 함", description = "[PUT] 플랜 완료 처리")
+    @PutMapping(value = "/api/v1/plans/{id}/finish", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public SingleResult<Long> finishPlanV1(
+            @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
+
+        /**
+         * 여기서는 사용자 ID(uid), 플랜 ID를 서버에서 직접 주입해주고 있으나
+         * 가능하다면 프론트엔드에서 현재 보고 있는 사용자 ID(uid), title를 받아서 dto에 주입해줘야 함
+         * 위의 단건 조회 API를 통해 수정 전 데이터를 가져오고 처리해야 한다
+         */
+
+        return responseService.getSingleResult(planService.finishPlan(id));
+    }
+
 }

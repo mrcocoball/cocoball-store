@@ -42,6 +42,7 @@ public class PlanService {
         Plan plan = planRepository.findById(dto.getId()).orElseThrow(PlanNotFoundApiException::new);
 
         plan.changeTitle(dto.getTitle());
+        plan.changeComment(dto.getComment());
 
         return plan.getId();
     }
@@ -49,6 +50,14 @@ public class PlanService {
     public void deletePlan(Long id) {
         planRepository.deleteById(id);
         detailPlanRepository.deleteByPlan_Id(id);
+    }
+
+    public Long finishPlan(Long id) {
+
+        Plan plan = planRepository.findById(id).orElseThrow(PlanNotFoundApiException::new);
+        plan.setFinished();
+
+        return plan.getId();
     }
 
 }

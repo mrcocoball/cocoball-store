@@ -25,6 +25,8 @@ public class PlanRequestDto {
     @NotNull
     private String title;
 
+    private String comment;
+
     private PlanRequestDto(Long id, String uid, String title) {
         this.id = id;
         this.uid = uid;
@@ -39,6 +41,15 @@ public class PlanRequestDto {
         return Plan.of(
                 user,
                 title
+        );
+    }
+
+    public Plan toEntity(User user, String title, boolean finished, String comment) {
+        return Plan.of(
+                user,
+                title,
+                finished,
+                comment
         );
     }
 }
