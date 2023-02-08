@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("카카오 API - URI 빌더 서비스 테스트")
+@DisplayName("[단일] 카카오 API - URI 빌더 서비스 테스트")
 @ExtendWith(MockitoExtension.class)
 class KakaoUriBuilderServiceTest {
 

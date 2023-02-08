@@ -16,7 +16,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@DisplayName("카카오 API - 카카오 주소 - 위치 변환 테스트")
+@DisplayName("[통합] 카카오 API - 카카오 주소 - 위치 변환 테스트")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class KakaoAddressSearchServiceTest {
