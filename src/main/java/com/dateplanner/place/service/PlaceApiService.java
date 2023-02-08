@@ -32,24 +32,6 @@ public class PlaceApiService {
     private static final int MAX_LADIUS = 5; // km
 
 
-    /**
-     * 카카오 주소 검색 API + 카테고리 장소 검색 결과를 그대로 화면으로 처리
-     */
-    public Page<DocumentDto> getPlacesByKakao(KakaoApiResponseDto dto, Pageable pageable) {
-
-        List<DocumentDto> dtos = dto.getDocumentList();
-
-        return paginationService.listToPage(dtos, pageable);
-
-    }
-
-    /**
-     * 카카오 주소 검색 API으로 반환한 좌표 + 주소 기준 DB 조회 후 거리 계산하여 장소 출력 후 화면으로 처리
-     * @param addressDto 주소 검색 API로 전달 받은 DocumentDto
-     * @param dto 카테고리 검색 API로 전달 받은 KakaoApiResponseDto
-     */
-
-
     public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List, List<String> categories, Pageable pageable) {
 
         // 거리가 가장 가까운 장소 가져오기 + 해당 장소의 1depth_name 가져오기
