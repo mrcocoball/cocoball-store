@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j(topic = "SERVICE")
@@ -16,9 +17,9 @@ public class PaginationService {
 
     public PageImpl listToPage(List<?> data, Pageable pageable) {
 
-        if (ObjectUtils.isEmpty(data) || data.isEmpty()) {
+        if (ObjectUtils.isEmpty(data) || data.isEmpty() || data == null) {
             log.info("[PaginationService listToPage] result is null");
-            return null;
+            return new PageImpl<>(Collections.emptyList(), pageable, 0);
         }
 
         final int start = (int) pageable.getOffset();
