@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "PlaceRecommendationApiController - 장소 추천 API")
+@Tag(name = "2. [장소 추천 화면] PlaceRecommendationApiController - 장소 추천 API")
 @RequiredArgsConstructor
 @RestController
 public class PlaceRecommendationApiController {

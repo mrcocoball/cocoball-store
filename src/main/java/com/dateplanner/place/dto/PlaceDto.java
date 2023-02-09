@@ -3,6 +3,7 @@ package com.dateplanner.place.dto;
 import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.place.entity.Place;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,53 +16,70 @@ import java.util.List;
 @Builder
 public class PlaceDto {
 
+    @Schema(description = "장소 ID (DB상 PK)")
     private Long id;
 
+    @Schema(description = "카테고리 ID")
     @JsonProperty("category_group_id")
     private String categoryGroupId;
 
+    @Schema(description = "카테고리명")
     @JsonProperty("category_name")
     private String categoryName;
 
+    @Schema(description = "장소명")
     @JsonProperty("place_name")
     private String placeName;
 
+    @Schema(description = "장소 ID (카카오, 대부분 해당 ID 사용)")
     @JsonProperty("place_id")
     private String placeId;
 
+    @Schema(description = "장소 상세 페이지 URL (카카오)")
     @JsonProperty("place_url")
     private String placeUrl;
 
+    @Schema(description = "장소 지번 주소")
     @JsonProperty("address_name")
     private String addressName;
 
+    @Schema(description = "장소 도로명 주소")
     @JsonProperty("road_address_name")
     private String roadAddressName;
 
+    @Schema(description = "장소 지번 주소의 시/도")
     @JsonProperty("region_1depth_name")
     private String region1DepthName;
 
+    @Schema(description = "장소 지번 주소의 군/구")
     @JsonProperty("region_2depth_name")
     private String region2DepthName;
 
+    @Schema(description = "장소 지번 주소의 읍/면/동")
     @JsonProperty("region_3depth_name")
     private String region3DepthName;
 
+    @Schema(description = "경도")
     @JsonProperty("x")
     private double longitude;
 
+    @Schema(description = "위도")
     @JsonProperty("y")
     private double latitude;
 
+    @Schema(description = "리뷰 총점")
     @JsonProperty("review_score")
     private Long reviewScore;
 
+    @Schema(description = "리뷰 수")
     @JsonProperty("review_count")
     private Long reviewCount;
 
+    @Schema(description = "리뷰 평점")
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 
+    @Schema(description = "검색 위치와의 거리, KM")
     private double distance;
 
     public static PlaceDto from(Place entity, boolean isBookmarked) {
