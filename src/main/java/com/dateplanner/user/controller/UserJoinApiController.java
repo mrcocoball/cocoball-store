@@ -50,7 +50,7 @@ public class UserJoinApiController {
     @Operation(summary = "[POST] 회원가입 요청",
             description = "아이디, 비밀번호, 이메일, 자기소개를 입력하여 회원가입 요청을 합니다. <br>" +
                     "아이디, 이메일은 통합이 될 가능성이 있으며, 자기소개는 닉네임으로 변경될 여지가 있습니다. <br>" +
-                    "아이디 중복 체크의 경우 회원가입 요청을 받은 상태에서 서버에서 DB를 조회하여 결과를 반환하고 있으나, " +
+                    "아이디 중복 체크의 경우 회원가입 요청을 받은 상태에서 서버에서 DB를 조회하여 결과를 반환하고 있으나, <br>" +
                     "필요하다면 중복 체크용 API를 별도로 만들어서 클라이언트 측에서 바로 중복 체크를 하게 할 수도 있습니다.")
     @PostMapping("/api/v1/join")
     public SingleResult<String> join(
@@ -67,7 +67,7 @@ public class UserJoinApiController {
 
     @Operation(summary = "[POST] 액세스, 리프레시 토큰 재발급 요청",
             description = "액세스 토큰 만료 시 서버에 액세스, 리프레시 토큰 재발급을 요청합니다. <br>" +
-                    "서버에서는 요청 받은 토큰 정보를 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토크 재발급을 진행합니다")
+                    "서버에서는 요청 받은 토큰 정보를 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토큰 재발급을 진행합니다")
     @PostMapping("/api/v1/refresh")
     public SingleResult<TokenDto> refresh(
             @Parameter(description = "재발급 요청을 할 토큰 정보",

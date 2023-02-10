@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "99. [어드민, 테스트 전용] UserApiController - 사용자 API (어드민 레벨)")
+@Tag(name = "8. [어드민, 테스트 전용] UserApiController - 사용자 API (어드민 레벨)")
 @RequiredArgsConstructor
 @RestController
 public class UserApiController {

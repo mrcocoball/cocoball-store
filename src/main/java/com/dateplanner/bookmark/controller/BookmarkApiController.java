@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "3. [마이 페이지 - 북마크 목록] BookmarkApiController - 북마크 기능 API")
+@Tag(name = "4. [마이 페이지 - 북마크 목록] BookmarkApiController - 북마크 기능 API")
 @RequiredArgsConstructor
 @RestController
 public class BookmarkApiController {
@@ -42,7 +42,7 @@ public class BookmarkApiController {
     })
     @Operation(summary = "[POST] 북마크 목록에 저장, 사용자 로그인 되어 있어야 함",
             description = "지정한 장소를 북마크 목록에 저장합니다. 저장하려는 장소의 place_id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
-                    "[POST] api/v1/bookmarks?placeId={place_id} <br><br>" +
+                    "[POST] /api/v1/bookmarks?placeId={place_id} <br><br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 북마크를 저장하려는 유저를 체크합니다.")
     @PostMapping("/api/v1/bookmarks")
     public SingleResult<Long> saveBookmarkV1(
@@ -87,7 +87,7 @@ public class BookmarkApiController {
     })
     @Operation(summary = "[DELETE] 북마크 삭제, 사용자 로그인 되어 있어야 함",
             description = "지정한 북마크를 삭제합니다. 삭제하려는 북마크의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
-                    "[DELETE] api/v1/bookmarks/{id} <br><br>" +
+                    "[DELETE] /api/v1/bookmarks/{id} <br><br>" +
                     "사용자가 북마크의 id를 알 가능성은 낮으나, 만약 북마크 id를 알아서 다른 북마크를 삭제하려 할 가능성이 있다면 로직이 바뀔 수 있습니다.")
     @DeleteMapping("/api/v1/bookmarks/{id}")
     public CommonResult deleteBookmarkV1(
