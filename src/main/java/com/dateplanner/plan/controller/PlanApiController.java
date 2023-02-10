@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,7 @@ import javax.validation.Valid;
 import java.security.Principal;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "PlanApiController - 플랜 기능 API")
+@Tag(name = "5. [마이 페이지 - 플랜 목록] PlanApiController - 플랜 기능 API")
 @RequiredArgsConstructor
 @RestController
 public class PlanApiController {
@@ -43,11 +45,14 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "플랜 작성, 사용자 로그인이 되어야 함", description = "[POST] 플랜 작성")
+    @Operation(summary = "[POST] 플랜 작성 요청, 사용자 로그인이 되어야 함",
+            description = "플랜 작성을 요청합니다. 이 때 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, <br>" +
+                    "해당 인증 정보를 토대로 플랜을 작성하려는 유저를 체크합니다. <br><br>" +
+                    "플랜 작성에 필요한 정보는 제목(title) 입니다.")
     @PostMapping(value = "/api/v1/plans", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> savePlansV1(
-            @Parameter(description = "사용자 정보", required = true) Principal principal,
-            @Parameter(description = "플랜 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "플랜 작성 정보", required = true) @Valid @RequestBody PlanRequestDto dto) {
 
         dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
 
@@ -62,10 +67,12 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "사용자가 작성한 플랜 리스트 조회, 사용자 로그인이 되어야 하며 사용자 정보 필요", description = "[GET] 사용자 작성 플랜 리스트 조회")
+    @Operation(summary = "[GET] 사용자 작성 플랜 리스트 출력, 사용자 로그인이 되어야 함",
+            description = "마이페이지 내 내 플랜 화면에서 사용자가 작성한 플랜 리스트를 출력합니다. <br>" +
+                    "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 작성한 플랜 리스트를 출력합니다.")
     @GetMapping("/api/v1/plans")
     public PageResult<PlanDto> getPlansByUserIdV1(
-            @Parameter(description = "사용자 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
             @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
 
         String uid = principal.getName();
@@ -83,10 +90,12 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "플랜 단건 조회, 사용자 로그인이 되어야 하며 플랜 ID 필요, 플랜 작성자일 경우에만 조회 가능", description = "[GET] 플랜 단건 조회")
+    @Operation(summary = "[GET] 플랜 ID로 플랜 단건 조회, 사용자 로그인이 되어야 함",
+            description = "플랜 ID (id)를 통해 특정 플랜의 정보와, 플랜 내의 세부 플랜(목적지) 리스트를 가져옵니다. <br><br>" +
+                    "사용하는 데이터 : 전부 사용하며 플랜 수정 시 필요한 uid (작성자 ID), id (플랜 ID) 를 비롯한 수정 전 기존 정보를 해당 API로 가져옵니다.")
     @GetMapping("/api/v1/plans/{id}")
     public SingleResult<PlanDto> getPlanV1(
-            @Parameter(description = "사용자 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
 
         String uid = principal.getName();
@@ -102,18 +111,22 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "플랜 수정, 사용자 로그인이 되어야 하며 플랜 ID 필요, 작성자와 동일해야 함", description = "[PUT] 플랜 수정")
+    @Operation(summary = "[PUT] 플랜 수정, 사용자 로그인이 되어야 하며 플랜 ID 필요",
+            description = "플랜 ID (id)를 통해 특정 플랜의 정보를 수정합니다. <br>" +
+                    "해당 기능을 사용하기 전에 위의 [GET] /api/v1/plans/{id} 로 수정 전 정보를 가져와야 합니다. 이후 수정 완료 버튼 클릭 시 다음과 같이 요청해야 합니다. <br>" +
+                    "[PUT] /api/v1/plans/{id} <br><br>" +
+                    "수정되는 정보는 title 이며, 플랜이 완료된 상태라면 comment도 수정 가능합니다. 플랜 내의 세부 플랜(목적지) 리스트에 대한 수정은 <br>" +
+                    "세부 플랜 클릭 시 이벤트를 통해 세부 플랜의 API를 활용해서 수정할 수 있도록 합니다 <br>" +
+                    "(예시 : 플랜 정보 조회로 세부 플랜(id = 1, id = 2) 2개가 같이 나오고, 이 중에서 id = 1인 세부 플랜 클릭 시 [GET] api/v1/detailPlans/{1}...<br>" +
+                    "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 플랜을 수정하려는 유저를 체크합니다.")
     @PutMapping(value = "/api/v1/plans/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> updatePlanV1(
-            @Parameter(description = "사용자 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id,
-            @Parameter(description = "플랜 작성 정보, 장소 ID는 프론트엔드에서 가져와야 함", required = true) @Valid @RequestBody PlanRequestDto dto) {
-
-        /**
-         * 여기서는 사용자 ID(uid), 플랜 ID를 서버에서 직접 주입해주고 있으나
-         * 가능하다면 프론트엔드에서 현재 보고 있는 사용자 ID(uid), title를 받아서 dto에 주입해줘야 함
-         * 위의 단건 조회 API를 통해 수정 전 데이터를 가져오고 처리해야 한다
-         */
+            @Parameter(description = "플랜 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/plans/{id}로 수정 전 정보를 가져와야 합니다.",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = PlanRequestDto.class))) @Valid @RequestBody PlanRequestDto dto) {
 
         dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
         dto.setId(id); // 현재 플랜 ID를 받아서 dto에 주입
@@ -129,17 +142,13 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "플랜 삭제, Dto의 uid와 사용자 인증 정보의 uid 일치 여부 확인 필요", description = "[DELETE] 플랜 삭제")
+    @Operation(summary = "[DELETE] 플랜 삭제, 사용자 로그인이 되어야 하며 플랜 ID 필요",
+            description = "지정한 플랜을 삭제합니다. 삭제하려는 플랜의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
+                    "[DELETE] /api/v1/plans/{id} <br><br>" +
+                    "사용자가 플랜의 id를 알 가능성은 낮으나, 만약 플랜 id를 알아서 다른 리뷰를 삭제하려 할 가능성이 있다면 로직이 바뀔 수 있습니다.")
     @DeleteMapping("/api/v1/plans/{id}")
     public CommonResult deletePlanV1(
-            @Parameter(description = "플랜 ID, 프론트엔드에서 플랜 ID 넣어줄 것", required = true) @PathVariable("id") Long id) {
-
-        /**
-         * 프론트엔드에서 삭제 버튼을 인증 상태에 따라 표시하고
-         * 그 과정에서 플랜 Dto의 uid와 현재 사용자 인증 정보의 uid 비교 가능하다면 그대로 진행해도 되나
-         * 그러지 않을 경우엔 principal을 파라미터로 받고
-         * 사용자 정보 uid를 토대로 DB에서 삭제하려는 플랜의 uid와 비교를 한 후 삭제 처리를 해야할 것으로 보임
-         */
+            @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
 
         planService.deletePlan(id);
 
@@ -154,16 +163,14 @@ public class PlanApiController {
                     required = true, in = ParameterIn.HEADER
             )
     })
-    @Operation(summary = "플랜 완료 처리, 사용자 로그인이 되어야 하며 플랜 ID 필요, 작성자와 동일해야 함", description = "[PUT] 플랜 완료 처리")
+    @Operation(summary = "[PUT] 플랜 완료 처리, 사용자 로그인이 되어야 하며 플랜 ID 필요",
+            description = "지정한 플랜을 완료 처리합니다. 완료 처리하려는 플랜의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
+                    "[PUT] /api/v1/plans/{id}/finish <br><br>" +
+                    "완료 처리를 할 경우 finished 상태가 true로 변경되며, 이 상태의 조건을 체크하여 comment를 작성할 수 있도록 해주세요. <br>" +
+                    "사용자가 플랜의 id를 알 가능성은 낮으나, 만약 플랜 id를 알아서 다른 리뷰를 삭제하려 할 가능성이 있다면 로직이 바뀔 수 있습니다.")
     @PutMapping("/api/v1/plans/{id}/finish")
     public SingleResult<Long> finishPlanV1(
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
-
-        /**
-         * 여기서는 사용자 ID(uid), 플랜 ID를 서버에서 직접 주입해주고 있으나
-         * 가능하다면 프론트엔드에서 현재 보고 있는 사용자 ID(uid), title를 받아서 dto에 주입해줘야 함
-         * 위의 단건 조회 API를 통해 수정 전 데이터를 가져오고 처리해야 한다
-         */
 
         return responseService.getSingleResult(planService.finishPlan(id));
     }

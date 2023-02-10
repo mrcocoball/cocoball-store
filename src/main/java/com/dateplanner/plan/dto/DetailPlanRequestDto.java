@@ -3,6 +3,7 @@ package com.dateplanner.plan.dto;
 import com.dateplanner.place.entity.Place;
 import com.dateplanner.plan.entity.DetailPlan;
 import com.dateplanner.plan.entity.Plan;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,16 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DetailPlanRequestDto {
 
+    @Schema(description = "세부 플랜(목적지) ID, 세부 플랜 수정 시에만 사용")
     private Long id;
 
+    @Schema(description = "세부 플랜(목적지) 순서")
     private int ord;
 
+    @Schema(description = "세부 플랜(목적지)가 속해 있는 플랜 ID")
     private Long pid;
 
+    @Schema(description = "목적지 장소의 place_id")
     private String kpid;
 
     private DetailPlanRequestDto(Long id, int ord, Long pid, String kpid) {

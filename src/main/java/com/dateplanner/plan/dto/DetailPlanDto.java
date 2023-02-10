@@ -1,6 +1,7 @@
 package com.dateplanner.plan.dto;
 
 import com.dateplanner.plan.entity.DetailPlan;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,20 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 public class DetailPlanDto {
 
+    @Schema(description = "세부 플랜(목적지) ID")
     private Long id;
 
+    @Schema(description = "세부 플랜(목적지) 순서")
     private int ord;
 
+    @Schema(description = "세부 플랜(목적지)가 속해 있는 플랜 ID")
     private Long pid;
 
+    @Schema(description = "목적지 장소의 place_id")
     private String kpid;
 
+    @Schema(description = "목적지 장소명")
     private String placeName;
 
+    @Schema(description = "목적지 장소의 지번 주소")
     private String addressName;
 
+    @Schema(description = "목적지 장소의 경도(x)")
     private double longitude;
 
+    @Schema(description = "목적지 장소의 위도(y)")
     private double latitude;
 
     public static DetailPlanDto from(DetailPlan entity) {

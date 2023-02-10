@@ -12,7 +12,6 @@ public class CommonResult {
      * 전달될 데이터와 별개로 API의 처리 여부, 상태, 메시지가 담긴 데이터
      */
 
-    // springfox의 SWAGGER-UI @ApiProperty
     @Schema(description = "응답 성공 여부, True / False")
     private boolean success;
 

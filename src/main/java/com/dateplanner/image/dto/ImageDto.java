@@ -1,6 +1,7 @@
 package com.dateplanner.image.dto;
 
 import com.dateplanner.image.entity.Image;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,10 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 public class ImageDto {
 
+    @Schema(description = "uuid")
     private String uuid;
 
+    @Schema(description = "파일명")
     private String fileName;
 
+    @Schema(description = "이미지 순서")
     private int ord;
 
 

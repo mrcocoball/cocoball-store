@@ -79,9 +79,7 @@ public class PlaceApiService {
         return paginationService.listToPage(result, pageable);
     }
 
-    /**
-     * KAKAO API 상의 place_id를 DB에서 조회하여 정보를 가져온다 (상세 정보, 리뷰 유무, 평점, 리뷰 수 등)
-     */
+
     public PlaceDetailDto getPlace(String placeId, String uid) {
 
         boolean isBookmarked = bookmarkService.isExist(placeId, uid);
@@ -90,9 +88,6 @@ public class PlaceApiService {
     }
 
 
-    /**
-     * 두 지점의 좌표를 이용한 거리 계산 메서드
-     */
     // Haversine formula
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
         lat1 = Math.toRadians(lat1);

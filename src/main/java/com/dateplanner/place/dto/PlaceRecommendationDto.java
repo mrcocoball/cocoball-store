@@ -1,6 +1,7 @@
 package com.dateplanner.place.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,32 +15,42 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 public class PlaceRecommendationDto {
 
+    @Schema(description = "장소 ID (DB상 PK)")
     private Long id;
 
+    @Schema(description = "카테고리 ID")
     @JsonProperty("category_group_id")
     private String categoryGroupId;
 
+    @Schema(description = "카테고리명")
     @JsonProperty("category_name")
     private String categoryName;
 
+    @Schema(description = "장소명")
     @JsonProperty("place_name")
     private String placeName;
 
+    @Schema(description = "장소 ID (카카오, 대부분 해당 ID 사용)")
     @JsonProperty("place_id")
     private String placeId;
 
+    @Schema(description = "장소 지번 주소")
     @JsonProperty("address_name")
     private String addressName;
 
+    @Schema(description = "장소 도로명 주소")
     @JsonProperty("road_address_name")
     private String roadAddressName;
 
+    @Schema(description = "리뷰 총점")
     @JsonProperty("review_score")
     private Long reviewScore;
 
+    @Schema(description = "리뷰 수")
     @JsonProperty("review_count")
     private Long reviewCount;
 
+    @Schema(description = "리뷰 평점")
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 

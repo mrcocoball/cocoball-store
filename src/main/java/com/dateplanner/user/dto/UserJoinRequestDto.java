@@ -1,6 +1,7 @@
 package com.dateplanner.user.dto;
 
 import com.dateplanner.user.entity.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,20 +18,20 @@ import java.util.Collections;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserJoinRequestDto {
 
-    /**
-     * 회원가입 요청용 Dto
-     */
-
+    @Schema(description = "회원 ID, 추후 이메일로 대체될 가능성 있음")
     @NotNull
     private String uid;
 
+    @Schema(description = "비밀번호")
     @NotNull
     private String password;
 
+    @Schema(description = "이메일, 회원 ID와 통합될 가능성 있음")
     @NotNull
     @NotEmpty
     private String email;
 
+    @Schema(description = "자기소개, 닉네임으로 대체될 가능성 있음")
     @NotNull
     @NotEmpty
     private String introduce;

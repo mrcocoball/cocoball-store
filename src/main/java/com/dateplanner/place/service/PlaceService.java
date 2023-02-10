@@ -28,10 +28,6 @@ public class PlaceService {
     private static final int MAX_LADIUS = 5; // km
 
 
-    /**
-     * KAKAO 주소 검색하기 API 호출하여 주소 및 좌표 변환 -> 카테고리 검색 및 DB 조회에 활용
-     */
-
     public DocumentDto getPlaceLongitudeAndLatitude(String address) {
 
         List<DocumentDto> addressResults = kakaoAddressSearchService.requestAddressSearch(address).getDocumentList();
@@ -45,10 +41,6 @@ public class PlaceService {
 
     }
 
-    /**
-     * 변환된 주소 + 카테고리 + 설정 범위로 KAKAO 카테고리로 장소 검색하기 API 호출하여 장소 리스트 전달 받기
-     */
-
 
     public KakaoApiResponseDto placeSearchByKakao(DocumentDto addressDto, List<String> categories) {
 
@@ -56,9 +48,6 @@ public class PlaceService {
                 Double.valueOf(addressDto.getLatitude()), Double.valueOf(addressDto.getLongitude()), MAX_LADIUS, categories);
     }
 
-    /**
-     * 카테고리 장소 검색 결과를 DB에 저장하기
-     */
 
     public List<String> placePersist(KakaoApiResponseDto dto) {
 

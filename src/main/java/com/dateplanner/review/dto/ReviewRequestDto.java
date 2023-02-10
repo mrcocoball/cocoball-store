@@ -3,6 +3,7 @@ package com.dateplanner.review.dto;
 import com.dateplanner.place.entity.Place;
 import com.dateplanner.review.entity.Review;
 import com.dateplanner.user.entity.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,26 +19,34 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewRequestDto {
 
+    @Schema(description = "리뷰 ID, 리뷰 수정 시에만 사용")
     private Long id;
 
+    @Schema(description = "리뷰 작성자 ID, 리뷰 수정 시에만 사용")
     private String uid;
 
+    @Schema(description = "리뷰 대상 장소의 ID (DB PK), 리뷰 수정 시에만 사용")
     private Long pid;
 
+    @Schema(description = "리뷰 대상 장소의 place_id (String)")
     private String placeId;
 
+    @Schema(description = "리뷰 제목, 무조건 기입되어야 함")
     @NotEmpty
     @NotNull
     private String title;
 
+    @Schema(description = "리뷰 내용, 무조건 기입되어야 함")
     @NotEmpty
     @NotNull
     private String description;
 
+    @Schema(description = "장소에 대한 평점 (리뷰 평점), 0~5까지만")
     @Max(5)
     private Long reviewScore;
 
     // 첨부 파일 주소
+    @Schema(description = "첨부 이미지 파일 주소 리스트")
     private List<String> fileNames;
 
     private ReviewRequestDto(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {

@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,16 +32,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "PlaceApiController - 장소 검색 API")
+@Tag(name = "1. [장소 검색 화면, 장소 상세 정보] PlaceApiController - 장소 검색 API")
 @RequiredArgsConstructor
 @RestController
 public class PlaceApiController {
 
-    /**
-     * PlaceService : KAKAO API를 통한 API 호출 및 장소 정보 DB 저장 등 핵심 비즈니스 로직 담당
-     * PlaceApiService : 화면 처리를 위한 전용 서비스
-     * ResponseService : 응답 처리를 위한 컨트롤러 공통 서비스
-     */
 
     private final PlaceApiService placeApiService;
     private final PlaceService placeService;
@@ -48,7 +44,10 @@ public class PlaceApiController {
     private static final String[] CATEGORIES = {"AT4", "CE7", "CT1", "FD6", "SW8"};
 
 
-    @Operation(summary = "장소 검색", description = "[GET] 주소, 카테고리로 장소 리스트 출력")
+    @Operation(summary = "[GET] 주소, 카테고리로 장소 리스트 출력",
+            description = "주소 (String) 과 카테고리 List<String>을 입력하여 요청하면 <br>" +
+                    "입력 주소가 좌표로 변환되고 해당 좌표 기준으로 장소 리스트를 출력합니다. <br><br>" +
+                    "사용하는 데이터 : 전부 사용, 특정 장소를 조회하거나 북마크/리뷰/플랜 등 장소 ID(place_id) 가 필요한 곳에서는 place_id (String)을 사용합니다.")
     @GetMapping("/api/v1/places")
     public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
                                             @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
@@ -68,44 +67,16 @@ public class PlaceApiController {
         return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable));
     }
 
-    @Operation(summary = "장소 단건 조회", description = "[GET] 장소 ID로 단일 장소 정보 조회")
+    @Operation(summary = "[GET] 장소 ID로 단일 장소 정보 조회",
+            description = "장소 ID (place_id)를 통해 특정 장소의 정보를 가져옵니다. <br><br>" +
+                    "사용하는 데이터 : 전부 사용하며 해당 API 및 데이터는 세부 플랜 장소 검색 시에도 활용합니다.")
     @GetMapping("/api/v1/places/{place_id}")
-    public SingleResult<PlaceDetailDto> getPlaceV1(@Parameter(description = "장소 ID") @PathVariable("place_id") String placeId,
+    public SingleResult<PlaceDetailDto> getPlaceV1(@Parameter(description = "장소 ID, 장소 리스트의 place_id를 사용합니다")
+                                                   @PathVariable("place_id") String placeId,
                                                    Principal principal) {
 
         String uid = principal.getName();
         return responseService.getSingleResult(placeApiService.getPlace(placeId, uid));
     }
-
-
-    // API 테스트 비교용 메서드
-    /*
-    @Operation(summary = "장소 검색 (KAKAO)", description = "[GET] 주소, 카테고리로 장소 리스트 출력 (KAKAO)")
-    @GetMapping("/api/v1/placesKakao")
-    public PageResult<DocumentDto> placesKakaoV1(@Parameter(description = "입력 주소") String address,
-                                                 @Parameter(description = "카테고리 코드") String category,
-                                                 @PageableDefault(size = 10, sort = "reviewScore") Pageable pageable) {
-
-        DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
-        KakaoApiResponseDto dto = placeService.placeSearchByKakao(addressDto, category);
-        placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlacesByKakao(dto, pageable));
-    }
-
-    @Operation(summary = "KAKAO API 테스트 (Meta)", description = "[GET] 카카오 API Meta Dto 테스트용")
-    @GetMapping("/api/v1/test/meta")
-    public MetaDto testMetaV1(String address, String category) {
-
-        return placeService.getMetaDto(address, category);
-    }
-
-    @Operation(summary = "KAKAO API 테스트 (Document)", description = "[GET] 카카오 API Document Dto 테스트용")
-    @GetMapping("/api/v1/test/document")
-    public List<DocumentDto> testDocumentV1(String address, String category) {
-
-        return placeService.getDocumentDto(address, category);
-    }
-
-     */
 
 }

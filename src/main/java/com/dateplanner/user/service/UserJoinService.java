@@ -30,9 +30,6 @@ public class UserJoinService {
     private final JwtProvider jwtProvider;
     private final RefreshTokenRepository refreshTokenRepository;
 
-    /**
-     * 로그인
-     */
 
     public TokenDto login(UserLoginRequestDto dto) {
 
@@ -62,9 +59,7 @@ public class UserJoinService {
         return tokenDto;
     }
 
-    /**
-     * 회원 가입
-     */
+
     public String join(@Valid UserJoinRequestDto dto) {
         if (userRepository.findByUid(dto.getUid()).isPresent()) {
             throw new UserIdDuplicateException();
@@ -77,9 +72,7 @@ public class UserJoinService {
         return userRepository.save(dto.toEntity(passwordEncoder)).getUid();
     }
 
-    /**
-     * 토큰 재발급
-     */
+
     public TokenDto refresh(TokenRequestDto dto) {
 
         // 만료된 리프레시 토큰 확인
