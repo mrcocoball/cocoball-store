@@ -2,6 +2,7 @@ package com.dateplanner.bookmark.dto;
 
 import com.dateplanner.bookmark.entity.Bookmark;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,13 +18,28 @@ import java.time.LocalDateTime;
 @Builder
 public class BookmarkDto {
 
+    @Schema(description = "북마크 ID")
     private Long id;
+
+    @Schema(description = "북마크 작성자 ID")
     private String uid;
+
+    @Schema(description = "북마크가 작성된 장소의 place_id")
     private String placeId;
+
+    @Schema(description = "북마크가 작성된 장소명")
     private String placeName;
+
+    @Schema(description = "북마크가 작성된 장소의 지번 주소")
     private String addressName;
+
+    @Schema(description = "북마크가 작성된 장소의 경도(x)")
     private double longitude;
+
+    @Schema(description = "북마크가 작성된 장소의 위도(y)")
     private double latitude;
+
+    @Schema(description = "북마크가 저장 시간")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 

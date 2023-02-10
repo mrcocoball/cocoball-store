@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "1. [장소 검색 화면] PlaceApiController - 장소 검색 API")
+@Tag(name = "1. [장소 검색 화면, 장소 검색 화면 - 장소 상세 정보] PlaceApiController - 장소 검색 API")
 @RequiredArgsConstructor
 @RestController
 public class PlaceApiController {
