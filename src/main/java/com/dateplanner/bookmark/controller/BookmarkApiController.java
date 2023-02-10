@@ -64,7 +64,8 @@ public class BookmarkApiController {
             )
     })
     @Operation(summary = "[GET] 북마크 목록 출력, 사용자 로그인 되어 있어야 함",
-            description = "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 저장해둔 북마크 리스트를 출력합니다.")
+            description = "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 저장해둔 북마크 리스트를 출력합니다. <br>" +
+                    "이들 장소에 대한 상세 정보는 장소 단건 조회 API /api/v1/places/{place_id} 를 활용합니다.")
     @GetMapping("/api/v1/bookmarks")
     public PageResult<BookmarkDto> getBookmarksV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
