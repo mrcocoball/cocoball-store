@@ -1,5 +1,6 @@
 package com.dateplanner.fixture;
 
+import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.place.entity.Category;
 import com.dateplanner.place.entity.Place;
@@ -30,7 +31,8 @@ public class Fixture {
 
     // 테스트용 장소 (고정)
     public static Place place() {
-        return Place.of(category(),
+        return Place.of(
+                category(),
                 "testplace",
                 "1",
                 "testurl",
@@ -43,14 +45,15 @@ public class Fixture {
                 37.47,
                 0L,
                 0L
-                );
+        );
     }
 
     // 테스트용 장소 (동적)
     public static Place place(String placeName, String placeId, String placeUrl, String addressName, String roadAddressName,
                               String region1DepthName, String region2DepthName, String region3DepthName,
                               double longitude, double latitude, Long reviewScore, Long reviewCount) {
-        return Place.of(category(),
+        return Place.of(
+                category(),
                 placeName,
                 placeId,
                 placeUrl,
@@ -70,8 +73,21 @@ public class Fixture {
     // 테스트용 리뷰 (동적)
 
     // 테스트용 북마크 (고정)
+    public static Bookmark bookmark() {
+        return Bookmark.of(
+                user(),
+                place(),
+                "1"
+        );
+    }
 
     // 테스트용 북마크 (동적)
+    public static Bookmark bookmark(User user, Place place, String kpid) {
+        return Bookmark.of(
+                user,
+                place,
+                kpid);
+    }
 
     // 테스트용 플랜 (고정)
 
