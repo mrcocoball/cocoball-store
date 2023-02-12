@@ -4,7 +4,11 @@ import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.place.entity.Category;
 import com.dateplanner.place.entity.Place;
+import com.dateplanner.review.dto.ReviewRequestDto;
+import com.dateplanner.review.entity.Review;
 import com.dateplanner.user.entity.User;
+
+import java.util.Collections;
 
 public class Fixture {
 
@@ -69,8 +73,28 @@ public class Fixture {
     }
 
     // 테스트용 리뷰 (고정)
+    public static Review review() {
+        return Review.of(
+                user(),
+                place(),
+                "1",
+                "test",
+                "test",
+                0L
+        );
+    }
 
-    // 테스트용 리뷰 (동적)
+    // 테스트용 리뷰 (업데이트 리뷰)
+    public static Review updateReview(String title, String description, Long reviewScore) {
+        return Review.of(
+                user(),
+                place(),
+                "1",
+                title,
+                description,
+                reviewScore
+        );
+    }
 
     // 테스트용 북마크 (고정)
     public static Bookmark bookmark() {
@@ -118,5 +142,50 @@ public class Fixture {
                 .latitude(37.47)
                 .build();
     }
+
+    // 테스트용 장소 (고정)
+
+    // 테스트용 장소 (동적)
+
+    // 테스트용 리뷰 (고정)
+    public static ReviewRequestDto reviewRequestDto() {
+        return ReviewRequestDto.of(
+                1L,
+                "test",
+                1L,
+                "1",
+                "test",
+                "test",
+                0L,
+                Collections.emptyList()
+        );
+    }
+
+    public static ReviewRequestDto reviewUpdateRequestDto() {
+        return ReviewRequestDto.of(
+                1L,
+                "test",
+                1L,
+                "1",
+                "test-update",
+                "test-update",
+                5L,
+                Collections.emptyList()
+        );
+    }
+
+    // 테스트용 리뷰 (동적)
+
+    // 테스트용 북마크 (고정)
+
+    // 테스트용 북마크 (동적)
+
+    // 테스트용 플랜 (고정)
+
+    // 테스트용 플랜 (동적)
+
+    // 테스트용 세부 플랜 (고정)
+
+    // 테스트용 세부 플랜 (동적)
 
 }
