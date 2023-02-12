@@ -2,10 +2,6 @@ package com.dateplanner.bookmark.service;
 
 import com.dateplanner.bookmark.dto.BookmarkDto;
 import com.dateplanner.bookmark.repository.BookmarkRepository;
-import com.dateplanner.fixture.Fixture;
-import com.dateplanner.kakao.dto.DocumentDto;
-import com.dateplanner.kakao.dto.KakaoApiResponseDto;
-import com.dateplanner.place.dto.PlaceDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +12,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
