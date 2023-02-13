@@ -1,0 +1,55 @@
+package com.dateplanner.plan.service;
+
+import com.dateplanner.fixture.Fixture;
+import com.dateplanner.plan.dto.DetailPlanDto;
+import com.dateplanner.plan.entity.DetailPlan;
+import com.dateplanner.plan.repository.DetailPlanRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+
+@DisplayName("[통합] 플랜 화면 처리 서비스 - 세부 플랜 조회 테스트")
+@ExtendWith(MockitoExtension.class)
+@SpringBootTest
+class DetailPlanApiServiceTest {
+
+    @Autowired
+    private DetailPlanApiService sut;
+
+    @MockBean
+    private DetailPlanRepository detailPlanRepository;
+
+
+    @DisplayName("READ - 세부 플랜 단건 조회")
+    @Test
+    public void 세부플랜_단건_조회_성공() {
+
+        // Given
+        Long id = 1L;
+        DetailPlan detailPlan = Fixture.detailPlan();
+        String uid = detailPlan.getPlan().getUser().getUid();
+        given(detailPlanRepository.findById(id)).willReturn(Optional.of(detailPlan));
+
+        // When
+        DetailPlanDto dto = sut.getDetailPlan(id, uid);
+
+        // Then
+        assertThat(dto)
+                .hasFieldOrPropertyWithValue("id", detailPlan.getId())
+                .hasFieldOrPropertyWithValue("kpid", detailPlan.getKpid());
+        then(detailPlanRepository).should(BDDMockito.times(2)).findById(id);
+
+    }
+
+}
