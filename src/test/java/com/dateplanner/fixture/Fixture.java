@@ -4,6 +4,10 @@ import com.dateplanner.bookmark.entity.Bookmark;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.place.entity.Category;
 import com.dateplanner.place.entity.Place;
+import com.dateplanner.plan.dto.DetailPlanRequestDto;
+import com.dateplanner.plan.dto.PlanRequestDto;
+import com.dateplanner.plan.entity.DetailPlan;
+import com.dateplanner.plan.entity.Plan;
 import com.dateplanner.review.dto.ReviewRequestDto;
 import com.dateplanner.review.entity.Review;
 import com.dateplanner.user.entity.User;
@@ -114,13 +118,44 @@ public class Fixture {
     }
 
     // 테스트용 플랜 (고정)
+    public static Plan plan() {
+        return Plan.of(
+                user(),
+                "test",
+                false,
+                null
+        );
+    }
 
-    // 테스트용 플랜 (동적)
+    // 테스트용 플랜 (업데이트 플랜)
+    public static Plan updatePlan(String title, boolean finished, String comment) {
+        return Plan.of(
+                user(),
+                title,
+                finished,
+                comment
+        );
+    }
 
     // 테스트용 세부 플랜 (고정)
+    public static DetailPlan detailPlan() {
+        return DetailPlan.of(
+                plan(),
+                place(),
+                "1",
+                1
+        );
+    }
 
-    // 테스트용 세부 플랜 (동적)
-
+    // 테스트용 세부 플랜 (업데이트 세부 플랜)
+    public static DetailPlan updateDetailPlan(Place place, String kpid, int ord) {
+        return DetailPlan.of(
+                plan(),
+                place,
+                kpid,
+                ord
+        );
+    }
 
     /**
      * DTO
@@ -181,10 +216,42 @@ public class Fixture {
     // 테스트용 북마크 (동적)
 
     // 테스트용 플랜 (고정)
+    public static PlanRequestDto planRequestDto() {
+        return PlanRequestDto.of(
+                1L,
+                "test",
+                "test"
+        );
+    }
+
+    public static PlanRequestDto planUpdateRequestDto() {
+        return PlanRequestDto.of(
+                1L,
+                "test",
+                "test-update"
+        );
+    }
 
     // 테스트용 플랜 (동적)
 
     // 테스트용 세부 플랜 (고정)
+    public static DetailPlanRequestDto detailPlanRequestDto() {
+        return DetailPlanRequestDto.of(
+                1L,
+                1,
+                1L,
+                "1"
+        );
+    }
+
+    public static DetailPlanRequestDto detailPlanUpdateRequestDto() {
+        return DetailPlanRequestDto.of(
+                1L,
+                2,
+                2L,
+                "2"
+        );
+    }
 
     // 테스트용 세부 플랜 (동적)
 
