@@ -6,8 +6,8 @@ import com.dateplanner.place.repository.PlaceRepository;
 import com.dateplanner.review.dto.ReviewRequestDto;
 import com.dateplanner.review.entity.Review;
 import com.dateplanner.review.repository.ReviewRepository;
-import com.dateplanner.user.entity.User;
-import com.dateplanner.user.repository.UserRepository;
+import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.admin.user.repository.UserRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -2,7 +2,7 @@ package com.dateplanner.review.dto;
 
 import com.dateplanner.place.entity.Place;
 import com.dateplanner.review.entity.Review;
-import com.dateplanner.user.entity.User;
+import com.dateplanner.admin.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

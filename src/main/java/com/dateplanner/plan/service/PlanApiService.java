@@ -5,7 +5,6 @@ import com.dateplanner.api.PaginationService;
 import com.dateplanner.plan.dto.PlanDto;
 import com.dateplanner.plan.entity.Plan;
 import com.dateplanner.plan.repository.PlanRepository;
-import com.dateplanner.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
