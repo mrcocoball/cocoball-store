@@ -14,11 +14,12 @@ import static org.mockito.BDDMockito.given;
 @Import(SecurityConfig.class)
 public class TestSecurityConfig {
 
-    @MockBean private UserRepository userRepository;
+    @MockBean
+    private UserRepository userRepository;
 
     @BeforeTestMethod
     public void securitySetup() {
-        given(userRepository.findByUid(anyString())).willReturn(Optional.of(
+        given(userRepository.getWithRoles(anyString())).willReturn(Optional.of(
                 User.builder()
                         .uid("testuser")
                         .password("testpassword")
