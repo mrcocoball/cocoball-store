@@ -79,6 +79,12 @@ public class PlaceDetailDto {
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 
+    @Schema(description = "장소 이미지 URL")
+    private String imageUrl;
+
+    @Schema(description = "장소 설명")
+    private String description;
+
     @Schema(description = "북마크 여부, true / false")
     @JsonProperty("bookmarked")
     private boolean bookmarked;
@@ -103,6 +109,8 @@ public class PlaceDetailDto {
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
                 .avgReviewScore(calculateAvgScore(entity.getReviewScore(), entity.getReviewCount()))
+                .imageUrl(entity.getImageUrl())
+                .description(entity.getDescription())
                 .bookmarked(isBookmarked)
                 .build();
     }

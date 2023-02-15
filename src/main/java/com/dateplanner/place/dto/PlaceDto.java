@@ -79,6 +79,12 @@ public class PlaceDto {
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 
+    @Schema(description = "장소 이미지 URL")
+    private String imageUrl;
+
+    @Schema(description = "장소 설명")
+    private String description;
+
     @Schema(description = "검색 위치와의 거리, KM")
     private double distance;
 
@@ -101,6 +107,8 @@ public class PlaceDto {
                 .reviewScore(entity.getReviewScore())
                 .reviewCount(entity.getReviewCount())
                 .avgReviewScore(calculateAvgScore(entity.getReviewScore(), entity.getReviewCount()))
+                .imageUrl(entity.getImageUrl())
+                .description(entity.getDescription())
                 .build();
     }
 
