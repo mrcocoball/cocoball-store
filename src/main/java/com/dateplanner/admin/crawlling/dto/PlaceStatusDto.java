@@ -1,7 +1,7 @@
 package com.dateplanner.admin.crawlling.dto;
 
-import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.entity.Place;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,9 +34,11 @@ public class PlaceStatusDto {
     private String description;
 
     @Schema(description = "장소가 생성된 날짜")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
     @Schema(description = "장소가 수정된 날짜")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime modifiedAt;
 
     public static PlaceStatusDto from(Place entity) {
