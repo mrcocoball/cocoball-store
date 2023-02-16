@@ -80,6 +80,7 @@ public class PlaceDto {
     private double avgReviewScore;
 
     @Schema(description = "장소 이미지 URL")
+    @JsonProperty("image_url")
     private String imageUrl;
 
     @Schema(description = "장소 설명")
