@@ -54,6 +54,7 @@ public class Place extends BaseTimeEntity {
 
     private Long reviewCount;
 
+    @Column(length = 1000)
     private String imageUrl;
 
     private String description;

@@ -11,8 +11,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,8 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
-import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Slf4j(topic = "SERVICE")
@@ -68,6 +66,35 @@ public class PlaceCrawlingService {
         return paginationService.listToPage(results, pageable);
     }
 
+    public List<PlaceCrawlingDto> searchAndCrawling() {
+
+        List<String> placeIds = placeRepository.findPlaceIdByImageUrlIsNull();
+
+        List<PlaceCrawlingDto> results = new ArrayList<>();
+
+        if (ObjectUtils.isEmpty(placeIds) || placeIds == null) {
+            return Collections.emptyList();
+        }
+
+        // 저장 시간 비교 계산용 측정
+        long beforeTime = System.currentTimeMillis();
+
+        int count = 0;
+
+        for (String placeId : placeIds) {
+            PlaceCrawlingDto dto = crawling(placeId);
+            results.add(dto);
+            count += 1;
+            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, placeIds.size());
+        }
+
+        // 저장 시간 비교 계산용 측정
+        long afterTime = System.currentTimeMillis();
+        log.info("elapsed time : " + (afterTime - beforeTime));
+
+        return results;
+    }
+
 
     private PlaceCrawlingDto crawling(String placeId) {
 
@@ -86,7 +113,6 @@ public class PlaceCrawlingService {
         try {
             webDriver.get(BASE_URL + placeId + "?service=search_pc");
             Thread.sleep(500);
-            // WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(2));
 
             // 설명 저장
             log.info("[PlaceCrawlingService crawling] description crawling}");
