@@ -18,8 +18,8 @@ public class PlaceCrawlingDto {
     @Schema(description = "장소 ID (카카오, 대부분 해당 ID 사용)")
     private String placeId;
 
-    @Schema(description = "이미지 URL (기본값은 '크롤링 결과 이미지 없음'")
-    private String imageUrl = "크롤링 결과 이미지 없음";
+    @Schema(description = "이미지 URL (기본값은 'NOT EXISTS'")
+    private String imageUrl = "NOT EXISTS";
 
     @Schema(description = "장소 태그")
     private List<String> tags = new ArrayList<>();
