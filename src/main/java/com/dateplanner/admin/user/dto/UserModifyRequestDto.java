@@ -1,6 +1,5 @@
-package com.dateplanner.user.dto;
+package com.dateplanner.admin.user.dto;
 
-import com.dateplanner.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,14 +13,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRequestDto {
+public class UserModifyRequestDto {
 
     /**
-     * 회원 생성용 Dto
+     * 회원 수정용 Dto
      */
-
-    @NotNull
-    private String uid;
 
     @NotNull
     private String password;
@@ -35,20 +31,9 @@ public class UserRequestDto {
     private String introduce;
 
     @Builder
-    public UserRequestDto(String uid, String password, String email, String introduce) {
-        this.uid = uid;
+    public UserModifyRequestDto(String password, String email, String introduce) {
         this.password = password;
         this.email = email;
         this.introduce = introduce;
     }
-
-    public User toEntity() {
-        return User.builder()
-                .uid(uid)
-                .password(password)
-                .email(email)
-                .introduce(introduce)
-                .build();
-    }
-
 }

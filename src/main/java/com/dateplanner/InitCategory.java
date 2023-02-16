@@ -1,9 +1,6 @@
 package com.dateplanner;
 
 import com.dateplanner.place.entity.Category;
-import com.dateplanner.place.entity.Place;
-import com.dateplanner.review.entity.Review;
-import com.dateplanner.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

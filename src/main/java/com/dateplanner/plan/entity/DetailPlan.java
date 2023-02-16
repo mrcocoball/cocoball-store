@@ -2,7 +2,6 @@ package com.dateplanner.plan.entity;
 
 import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.dateplanner.place.entity.Place;
-import com.dateplanner.user.entity.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

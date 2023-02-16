@@ -1,15 +1,15 @@
-package com.dateplanner.user.service;
+package com.dateplanner.admin.user.service;
 
+import com.dateplanner.admin.user.dto.UserLoginRequestDto;
 import com.dateplanner.advice.exception.*;
 import com.dateplanner.security.dto.TokenDto;
 import com.dateplanner.security.dto.TokenRequestDto;
 import com.dateplanner.security.entity.RefreshToken;
 import com.dateplanner.security.jwt.JwtProvider;
 import com.dateplanner.security.repository.RefreshTokenRepository;
-import com.dateplanner.user.dto.UserJoinRequestDto;
-import com.dateplanner.user.dto.UserLoginRequestDto;
-import com.dateplanner.user.entity.User;
-import com.dateplanner.user.repository.UserRepository;
+import com.dateplanner.admin.user.dto.UserJoinRequestDto;
+import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.admin.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

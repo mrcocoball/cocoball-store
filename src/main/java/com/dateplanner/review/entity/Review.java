@@ -3,7 +3,7 @@ package com.dateplanner.review.entity;
 import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.dateplanner.image.entity.Image;
 import com.dateplanner.place.entity.Place;
-import com.dateplanner.user.entity.User;
+import com.dateplanner.admin.user.entity.User;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.BatchSize;

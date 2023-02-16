@@ -1,4 +1,4 @@
-package com.dateplanner.user.entity;
+package com.dateplanner.admin.user.entity;
 
 import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;

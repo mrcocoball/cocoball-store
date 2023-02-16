@@ -1,11 +1,11 @@
-package com.dateplanner.user.service;
+package com.dateplanner.admin.user.service;
 
+import com.dateplanner.admin.user.dto.UserModifyRequestDto;
+import com.dateplanner.admin.user.dto.UserRequestDto;
 import com.dateplanner.advice.exception.UserNotFoundApiException;
-import com.dateplanner.user.dto.UserModifyRequestDto;
-import com.dateplanner.user.dto.UserRequestDto;
-import com.dateplanner.user.dto.UserResponseDto;
-import com.dateplanner.user.entity.User;
-import com.dateplanner.user.repository.UserRepository;
+import com.dateplanner.admin.user.dto.UserResponseDto;
+import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.admin.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

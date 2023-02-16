@@ -1,12 +1,12 @@
-package com.dateplanner.user.controller;
+package com.dateplanner.admin.user.controller;
 
+import com.dateplanner.admin.user.dto.UserLoginRequestDto;
 import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
 import com.dateplanner.security.dto.TokenDto;
 import com.dateplanner.security.dto.TokenRequestDto;
-import com.dateplanner.user.dto.UserJoinRequestDto;
-import com.dateplanner.user.dto.UserLoginRequestDto;
-import com.dateplanner.user.service.UserJoinService;
+import com.dateplanner.admin.user.dto.UserJoinRequestDto;
+import com.dateplanner.admin.user.service.UserJoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

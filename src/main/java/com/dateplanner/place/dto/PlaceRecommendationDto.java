@@ -54,6 +54,9 @@ public class PlaceRecommendationDto {
     @JsonProperty("avg_review_score")
     private double avgReviewScore;
 
+    @Schema(description = "장소 이미지 URL")
+    private String imageUrl;
+
 
     public static double calculateAvgScore(Long reviewScore, Long reviewCount) {
 

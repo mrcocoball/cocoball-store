@@ -10,7 +10,7 @@ import com.dateplanner.plan.entity.DetailPlan;
 import com.dateplanner.plan.entity.Plan;
 import com.dateplanner.review.dto.ReviewRequestDto;
 import com.dateplanner.review.entity.Review;
-import com.dateplanner.user.entity.User;
+import com.dateplanner.admin.user.entity.User;
 
 import java.util.Collections;
 
