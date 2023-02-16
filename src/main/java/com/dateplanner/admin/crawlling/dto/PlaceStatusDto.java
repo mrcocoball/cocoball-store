@@ -1,5 +1,7 @@
 package com.dateplanner.admin.crawlling.dto;
 
+import com.dateplanner.place.dto.PlaceDto;
+import com.dateplanner.place.entity.Place;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +22,10 @@ public class PlaceStatusDto {
     private Long id;
 
     @Schema(description = "장소 ID (카카오, 대부분 해당 ID 사용)")
-    private String place_id;
+    private String placeId;
+
+    @Schema(description = "장소명")
+    private String placeName;
 
     @Schema(description = "이미지 URL")
     private String imageUrl;
@@ -33,5 +38,18 @@ public class PlaceStatusDto {
 
     @Schema(description = "장소가 수정된 날짜")
     private LocalDateTime modifiedAt;
+
+    public static PlaceStatusDto from(Place entity) {
+
+        return PlaceStatusDto.builder()
+                .id(entity.getId())
+                .placeName(entity.getPlaceName())
+                .placeId(entity.getPlaceId())
+                .imageUrl(entity.getImageUrl())
+                .description(entity.getDescription())
+                .createdAt(entity.getCreatedAt())
+                .modifiedAt(entity.getModifiedAt())
+                .build();
+    }
 
 }
