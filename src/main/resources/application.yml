@@ -72,6 +72,8 @@ com:
   dateplanner:
     upload:
       path: D:\\upload
+    webdriver:
+      path: D:\\chromedriver/chromedriver.exe
 
 ---
 spring:
@@ -146,5 +148,7 @@ com:
   dateplanner:
     upload:
       path: /home/mrcocoball/date_planner/image
+    webdriver:
+      path: /home/mrcocoball/date_planner/chromedriver
 
 ---

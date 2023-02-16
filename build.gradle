@@ -79,6 +79,9 @@ dependencies {
     // testcontainers
     testImplementation 'org.testcontainers:mariadb:1.17.1'
 
+    // selenium
+    implementation 'org.seleniumhq.selenium:selenium-java:4.7.2'
+
 }
 
 tasks.named('test') {
