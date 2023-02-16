@@ -149,6 +149,6 @@ com:
     upload:
       path: /home/mrcocoball/date_planner/image
     webdriver:
-      path: /home/mrcocoball/date_planner/chromedriver
+      path: /usr/src/chrome/chromedriver
 
 ---
