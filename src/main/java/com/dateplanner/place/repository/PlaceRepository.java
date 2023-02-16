@@ -29,4 +29,7 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
 
     List<Place> findByImageUrlIs(String url);
 
+    @Query("select p.placeId from Place p where p.imageUrl is null")
+    List<String> findPlaceIdByImageUrlIsNull();
+
 }
