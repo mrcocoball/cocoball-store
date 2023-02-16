@@ -1,4 +1,4 @@
-package com.dateplanner.admin.crawlling.dto;
+package com.dateplanner.admin.place.dto;
 
 import com.dateplanner.place.entity.Place;
 import com.fasterxml.jackson.annotation.JsonFormat;

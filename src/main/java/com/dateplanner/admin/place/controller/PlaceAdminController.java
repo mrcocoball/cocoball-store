@@ -1,8 +1,10 @@
-package com.dateplanner.admin.crawlling.controller;
+package com.dateplanner.admin.place.controller;
 
-import com.dateplanner.admin.crawlling.dto.PlaceStatusDto;
-import com.dateplanner.admin.crawlling.service.PlaceCrawlingService;
-import com.dateplanner.admin.crawlling.service.PlaceAdminService;
+import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
+import com.dateplanner.admin.place.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.service.PlaceAdminService;
+import com.dateplanner.admin.place.service.PlaceCrawlingService;
+import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.service.ResponseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j(topic = "CONTROLLER")
@@ -42,6 +45,16 @@ public class PlaceAdminController {
     public PageResult<PlaceStatusDto> getImageUrlNotExistPlacesV1(@PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
 
         return responseService.getPageResult(placeAdminService.getImageUrlNotExistPlacesV1(pageable));
+    }
+
+
+    // 어드민 권한 요구 추가 예정, 테스트용
+    @Operation(summary = "[POST] 크롤링 테스트(Selenium)",
+            description = "크롤링 테스트")
+    @PostMapping("/api/v1/admin/places")
+    public PageResult<PlaceCrawlingDto> crawlingPlacesV1(@PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+
+        return responseService.getPageResult(placeCrawlingService.searchAndCrawling(pageable));
     }
 
 }

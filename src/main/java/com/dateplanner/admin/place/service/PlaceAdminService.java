@@ -1,6 +1,6 @@
-package com.dateplanner.admin.crawlling.service;
+package com.dateplanner.admin.place.service;
 
-import com.dateplanner.admin.crawlling.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.dto.PlaceStatusDto;
 import com.dateplanner.api.PaginationService;
 import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
