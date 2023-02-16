@@ -106,7 +106,10 @@ public class PlaceCrawlingService {
         ChromeOptions chromeOptions = new ChromeOptions()
                 .addArguments("--start-maximized")
                 .addArguments("--disable-popup-blocking")
-                .addArguments("headless");
+                .addArguments("--single-process") // docker 환경용 추가
+                .addArguments("--disable-dev-shm-usage") // docker 환경용 추가
+                .addArguments("--no-sandbox") // docker 환경용 추가
+                .addArguments("--headless"); // 문법 수정
 
         WebDriver webDriver = new ChromeDriver(chromeOptions);
 
