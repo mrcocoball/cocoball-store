@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -73,7 +74,7 @@ public class PlanApiController {
     @GetMapping("/api/v1/plans")
     public PageResult<PlanDto> getPlansByUserIdV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
-            @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
 
         String uid = principal.getName();
 

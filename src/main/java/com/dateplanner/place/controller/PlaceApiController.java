@@ -19,6 +19,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -52,7 +53,7 @@ public class PlaceApiController {
     public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
                                             @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
                                             @RequestParam(value = "categories", required = false, defaultValue = "") List<String> categories,
-                                            @PageableDefault(size = 10, sort = "avgReviewScore") Pageable pageable) {
+                                            @ParameterObject @PageableDefault(size = 10, sort = "avgReviewScore") Pageable pageable) {
 
         // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
         for (String category : categories) {
