@@ -1,25 +1,25 @@
 package com.dateplanner.config;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Contact;
-import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-// 명세 전체에 대한 공통 설명을 한다
-@OpenAPIDefinition(
-        info = @Info(
-                title = "Date-planner API 명세서",
-                description = "API 명세서",
-                version = "v1",
-                contact = @Contact(
-                        name = "더블코코볼",
-                        email = "gunmaru93@gmail.com"
-                )
-        )
-)
 
 @Configuration
 public class OpenApiConfig {
+
+    @Bean
+    public OpenAPI config() {
+        return new OpenAPI()
+                .info(new Info().title("Date-planner API 서버")
+                        .description("API 명세서와 테스트를 위한 API를 제공하고 있습니다")
+                        .version("v1")
+                        .contact(new io.swagger.v3.oas.models.info.Contact()
+                                .name("더블코코볼 mrcocoball")
+                                .email("gunmaru93@gmai.com")
+                                .url("https://github.com/mrcocoball/date-planner")));
+    }
+
 
     /*
 
