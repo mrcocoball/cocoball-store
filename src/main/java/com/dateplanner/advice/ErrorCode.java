@@ -10,7 +10,7 @@ public enum ErrorCode {
     // 비즈니스 로직 관련
     USER_NOT_FOUND(6000, "유저를 찾을 수 없습니다"),
     EMAIL_DUPLICATED(6001, "이미 회원가입된 이메일입니다"),
-    USER_ID_DUPLICATED(6002, "이미 회원가입된 ID입니다"),
+    USER_NICKNAME_DUPLICATED(6002, "중복된 닉네임입니다"),
     PASSWORD_MISMATCH(6003, "비밀번호가 맞지 않습니다"),
     PLACE_NOT_FOUND(6004, "장소 정보를 찾을 수 없습니다"),
     BOOKMARK_NOT_FOUND(6005, "북마크 정보를 찾을 수 없습니다"),
