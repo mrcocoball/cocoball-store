@@ -31,17 +31,17 @@ public class UserJoinRequestDto {
     @NotEmpty
     private String email;
 
-    @Schema(description = "자기소개, 닉네임으로 대체될 가능성 있음")
+    @Schema(description = "닉네임")
     @NotNull
     @NotEmpty
-    private String introduce;
+    private String nickname;
 
     @Builder
-    public UserJoinRequestDto(String uid, String password, String email, String introduce) {
+    public UserJoinRequestDto(String uid, String password, String email, String nickname) {
         this.uid = uid;
         this.password = password;
         this.email = email;
-        this.introduce = introduce;
+        this.nickname = nickname;
     }
 
     public User toEntity(PasswordEncoder passwordEncoder) {
@@ -49,7 +49,7 @@ public class UserJoinRequestDto {
                 .uid(uid)
                 .password(passwordEncoder.encode(password))
                 .email(email)
-                .introduce(introduce)
+                .nickname(nickname)
                 .roleSet(Collections.singletonList("ROLE_USER"))
                 .build();
 

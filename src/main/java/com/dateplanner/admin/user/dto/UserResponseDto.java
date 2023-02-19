@@ -10,12 +10,12 @@ public class UserResponseDto {
 
     private final String uid;
     private final String email;
-    private final String introduce;
+    private final String nickname;
 
     public UserResponseDto(User user) {
         this.uid = user.getUid();
         this.email = user.getEmail();
-        this.introduce = user.getIntroduce();
+        this.nickname = user.getNickname();
     }
 
 }

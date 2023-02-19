@@ -38,7 +38,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     private String email;
 
     @Column(length = 30)
-    private String introduce;
+    private String nickname;
 
     @Column
     private boolean deleted;
@@ -50,12 +50,12 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Builder.Default
     private List<String> roleSet = new ArrayList<>();
 
-    private User(String uid, String password, String email, String introduce, boolean deleted, boolean social) {
+    private User(String uid, String password, String email, String nickname, boolean deleted, boolean social) {
 
         this.uid = uid;
         this.password = password;
         this.email = email;
-        this.introduce = introduce;
+        this.nickname = nickname;
         this.deleted = deleted;
         this.social = social;
     }
@@ -73,7 +73,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     }
 
     public void changeIntroduce(String introduce) {
-        this.introduce = introduce;
+        this.nickname = introduce;
     }
 
     public void changeDelete(boolean deleted) {

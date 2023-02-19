@@ -24,7 +24,7 @@ public class TestSecurityConfig {
                         .uid("testuser")
                         .password("testpassword")
                         .email("testemail")
-                        .introduce("test")
+                        .nickname("test")
                         .deleted(false)
                         .social(false)
                         .build()

@@ -32,14 +32,14 @@ public class UserRequestDto {
 
     @NotNull
     @NotEmpty
-    private String introduce;
+    private String nickname;
 
     @Builder
-    public UserRequestDto(String uid, String password, String email, String introduce) {
+    public UserRequestDto(String uid, String password, String email, String nickname) {
         this.uid = uid;
         this.password = password;
         this.email = email;
-        this.introduce = introduce;
+        this.nickname = nickname;
     }
 
     public User toEntity() {
@@ -47,7 +47,7 @@ public class UserRequestDto {
                 .uid(uid)
                 .password(password)
                 .email(email)
-                .introduce(introduce)
+                .nickname(nickname)
                 .build();
     }
 

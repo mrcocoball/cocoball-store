@@ -31,7 +31,7 @@ public class Fixture {
                 .uid("test")
                 .password("test")
                 .email("test")
-                .introduce("test")
+                .nickname("test")
                 .social(false)
                 .deleted(false)
                 .build();
