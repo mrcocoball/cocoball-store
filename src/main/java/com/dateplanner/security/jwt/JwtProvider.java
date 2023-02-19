@@ -54,10 +54,10 @@ public class JwtProvider {
     /**
      * JWT 생성
      */
-    public TokenDto createToken(String uid, List<String> roles) {
+    public TokenDto createToken(String email, List<String> roles) {
 
-        // user 구분용, Claims에 uid 추가
-        Claims claims = Jwts.claims().setSubject(uid);
+        // user 구분용, Claims에 email 추가
+        Claims claims = Jwts.claims().setSubject(email);
         claims.put(ROLES, roles);
 
         // 생성 날짜, 만료 날짜를 위한 Date
