@@ -19,7 +19,7 @@ public class TestSecurityConfig {
 
     @BeforeTestMethod
     public void securitySetup() {
-        given(userRepository.getWithRoles(anyString())).willReturn(Optional.of(
+        given(userRepository.getWithRolesByEmail(anyString())).willReturn(Optional.of(
                 User.builder()
                         .uid("testuser")
                         .password("testpassword")
