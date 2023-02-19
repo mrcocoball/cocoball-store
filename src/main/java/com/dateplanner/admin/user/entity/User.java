@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
 public class User extends BaseTimeEntity implements UserDetails {
 
     @Id
-    @Column(length = 50)
-    private String uid;
+    @GeneratedValue
+    private Long uid;
+
+    @Column(length = 50, nullable = false)
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
-
-    @Column(length = 50, nullable = false)
-    private String email;
 
     @Column(length = 30)
     private String nickname;
@@ -50,9 +50,8 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Builder.Default
     private List<String> roleSet = new ArrayList<>();
 
-    private User(String uid, String password, String email, String nickname, boolean deleted, boolean social) {
+    private User(String password, String email, String nickname, boolean deleted, boolean social) {
 
-        this.uid = uid;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
@@ -60,8 +59,8 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.social = social;
     }
 
-    public static User of(String uid, String password, String email, String introduce, boolean deleted, boolean social) {
-        return new User(uid, password, email, introduce, deleted, social);
+    public static User of(String password, String email, String nickname, boolean deleted, boolean social) {
+        return new User(password, email, nickname, deleted, social);
     }
 
     public void changePassword(String password) {
@@ -72,8 +71,8 @@ public class User extends BaseTimeEntity implements UserDetails {
         this.email = email;
     }
 
-    public void changeIntroduce(String introduce) {
-        this.nickname = introduce;
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void changeDelete(boolean deleted) {
@@ -124,7 +123,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Override
     public String getUsername() {
-        return this.uid;
+        return this.email;
     }
 
     @Override
