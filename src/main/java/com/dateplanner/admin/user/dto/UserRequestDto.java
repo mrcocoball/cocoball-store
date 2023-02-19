@@ -21,9 +21,6 @@ public class UserRequestDto {
      */
 
     @NotNull
-    private String uid;
-
-    @NotNull
     private String password;
 
     @NotNull
@@ -35,8 +32,7 @@ public class UserRequestDto {
     private String nickname;
 
     @Builder
-    public UserRequestDto(String uid, String password, String email, String nickname) {
-        this.uid = uid;
+    public UserRequestDto(String password, String email, String nickname) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
@@ -44,7 +40,6 @@ public class UserRequestDto {
 
     public User toEntity() {
         return User.builder()
-                .uid(uid)
                 .password(password)
                 .email(email)
                 .nickname(nickname)

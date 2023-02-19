@@ -24,16 +24,11 @@ public class UserModifyRequestDto {
 
     @NotNull
     @NotEmpty
-    private String email;
-
-    @NotNull
-    @NotEmpty
-    private String introduce;
+    private String nickname;
 
     @Builder
-    public UserModifyRequestDto(String password, String email, String introduce) {
+    public UserModifyRequestDto(String password, String email, String nickname) {
         this.password = password;
-        this.email = email;
-        this.introduce = introduce;
+        this.nickname = nickname;
     }
 }
