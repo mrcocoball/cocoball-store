@@ -21,12 +21,12 @@ public class UserService {
 
     public String save(UserRequestDto dto) {
         userRepository.save(dto.toEntity());
-        return userRepository.findByUid(dto.getUid()).get().getUid();
+        return userRepository.findByEmail(dto.getEmail()).get().getEmail();
     }
 
     @Transactional(readOnly = true)
-    public UserResponseDto findByUid(String uid) {
-        User user = userRepository.findByUid(uid).orElseThrow(UserNotFoundApiException::new);
+    public UserResponseDto findByNickname(String nickname) {
+        User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundApiException::new);
         return new UserResponseDto(user);
     }
 
@@ -36,18 +36,18 @@ public class UserService {
         return new UserResponseDto(user);
     }
 
-    public String update(String uid, UserModifyRequestDto dto) {
-        User updateUser = userRepository.findByUid(uid).orElseThrow(UserNotFoundApiException::new);
+    public String update(String email, UserModifyRequestDto dto) {
+        User updateUser = userRepository.findByEmail(email).orElseThrow(UserNotFoundApiException::new);
 
         if (dto.getPassword() != null) { updateUser.changePassword(dto.getPassword()); }
         if (dto.getEmail() != null) { updateUser.changeEmail(dto.getEmail()); }
-        if(dto.getIntroduce() != null) { updateUser.changeIntroduce(dto.getIntroduce()); }
+        if(dto.getNickname() != null) { updateUser.changeNickname(dto.getNickname()); }
 
-        return uid;
+        return email;
     }
 
-    public void delete(String uid) {
-        User targetUser = userRepository.findByUid(uid).orElseThrow(UserNotFoundApiException::new);
+    public void delete(String email) {
+        User targetUser = userRepository.findByEmail(email).orElseThrow(UserNotFoundApiException::new);
         targetUser.changeDelete(true);
     }
 }
