@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,8 +73,8 @@ public class UserJoinApiController {
     public SingleResult<TokenDto> refresh(
             @Parameter(description = "재발급 요청을 할 토큰 정보",
                     required = true,
-            content = @Content(
-                    schema = @Schema(implementation = TokenRequestDto.class))) @RequestBody TokenRequestDto dto) {
+                    content = @Content(
+                            schema = @Schema(implementation = TokenRequestDto.class))) @RequestBody TokenRequestDto dto) {
 
         return responseService.getSingleResult(userJoinService.refresh(dto));
     }

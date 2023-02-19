@@ -44,7 +44,7 @@ public class UserApiController {
     public SingleResult<UserResponseDto> getUserByUid
             (@Parameter(description = "회원 ID", required = true) @PathVariable("user_id")String uid) {
 
-        return responseService.getSingleResult(userService.findByUid(uid));
+        return responseService.getSingleResult(userService.findByNickname(uid));
     }
 
     @PreAuthorize("isAuthenticated()")
