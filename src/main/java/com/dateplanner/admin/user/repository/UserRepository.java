@@ -13,10 +13,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, String> {
 
     @EntityGraph(attributePaths = "roleSet")
-    @Query("select u from User u where u.uid = :uid and u.social = false")
-    Optional<User> getWithRoles(@Param("uid") String uid);
-
-    @EntityGraph(attributePaths = "roleSet")
     @Query("select u from User u where u.email = :email and u.social = false")
     Optional<User> getWithRolesByEmail(@Param("email") String uid);
 
@@ -34,6 +30,8 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByUid(String uid);
 
-    boolean existsById(String uid);
+    boolean existsByEmail(String email);
+
+    boolean existsByNickname(String nickname);
 
 }

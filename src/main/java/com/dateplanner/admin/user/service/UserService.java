@@ -40,7 +40,6 @@ public class UserService {
         User updateUser = userRepository.findByEmail(email).orElseThrow(UserNotFoundApiException::new);
 
         if (dto.getPassword() != null) { updateUser.changePassword(dto.getPassword()); }
-        if (dto.getEmail() != null) { updateUser.changeEmail(dto.getEmail()); }
         if(dto.getNickname() != null) { updateUser.changeNickname(dto.getNickname()); }
 
         return email;

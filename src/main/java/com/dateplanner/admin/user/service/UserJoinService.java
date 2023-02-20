@@ -31,6 +31,26 @@ public class UserJoinService {
     private final RefreshTokenRepository refreshTokenRepository;
 
 
+    public String join(@Valid UserJoinRequestDto dto) {
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new EmailDuplicateException();
+        }
+
+        if (userRepository.findByNickname(dto.getNickname()).isPresent()) {
+            throw new UserNicknameDuplicateException();
+        }
+
+        return userRepository.save(dto.toEntity(passwordEncoder)).getEmail();
+    }
+
+    public Boolean emailDuplicateCheck(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public Boolean nicknameDuplicateCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
     public TokenDto login(UserLoginRequestDto dto) {
 
         // 회원 정보 조회
@@ -57,19 +77,6 @@ public class UserJoinService {
         log.info("refresh token persist complete");
 
         return tokenDto;
-    }
-
-
-    public String join(@Valid UserJoinRequestDto dto) {
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new EmailDuplicateException();
-        }
-
-        if (userRepository.findByNickname(dto.getNickname()).isPresent()) {
-            throw new UserNicknameDuplicateException();
-        }
-
-        return userRepository.save(dto.toEntity(passwordEncoder)).getEmail();
     }
 
 
