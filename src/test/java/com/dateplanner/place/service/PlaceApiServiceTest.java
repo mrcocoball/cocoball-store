@@ -75,13 +75,13 @@ class PlaceApiServiceTest {
     public void 장소_단건_조회_성공() {
 
         // Given
-        String uid = "test";
+        String nickname = "test";
         String placeId = "1";
         Place place = Fixture.place();
         given(placeRepository.findByPlaceId(placeId)).willReturn(Optional.of(place));
 
         // When
-        PlaceDetailDto dto = sut.getPlace(placeId, uid);
+        PlaceDetailDto dto = sut.getPlace(placeId, nickname);
 
         // Then
         assertThat(dto)
