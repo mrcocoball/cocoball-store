@@ -13,12 +13,15 @@ import com.dateplanner.place.service.PlaceApiService;
 import com.dateplanner.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +67,14 @@ public class PlaceApiController {
         return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable));
     }
 
+    
+    @Parameters({
+            @Parameter(
+                    name = "X-AUTH-TOKEN",
+                    description = "로그인 성공 후 AccessToken",
+                    required = false, in = ParameterIn.HEADER
+            )
+    })
     @Operation(summary = "[GET] 장소 ID로 단일 장소 정보 조회",
             description = "장소 ID (place_id)를 통해 특정 장소의 정보를 가져옵니다. <br><br>" +
                     "사용하는 데이터 : 전부 사용하며 해당 API 및 데이터는 세부 플랜 장소 검색 시에도 활용합니다.")
@@ -72,9 +83,13 @@ public class PlaceApiController {
                                                    @PathVariable("place_id") String placeId,
                                                    Authentication authentication) {
 
-        User user = (User) authentication.getPrincipal();
-        String nickname = user.getNickname();
-        return responseService.getSingleResult(placeApiService.getPlace(placeId, nickname));
+        if (authentication != null) {
+            User user = (User) authentication.getPrincipal();
+            String nickname = user.getNickname();
+            return responseService.getSingleResult(placeApiService.getPlace(placeId, nickname));
+        }
+
+        return responseService.getSingleResult(placeApiService.getPlace(placeId));
     }
 
 }
