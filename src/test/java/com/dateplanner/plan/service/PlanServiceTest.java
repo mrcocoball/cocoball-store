@@ -44,14 +44,14 @@ class PlanServiceTest {
         // Given
         User user = Fixture.user();
         PlanRequestDto dto = Fixture.planRequestDto();
-        given(userRepository.findByUid(dto.getUid())).willReturn(Optional.of(user));
+        given(userRepository.findByNickname(dto.getNickname())).willReturn(Optional.of(user));
         given(planRepository.save(any(Plan.class))).willReturn(Fixture.plan());
 
         // When
         sut.savePlan(dto);
 
         // Then
-        then(userRepository).should().findByUid(dto.getUid());
+        then(userRepository).should().findByNickname(dto.getNickname());
         then(planRepository).should().save(any(Plan.class));
 
     }

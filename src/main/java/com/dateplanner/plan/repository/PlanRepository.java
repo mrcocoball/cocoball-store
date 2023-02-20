@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
     @EntityGraph(attributePaths = "user")
-    List<Plan> findByUser_Uid(String uid);
+    List<Plan> findByUser_Nickname(String nickname);
 
     @Override
     @EntityGraph(attributePaths = "user")
