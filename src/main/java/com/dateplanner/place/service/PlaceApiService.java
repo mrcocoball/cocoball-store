@@ -87,6 +87,11 @@ public class PlaceApiService {
         return placeRepository.findByPlaceId(placeId).map(place -> PlaceDetailDto.from(place, isBookmarked)).orElseThrow(PlaceNotFoundApiException::new);
     }
 
+    public PlaceDetailDto getPlace(String placeId) {
+
+        return placeRepository.findByPlaceId(placeId).map(PlaceDetailDto::from).orElseThrow(PlaceNotFoundApiException::new);
+    }
+
 
     // Haversine formula
     private double calculateDistance(double lat1, double lon1, double lat2, double lon2) {

@@ -116,6 +116,31 @@ public class PlaceDetailDto {
                 .build();
     }
 
+    public static PlaceDetailDto from(Place entity) {
+
+        return PlaceDetailDto.builder()
+                .id(entity.getId())
+                .categoryGroupId(entity.getCategory().getId())
+                .categoryName(entity.getCategory().getCategoryName())
+                .placeName(entity.getPlaceName())
+                .placeId(entity.getPlaceId())
+                .placeUrl(entity.getPlaceUrl())
+                .addressName(entity.getAddressName())
+                .roadAddressName(entity.getRoadAddressName())
+                .region1DepthName(entity.getRegion1DepthName())
+                .region2DepthName(entity.getRegion2DepthName())
+                .region3DepthName(entity.getRegion3DepthName())
+                .longitude(entity.getLongitude())
+                .latitude(entity.getLatitude())
+                .reviewScore(entity.getReviewScore())
+                .reviewCount(entity.getReviewCount())
+                .avgReviewScore(calculateAvgScore(entity.getReviewScore(), entity.getReviewCount()))
+                .imageUrl(entity.getImageUrl())
+                .description(entity.getDescription())
+                .bookmarked(false)
+                .build();
+    }
+
     public static double calculateAvgScore(Long reviewScore, Long reviewCount) {
 
         if (reviewScore == null || reviewScore == 0L) {
