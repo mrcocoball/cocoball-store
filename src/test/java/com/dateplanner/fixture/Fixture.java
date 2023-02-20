@@ -28,7 +28,7 @@ public class Fixture {
     // 테스트용 유저 (고정)
     public static User user() {
         return User.builder()
-                .uid("test")
+                .uid(1L)
                 .password("test")
                 .email("test")
                 .nickname("test")

@@ -21,7 +21,7 @@ public class TestSecurityConfig {
     public void securitySetup() {
         given(userRepository.getWithRolesByEmail(anyString())).willReturn(Optional.of(
                 User.builder()
-                        .uid("testuser")
+                        .uid(1L)
                         .password("testpassword")
                         .email("testemail")
                         .nickname("test")
