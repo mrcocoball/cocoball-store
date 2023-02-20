@@ -13,7 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findByKpid(String placeId);
 
     @EntityGraph(attributePaths = {"user", "place", "images"})
-    List<Review> findByUser_Uid(String placeId);
+    List<Review> findByUser_Nickname(String nickname);
 
     @Override
     @EntityGraph(attributePaths = {"user", "place", "images"})

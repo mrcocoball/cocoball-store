@@ -22,8 +22,8 @@ public class ReviewRequestDto {
     @Schema(description = "리뷰 ID, 리뷰 수정 시에만 사용")
     private Long id;
 
-    @Schema(description = "리뷰 작성자 ID, 리뷰 수정 시에만 사용")
-    private String uid;
+    @Schema(description = "리뷰 작성자 닉네임, 리뷰 수정 시에만 사용")
+    private String nickname;
 
     @Schema(description = "리뷰 대상 장소의 ID (DB PK), 리뷰 수정 시에만 사용")
     private Long pid;
@@ -49,9 +49,9 @@ public class ReviewRequestDto {
     @Schema(description = "첨부 이미지 파일 주소 리스트")
     private List<String> fileNames;
 
-    private ReviewRequestDto(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
+    private ReviewRequestDto(Long id, String nickname, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
         this.id = id;
-        this.uid = uid;
+        this.nickname = nickname;
         this.pid = pid;
         this.placeId = placeId;
         this.title = title;
@@ -63,8 +63,8 @@ public class ReviewRequestDto {
         this.fileNames = fileNames;
     }
 
-    public static ReviewRequestDto of(Long id, String uid, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
-        return new ReviewRequestDto(id, uid, pid, placeId, title, description, reviewScore, fileNames);
+    public static ReviewRequestDto of(Long id, String nickname, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
+        return new ReviewRequestDto(id, nickname, pid, placeId, title, description, reviewScore, fileNames);
     }
 
     public static ReviewRequestDto from(Review entity) {
@@ -78,7 +78,7 @@ public class ReviewRequestDto {
 
         return new ReviewRequestDto(
                 entity.getId(),
-                entity.getUser().getUid(),
+                entity.getUser().getNickname(),
                 entity.getPlace().getId(),
                 entity.getPlace().getPlaceId(),
                 entity.getTitle(),

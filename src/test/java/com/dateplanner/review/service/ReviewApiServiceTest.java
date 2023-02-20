@@ -55,16 +55,16 @@ class ReviewApiServiceTest {
     public void 사용자_작성_리뷰_리스트_조회_성공() {
 
         // Given
-        String uid = "test";
+        String nickname = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(reviewRepository.findByUser_Uid(uid)).willReturn(Collections.emptyList());
+        given(reviewRepository.findByUser_Nickname(nickname)).willReturn(Collections.emptyList());
 
         // When
-        Page<ReviewDto> result = sut.getReviewListByUid(uid, pageable);
+        Page<ReviewDto> result = sut.getReviewListByNickname(nickname, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(reviewRepository).should().findByUser_Uid(uid);
+        then(reviewRepository).should().findByUser_Nickname(nickname);
 
     }
 

@@ -33,7 +33,7 @@ public class ReviewService {
          * 이렇게 처리하고, 그게 아니라면 수정이 필요할 것으로 보임
          */
 
-        User user = userRepository.findByUid(dto.getUid()).orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundApiException::new);
         Place place = placeRepository.findByPlaceId(dto.getPlaceId()).orElseThrow(PlaceNotFoundApiException::new);
 
         Review review = reviewRepository.save(dto.toEntity(user, place, dto.getTitle(), dto.getDescription(), dto.getReviewScore()));

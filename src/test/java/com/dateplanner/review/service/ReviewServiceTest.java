@@ -47,7 +47,7 @@ class ReviewServiceTest {
         User user = Fixture.user();
         Place place = Fixture.place();
         ReviewRequestDto dto = Fixture.reviewRequestDto();
-        given(userRepository.findByUid(dto.getUid())).willReturn(Optional.of(user));
+        given(userRepository.findByNickname(dto.getNickname())).willReturn(Optional.of(user));
         given(placeRepository.findByPlaceId(dto.getPlaceId())).willReturn(Optional.of(place));
         given(reviewRepository.save(any(Review.class))).willReturn(Fixture.review());
 
@@ -55,41 +55,9 @@ class ReviewServiceTest {
         sut.saveReview(dto);
 
         // Then
-        then(userRepository).should().findByUid(dto.getUid());
+        then(userRepository).should().findByNickname(dto.getNickname());
         then(placeRepository).should().findByPlaceId(dto.getPlaceId());
         then(reviewRepository).should().save(any(Review.class));
-
-    }
-
-    @Disabled("단일 테스트로 돌리기 어려울 것 같다...")
-    @DisplayName("UPDATE - 리뷰 수정")
-    @Test
-    public void 리뷰_수정_성공() {
-
-        // Given
-        User user = Fixture.user();
-        Place place = Fixture.place();
-        Review review = Fixture.review();
-        ReviewRequestDto oldDto = Fixture.reviewRequestDto();
-        ReviewRequestDto dto = Fixture.reviewUpdateRequestDto();
-        given(userRepository.getReferenceById(dto.getUid())).willReturn(user);
-        given(placeRepository.getReferenceById(dto.getPid())).willReturn(place);
-        given(reviewRepository.getReferenceById(dto.getId())).willReturn(review);
-
-        // When
-        userRepository.save(user);
-        placeRepository.save(place);
-        reviewRepository.save(review);
-        Long updatedReviewId = sut.updateReview(dto);
-
-        // Then
-        assertThat(review)
-                .hasFieldOrPropertyWithValue("title", dto.getTitle())
-                .hasFieldOrPropertyWithValue("description", dto.getDescription())
-                .hasFieldOrPropertyWithValue("reviewScore", dto.getReviewScore());
-        then(userRepository).should().getReferenceById(dto.getUid());
-        then(placeRepository).should().findByPlaceId(dto.getPlaceId());
-        then(reviewRepository).should().getReferenceById(dto.getId());
 
     }
 
