@@ -41,16 +41,16 @@ class PlanApiServiceTest {
     public void 사용자_작성_플랜_리스트_조회_성공() {
 
         // Given
-        String uid = "test";
+        String nickname = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(planRepository.findByUser_Uid(uid)).willReturn(Collections.emptyList());
+        given(planRepository.findByUser_Nickname(nickname)).willReturn(Collections.emptyList());
 
         // When
-        Page<PlanDto> result = sut.getPlanListByUid(uid, pageable);
+        Page<PlanDto> result = sut.getPlanListByNickname(nickname, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(planRepository).should().findByUser_Uid(uid);
+        then(planRepository).should().findByUser_Nickname(nickname);
 
     }
 
@@ -61,16 +61,16 @@ class PlanApiServiceTest {
         // Given
         Long id = 1L;
         Plan plan = Fixture.plan();
-        String uid = "test";
+        String nickname = "test";
         given(planRepository.findById(id)).willReturn(Optional.of(plan));
 
         // When
-        PlanDto dto = sut.getPlan(id, uid);
+        PlanDto dto = sut.getPlan(id, nickname);
 
         // Then
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("id", plan.getId())
-                .hasFieldOrPropertyWithValue("uid", plan.getUser().getUid());
+                .hasFieldOrPropertyWithValue("uid", plan.getUser().getNickname());
         then(planRepository).should().findById(id);
 
     }

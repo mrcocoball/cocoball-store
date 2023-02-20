@@ -80,9 +80,9 @@ public class PlaceApiService {
     }
 
 
-    public PlaceDetailDto getPlace(String placeId, String uid) {
+    public PlaceDetailDto getPlace(String placeId, String nickname) {
 
-        boolean isBookmarked = bookmarkService.isExist(placeId, uid);
+        boolean isBookmarked = bookmarkService.isExist(placeId, nickname);
 
         return placeRepository.findByPlaceId(placeId).map(place -> PlaceDetailDto.from(place, isBookmarked)).orElseThrow(PlaceNotFoundApiException::new);
     }

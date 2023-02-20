@@ -9,10 +9,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UserLoginRequestDto {
 
-    @Schema(description = "회원 ID")
+    @Schema(description = "회원 이메일")
     @NotEmpty
     @NotNull
-    private String uid;
+    private String email;
 
     @Schema(description = "비밀번호")
     @NotEmpty

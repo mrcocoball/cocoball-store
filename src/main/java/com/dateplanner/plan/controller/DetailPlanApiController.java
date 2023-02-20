@@ -1,12 +1,11 @@
 package com.dateplanner.plan.controller;
 
+import com.dateplanner.admin.user.entity.User;
 import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
 import com.dateplanner.plan.dto.DetailPlanDto;
 import com.dateplanner.plan.dto.DetailPlanRequestDto;
-import com.dateplanner.plan.dto.PlanDto;
-import com.dateplanner.plan.dto.PlanRequestDto;
 import com.dateplanner.plan.service.DetailPlanApiService;
 import com.dateplanner.plan.service.DetailPlanService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,10 +19,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "6. [마이 페이지 - 플랜 목록 - 플랜 세부 정보] DetailPlanApiController - 세부 플랜 기능 API")
@@ -79,12 +78,13 @@ public class DetailPlanApiController {
                     "사용하는 데이터 : 전부 사용하며 세부 플랜 수정 시 필요한 place_id(장소 ID), ord(순서) 를 비롯한 수정 전 기존 정보를 해당 API로 가져옵니다.")
     @GetMapping("/api/v1/detailPlans/{id}")
     public SingleResult<DetailPlanDto> getDetailPlanV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "세부 플랜(목적지) ID", required = true) @PathVariable("id") Long id) {
 
-        String uid = principal.getName();
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
 
-        return responseService.getSingleResult(detailPlanApiService.getDetailPlan(id, uid));
+        return responseService.getSingleResult(detailPlanApiService.getDetailPlan(id, nickname));
     }
 
     @PreAuthorize("isAuthenticated()")

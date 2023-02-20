@@ -26,7 +26,7 @@ public class PlanService {
 
     public Long savePlan(PlanRequestDto dto) {
 
-        User user = userRepository.findByUid(dto.getUid()).orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundApiException::new);
 
         log.info("[PlanService savePlan] save plan...");
 

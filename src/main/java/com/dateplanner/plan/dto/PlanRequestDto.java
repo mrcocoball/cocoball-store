@@ -21,8 +21,8 @@ public class PlanRequestDto {
     @Schema(description = "플랜 ID, 플랜 수정 시에만 사용")
     private Long id;
 
-    @Schema(description = "플랜 작성자 ID, 플랜 수정 시에만 사용")
-    private String uid;
+    @Schema(description = "플랜 작성자 닉네임, 플랜 수정 시에만 사용")
+    private String nickname;
 
     @Schema(description = "플랜 제목, 무조건 기입되어야 함")
     @NotEmpty
@@ -32,14 +32,14 @@ public class PlanRequestDto {
     @Schema(description = "코멘트, 플랜이 '완료된 상태' 에서만 작성 / 수정할 수 있어야 함")
     private String comment;
 
-    private PlanRequestDto(Long id, String uid, String title) {
+    private PlanRequestDto(Long id, String nickname, String title) {
         this.id = id;
-        this.uid = uid;
+        this.nickname = nickname;
         this.title = title;
     }
 
-    public static PlanRequestDto of(Long id, String uid, String title) {
-        return new PlanRequestDto(id, uid, title);
+    public static PlanRequestDto of(Long id, String nickname, String title) {
+        return new PlanRequestDto(id, nickname, title);
     }
 
     public Plan toEntity(User user, String title) {

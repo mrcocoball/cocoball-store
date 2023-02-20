@@ -31,10 +31,30 @@ public class UserJoinService {
     private final RefreshTokenRepository refreshTokenRepository;
 
 
+    public String join(@Valid UserJoinRequestDto dto) {
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+            throw new EmailDuplicateException();
+        }
+
+        if (userRepository.findByNickname(dto.getNickname()).isPresent()) {
+            throw new UserNicknameDuplicateException();
+        }
+
+        return userRepository.save(dto.toEntity(passwordEncoder)).getEmail();
+    }
+
+    public Boolean emailDuplicateCheck(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public Boolean nicknameDuplicateCheck(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
     public TokenDto login(UserLoginRequestDto dto) {
 
         // 회원 정보 조회
-        User user = userRepository.findByUid(dto.getUid()).orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.findByEmail(dto.getEmail()).orElseThrow(UserNotFoundApiException::new);
 
         // 비밀번호 검증
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword()))
@@ -42,14 +62,14 @@ public class UserJoinService {
 
         // 액세스 토큰, 리프레시 토큰 발급
         log.info("create token start");
-        TokenDto tokenDto = jwtProvider.createToken(user.getUid(), user.getRoleSet());
+        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getRoleSet());
         log.info("create token complete");
 
         // 리프레시 토큰 저장
         log.info("refresh token persist start");
-        log.info("key : {}, token : {}", user.getUid(), tokenDto.getRefreshToken());
+        log.info("key : {}, token : {}", user.getEmail(), tokenDto.getRefreshToken());
         RefreshToken refreshToken = RefreshToken.builder()
-                .key(user.getUid())
+                .key(user.getEmail())
                 .token(tokenDto.getRefreshToken())
                 .build();
 
@@ -57,19 +77,6 @@ public class UserJoinService {
         log.info("refresh token persist complete");
 
         return tokenDto;
-    }
-
-
-    public String join(@Valid UserJoinRequestDto dto) {
-        if (userRepository.findByUid(dto.getUid()).isPresent()) {
-            throw new UserIdDuplicateException();
-        }
-
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new EmailDuplicateException();
-        }
-
-        return userRepository.save(dto.toEntity(passwordEncoder)).getUid();
     }
 
 
@@ -84,16 +91,16 @@ public class UserJoinService {
         String accessToken = dto.getAccessToken();
         Authentication authentication = jwtProvider.getAuthentication(accessToken);
 
-        // username (uid) 로 유저 검색, 리프레시 토큰 여부 확인
-        User user = userRepository.findByUid(authentication.getName()).orElseThrow(UserNotFoundApiException::new);
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(user.getUid()).orElseThrow(CustomRefreshTokenException::new);
+        // username (email) 로 유저 검색, 리프레시 토큰 여부 확인
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(UserNotFoundApiException::new);
+        RefreshToken refreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
 
         // 리프레시 토큰 불일치 여부 확인
         if (!refreshToken.getToken().equals(dto.getRefreshToken()))
             throw new CustomRefreshTokenException();
 
         // 액세스 토큰, 리프레시 토큰 재발급 및 리프레시 토큰 저장
-        TokenDto newCreatedToken = jwtProvider.createToken(user.getUid(), user.getRoleSet());
+        TokenDto newCreatedToken = jwtProvider.createToken(user.getEmail(), user.getRoleSet());
         RefreshToken updateRefreshToken = refreshToken.updateToken(newCreatedToken.getRefreshToken());
 
         refreshTokenRepository.save(updateRefreshToken);

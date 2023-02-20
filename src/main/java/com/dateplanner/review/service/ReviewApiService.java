@@ -40,14 +40,15 @@ public class ReviewApiService {
         return paginationService.listToPage(dtos, pageable);
     }
 
-    public Page<ReviewDto> getReviewListByUid(String uid, Pageable pageable) {
+    public Page<ReviewDto> getReviewListByNickname(String nickname, Pageable pageable) {
 
         log.info("[ReviewApiService getReviewList] get review list start...");
-        List<ReviewDto> dtos = reviewRepository.findByUser_Uid(uid).stream().map(ReviewDto::from).collect(Collectors.toList());
+        List<ReviewDto> dtos = reviewRepository.findByUser_Nickname(nickname).stream().map(ReviewDto::from).collect(Collectors.toList());
         log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.size());
 
         return paginationService.listToPage(dtos, pageable);
     }
+
 
     public ReviewDto getReview(Long id) {
 

@@ -19,8 +19,8 @@ public class PlanDto {
     @Schema(description = "플랜 ID, 플랜 수정 시에만 사용")
     private Long id;
 
-    @Schema(description = "플랜 작성자 ID, 플랜 수정 시에만 사용")
-    private String uid;
+    @Schema(description = "플랜 작성자 닉네임, 플랜 수정 시에만 사용")
+    private String nickname;
 
     @Schema(description = "플랜 제목")
     private String title;
@@ -37,7 +37,7 @@ public class PlanDto {
     public static PlanDto from(Plan entity) {
         return PlanDto.builder()
                 .id(entity.getId())
-                .uid(entity.getUser().getUid())
+                .nickname(entity.getUser().getNickname())
                 .title(entity.getTitle())
                 .detailPlans(entity.getDetailPlans()
                         .stream()

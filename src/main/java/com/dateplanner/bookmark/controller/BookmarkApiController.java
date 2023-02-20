@@ -1,5 +1,6 @@
 package com.dateplanner.bookmark.controller;
 
+import com.dateplanner.admin.user.entity.User;
 import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
@@ -18,9 +19,8 @@ import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "4. [마이 페이지 - 북마크 목록] BookmarkApiController - 북마크 기능 API")
@@ -47,14 +47,16 @@ public class BookmarkApiController {
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 북마크를 저장하려는 유저를 체크합니다.")
     @PostMapping("/api/v1/bookmarks")
     public SingleResult<Long> saveBookmarkV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "장소 정보의 place_id (String)", required = true) @RequestParam String placeId) {
 
-        String uid = principal.getName();
-        log.info("authentication, uid : {}", uid);
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        log.info("authentication, nickname : {}", nickname);
 
-        return responseService.getSingleResult(bookmarkService.saveBookmark(uid, placeId));
+        return responseService.getSingleResult(bookmarkService.saveBookmark(nickname, placeId));
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @Parameters({
@@ -69,13 +71,14 @@ public class BookmarkApiController {
                     "이들 장소에 대한 상세 정보는 장소 단건 조회 API /api/v1/places/{place_id} 를 활용합니다.")
     @GetMapping("/api/v1/bookmarks")
     public PageResult<BookmarkDto> getBookmarksV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
 
-        String uid = principal.getName();
-        log.info("authentication, uid : {}", uid);
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+        log.info("authentication, username : {}", email);
 
-        return responseService.getPageResult(bookmarkApiService.getBookmarkList(uid, pageable));
+        return responseService.getPageResult(bookmarkApiService.getBookmarkList(email, pageable));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -105,4 +108,5 @@ public class BookmarkApiController {
 
         return responseService.getSuccessResult();
     }
+
 }

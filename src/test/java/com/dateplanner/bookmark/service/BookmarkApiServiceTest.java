@@ -35,16 +35,16 @@ class BookmarkApiServiceTest {
     public void 북마크_리스트_조회_성공() {
 
         // Given
-        String uid = "test";
+        String email = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(bookmarkRepository.findByUser_Uid(uid)).willReturn(Collections.emptyList());
+        given(bookmarkRepository.findByUser_Email(email)).willReturn(Collections.emptyList());
 
         // When
-        Page<BookmarkDto> result = sut.getBookmarkList(uid, pageable);
+        Page<BookmarkDto> result = sut.getBookmarkList(email, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(bookmarkRepository).should().findByUser_Uid(uid);
+        then(bookmarkRepository).should().findByUser_Email(email);
 
     }
 

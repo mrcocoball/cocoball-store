@@ -19,12 +19,12 @@ public class DetailPlanApiService {
     private final DetailPlanRepository detailPlanRepository;
 
 
-    public DetailPlanDto getDetailPlan(Long id, String uid) {
+    public DetailPlanDto getDetailPlan(Long id, String nickname) {
 
         DetailPlan detailPlan = detailPlanRepository.findById(id).orElseThrow(DetailPlanNotFoundApiException::new);
-        String userId = detailPlan.getPlan().getUser().getUid();
+        String userNickname = detailPlan.getPlan().getUser().getNickname();
 
-        if (!uid.equals(userId)) { throw new AccessDeniedException("접근 권한이 없습니다."); }
+        if (!nickname.equals(userNickname)) { throw new AccessDeniedException("접근 권한이 없습니다."); }
 
         return detailPlanRepository.findById(id).map(DetailPlanDto::from).orElseThrow(DetailPlanNotFoundApiException::new);
     }

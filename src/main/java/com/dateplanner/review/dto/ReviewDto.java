@@ -22,8 +22,8 @@ public class ReviewDto {
     @Schema(description = "리뷰 ID")
     private Long id;
 
-    @Schema(description = "리뷰 작성자 ID")
-    private String uid;
+    @Schema(description = "리뷰 작성자 닉네임")
+    private String nickname;
 
     @Schema(description = "리뷰 대상 장소의 ID (DB PK)")
     private Long pid;
@@ -68,7 +68,7 @@ public class ReviewDto {
 
         return ReviewDto.builder()
                 .id(entity.getId())
-                .uid(entity.getUser().getUid())
+                .nickname(entity.getUser().getNickname())
                 .pid(entity.getPlace().getId())
                 .placeId(entity.getPlace().getPlaceId())
                 .placeName(entity.getPlace().getPlaceName())

@@ -1,34 +1,30 @@
 package com.dateplanner.place.controller;
 
+import com.dateplanner.admin.user.entity.User;
 import com.dateplanner.advice.exception.CategoryInvalidException;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;
-import com.dateplanner.kakao.dto.MetaDto;
 import com.dateplanner.place.dto.PlaceDetailDto;
 import com.dateplanner.place.dto.PlaceDto;
 import com.dateplanner.place.service.PlaceApiService;
 import com.dateplanner.place.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -74,10 +70,11 @@ public class PlaceApiController {
     @GetMapping("/api/v1/places/{place_id}")
     public SingleResult<PlaceDetailDto> getPlaceV1(@Parameter(description = "장소 ID, 장소 리스트의 place_id를 사용합니다")
                                                    @PathVariable("place_id") String placeId,
-                                                   Principal principal) {
+                                                   Authentication authentication) {
 
-        String uid = principal.getName();
-        return responseService.getSingleResult(placeApiService.getPlace(placeId, uid));
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        return responseService.getSingleResult(placeApiService.getPlace(placeId, nickname));
     }
 
 }

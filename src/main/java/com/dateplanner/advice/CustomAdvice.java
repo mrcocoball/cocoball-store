@@ -54,11 +54,11 @@ public class CustomAdvice {
                 (ErrorCode.USER_NOT_FOUND.getCode(), ErrorCode.USER_NOT_FOUND.getDescription());
     }
 
-    @ExceptionHandler(UserIdDuplicateException.class)
+    @ExceptionHandler(UserNicknameDuplicateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    protected CommonResult userIdDuplicateException(HttpServletRequest request, UserIdDuplicateException e) {
+    protected CommonResult userNicknameDuplicateException(HttpServletRequest request, UserNicknameDuplicateException e) {
         return responseService.getFailResult
-                (ErrorCode.USER_ID_DUPLICATED.getCode(), ErrorCode.USER_ID_DUPLICATED.getDescription());
+                (ErrorCode.USER_NICKNAME_DUPLICATED.getCode(), ErrorCode.USER_NICKNAME_DUPLICATED.getDescription());
     }
 
     @ExceptionHandler(EmailDuplicateException.class)

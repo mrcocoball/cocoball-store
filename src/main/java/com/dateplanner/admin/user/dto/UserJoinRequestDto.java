@@ -18,38 +18,32 @@ import java.util.Collections;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserJoinRequestDto {
 
-    @Schema(description = "회원 ID, 추후 이메일로 대체될 가능성 있음")
+    @Schema(description = "회원 이메일")
     @NotNull
-    private String uid;
+    @NotEmpty
+    private String email;
 
     @Schema(description = "비밀번호")
     @NotNull
     private String password;
 
-    @Schema(description = "이메일, 회원 ID와 통합될 가능성 있음")
+    @Schema(description = "닉네임")
     @NotNull
     @NotEmpty
-    private String email;
-
-    @Schema(description = "자기소개, 닉네임으로 대체될 가능성 있음")
-    @NotNull
-    @NotEmpty
-    private String introduce;
+    private String nickname;
 
     @Builder
-    public UserJoinRequestDto(String uid, String password, String email, String introduce) {
-        this.uid = uid;
+    public UserJoinRequestDto(String password, String email, String nickname) {
         this.password = password;
         this.email = email;
-        this.introduce = introduce;
+        this.nickname = nickname;
     }
 
     public User toEntity(PasswordEncoder passwordEncoder) {
         User user = User.builder()
-                .uid(uid)
                 .password(passwordEncoder.encode(password))
                 .email(email)
-                .introduce(introduce)
+                .nickname(nickname)
                 .roleSet(Collections.singletonList("ROLE_USER"))
                 .build();
 

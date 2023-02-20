@@ -1,5 +1,6 @@
 package com.dateplanner.plan.controller;
 
+import com.dateplanner.admin.user.entity.User;
 import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
@@ -22,10 +23,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "5. [마이 페이지 - 플랜 목록] PlanApiController - 플랜 기능 API")
@@ -52,10 +53,12 @@ public class PlanApiController {
                     "플랜 작성에 필요한 정보는 제목(title) 입니다.")
     @PostMapping(value = "/api/v1/plans", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> savePlansV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "플랜 작성 정보", required = true) @Valid @RequestBody PlanRequestDto dto) {
 
-        dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        dto.setNickname(nickname); // 현재 사용자 닉네임을 받아서 dto에 주입
 
         return responseService.getSingleResult(planService.savePlan(dto));
     }
@@ -72,15 +75,16 @@ public class PlanApiController {
             description = "마이페이지 내 내 플랜 화면에서 사용자가 작성한 플랜 리스트를 출력합니다. <br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 작성한 플랜 리스트를 출력합니다.")
     @GetMapping("/api/v1/plans")
-    public PageResult<PlanDto> getPlansByUserIdV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+    public PageResult<PlanDto> getPlansByUserNicknameV1(
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
 
-        String uid = principal.getName();
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
 
-        log.info("authentication, uid : {}", uid);
+        log.info("authentication, nickname : {}", nickname);
 
-        return responseService.getPageResult(planApiService.getPlanListByUid(uid, pageable));
+        return responseService.getPageResult(planApiService.getPlanListByNickname(nickname, pageable));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -96,12 +100,13 @@ public class PlanApiController {
                     "사용하는 데이터 : 전부 사용하며 플랜 수정 시 필요한 uid (작성자 ID), id (플랜 ID) 를 비롯한 수정 전 기존 정보를 해당 API로 가져옵니다.")
     @GetMapping("/api/v1/plans/{id}")
     public SingleResult<PlanDto> getPlanV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id) {
 
-        String uid = principal.getName();
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
 
-        return responseService.getSingleResult(planApiService.getPlan(id, uid));
+        return responseService.getSingleResult(planApiService.getPlan(id, nickname));
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -122,14 +127,16 @@ public class PlanApiController {
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 플랜을 수정하려는 유저를 체크합니다.")
     @PutMapping(value = "/api/v1/plans/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public SingleResult<Long> updatePlanV1(
-            @Parameter(description = "요청한 유저의 인증 정보", required = true) Principal principal,
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id,
             @Parameter(description = "플랜 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/plans/{id}로 수정 전 정보를 가져와야 합니다.",
                     required = true,
                     content = @Content(
                             schema = @Schema(implementation = PlanRequestDto.class))) @Valid @RequestBody PlanRequestDto dto) {
 
-        dto.setUid(principal.getName()); // 현재 사용자 정보를 받아서 dto에 주입
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        dto.setNickname(nickname); // 현재 사용자 정보 내 닉네임을 받아서 dto에 주입
         dto.setId(id); // 현재 플랜 ID를 받아서 dto에 주입
 
         return responseService.getSingleResult(planService.updatePlan(dto));

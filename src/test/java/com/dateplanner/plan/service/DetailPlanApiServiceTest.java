@@ -38,11 +38,11 @@ class DetailPlanApiServiceTest {
         // Given
         Long id = 1L;
         DetailPlan detailPlan = Fixture.detailPlan();
-        String uid = detailPlan.getPlan().getUser().getUid();
+        String nickname = detailPlan.getPlan().getUser().getNickname();
         given(detailPlanRepository.findById(id)).willReturn(Optional.of(detailPlan));
 
         // When
-        DetailPlanDto dto = sut.getDetailPlan(id, uid);
+        DetailPlanDto dto = sut.getDetailPlan(id, nickname);
 
         // Then
         assertThat(dto)

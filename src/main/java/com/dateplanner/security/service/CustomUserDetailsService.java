@@ -18,10 +18,10 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         log.info("[CustomUserDetailsService loadUserByUsername] principal checking");
-        return userRepository.getWithRoles(username).orElseThrow(UserNotFoundApiException::new);
+        return userRepository.getWithRolesByEmail(email).orElseThrow(UserNotFoundApiException::new);
 
     }
 }

@@ -10,12 +10,10 @@ import java.util.List;
 @Slf4j(topic = "DTO")
 @Getter
 public class UserLoginResponseDto {
-    private final String uid;
     private final List<String> roles;
     private final LocalDateTime createdDate;
 
     public UserLoginResponseDto(User user) {
-        this.uid = user.getUid();
         this.roles = user.getRoleSet();
         this.createdDate = user.getCreatedAt();
     }

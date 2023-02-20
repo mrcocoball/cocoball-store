@@ -21,8 +21,8 @@ public class BookmarkDto {
     @Schema(description = "북마크 ID")
     private Long id;
 
-    @Schema(description = "북마크 작성자 ID")
-    private String uid;
+    @Schema(description = "북마크 작성자 닉네임")
+    private String nickname;
 
     @Schema(description = "북마크가 작성된 장소의 place_id")
     private String placeId;
@@ -46,7 +46,7 @@ public class BookmarkDto {
     public static BookmarkDto from(Bookmark entity) {
         return BookmarkDto.builder()
                 .id(entity.getId())
-                .uid(entity.getUser().getUid())
+                .nickname(entity.getUser().getNickname())
                 .placeId(entity.getPlace().getPlaceId())
                 .placeName(entity.getPlace().getPlaceName())
                 .addressName(entity.getPlace().getAddressName())
