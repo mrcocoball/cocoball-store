@@ -22,13 +22,13 @@ public class BookmarkApiService {
     private final BookmarkRepository bookmarkRepository;
     private final PaginationService paginationService;
 
-    public Page<BookmarkDto> getBookmarkList(String uid, Pageable pageable) {
+    public Page<BookmarkDto> getBookmarkList(String email, Pageable pageable) {
 
         // 인덱스 계산용 시간 측정
         long beforeTime = System.currentTimeMillis();
 
         log.info("[BookmarkApiService getBookmarkList] get bookmark list start...");
-        List<BookmarkDto> dtos = bookmarkRepository.findByUser_Uid(uid).stream().map(BookmarkDto::from).collect(Collectors.toList());
+        List<BookmarkDto> dtos = bookmarkRepository.findByUser_Email(email).stream().map(BookmarkDto::from).collect(Collectors.toList());
         log.info("[BookmarkApiService getBookmarkList] get bookmark list complete, size : {}", dtos.size());
 
         // 인덱스 계산용 시간 측정

@@ -24,16 +24,16 @@ public class BookmarkService {
     private final UserRepository userRepository;
     private final PlaceRepository placeRepository;
 
-    public Long saveBookmark(String uid, String placeId) {
+    public Long saveBookmark(String nickname, String placeId) {
 
         // 중복 체크
         log.info("[BookmarkService saveBookmark] bookmark duplication checking");
 
-        if (isExist(placeId, uid)) { throw new BookmarkDuplicateException(); }
+        if (isExist(placeId, nickname)) { throw new BookmarkDuplicateException(); }
 
         log.info("[BookmarkService saveBookmark] bookmark duplication check complete");
 
-        User user = userRepository.findByUid(uid).orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundApiException::new);
         Place place = placeRepository.findByPlaceId(placeId).orElseThrow(PlaceNotFoundApiException::new);
 
         Bookmark bookmark = Bookmark.of(user, place, placeId);
@@ -46,9 +46,9 @@ public class BookmarkService {
         bookmarkRepository.deleteById(id);
     }
 
-    public boolean isExist(String placeId, String uid) {
+    public boolean isExist(String placeId, String nickname) {
         log.info("[BookmarkService isExist] checking...");
-        return bookmarkRepository.isBookmarked(placeId, uid).size() >= 1;
+        return bookmarkRepository.isBookmarked(placeId, nickname).size() >= 1;
     }
 
 }

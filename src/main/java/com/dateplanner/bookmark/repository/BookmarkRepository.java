@@ -11,7 +11,7 @@ import java.util.List;
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     @EntityGraph(attributePaths = {"user", "place"})
-    List<Bookmark> findByUser_Uid(String uid);
+    List<Bookmark> findByUser_Email(String email);
 
     @EntityGraph(attributePaths = {"user", "place"})
     void deleteById(Long id);
@@ -20,7 +20,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     @Query("select b" +
             " from Bookmark b" +
             " join fetch b.user u" +
-            " where b.kpid = :placeId and u.uid = :uid")
-    List<Bookmark> isBookmarked(@Param("placeId") String placeId, @Param("uid") String uid);
+            " where b.kpid = :placeId and u.nickname = :nickname")
+    List<Bookmark> isBookmarked(@Param("placeId") String placeId, @Param("nickname") String nickname);
 
 }
