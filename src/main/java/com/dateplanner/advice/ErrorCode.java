@@ -22,11 +22,14 @@ public enum ErrorCode {
     SEARCH_RESULT_NOT_FOUND(6011, "검색 결과를 찾을 수 없습니다"),
     ADDRESS_INVALID(6012, "주소가 입력되지 않았거나 잘못된 입력 주소입니다"),
     CATEGORY_INVALID(6013, "유효하지 않은 카테고리입니다"),
+    USER_ALREADY_EXISTS(6014, "이미 존재하는 회원입니다"),
 
     // 인증 관련
     AUTHENTICATION_FAILED(9000, "해당 리소스에 접근하기 위한 권한이 없습니다"),
     ACCESS_DENIED(9001, "해당 리소스에 접근하기 위한 권한이 없습니다"),
     TOKEN_INVALID(9002, "유효하지 않은 토큰입니다"),
+    OAUTH_FAILED(9003, "소셜 로그인에 실패하였습니다"),
+    OAUTH_NOT_AGREED(9004, "이메일 제공 동의를 받지 못하였습니다"),
 
     // 서버 내부 오류
     INTERNAL_SERVER_ERROR(10000, "알 수 없는 오류입니다");

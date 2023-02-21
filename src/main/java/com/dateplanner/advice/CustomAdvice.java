@@ -82,6 +82,27 @@ public class CustomAdvice {
                 (ErrorCode.TOKEN_INVALID.getCode(), ErrorCode.TOKEN_INVALID.getDescription());
     }
 
+    @ExceptionHandler(OAuthRequestFailedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult oAuthRequestFailedException(HttpServletRequest request, OAuthRequestFailedException e) {
+        return responseService.getFailResult
+                (ErrorCode.OAUTH_FAILED.getCode(), ErrorCode.OAUTH_FAILED.getDescription());
+    }
+
+    @ExceptionHandler(OAuthAgreementException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult oAuthAgreementException(HttpServletRequest request, OAuthAgreementException e) {
+        return responseService.getFailResult
+                (ErrorCode.OAUTH_NOT_AGREED.getCode(), ErrorCode.OAUTH_NOT_AGREED.getDescription());
+    }
+
+    @ExceptionHandler(UserExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult userExistException(HttpServletRequest request, UserExistException e) {
+        return responseService.getFailResult
+                (ErrorCode.USER_ALREADY_EXISTS.getCode(), ErrorCode.USER_ALREADY_EXISTS.getDescription());
+    }
+
 
     /**
      * 비즈니스 로직 관련
