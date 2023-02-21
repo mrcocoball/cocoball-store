@@ -82,6 +82,9 @@ dependencies {
     // selenium
     implementation 'org.seleniumhq.selenium:selenium-java:4.7.2'
 
+    // gson
+    implementation 'com.google.code.gson:gson'
+
 }
 
 tasks.named('test') {
