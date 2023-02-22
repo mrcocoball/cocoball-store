@@ -22,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByNickname(String nickname);
 
+    @EntityGraph(attributePaths = "roleSet")
+    Optional<User> findByEmailAndProvider(String email, String provider);
+
     @Modifying
     @Transactional
     @Query("update User u set u.password = :password where u.uid = :uid")
