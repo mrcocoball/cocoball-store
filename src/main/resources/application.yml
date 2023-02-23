@@ -38,7 +38,7 @@ kakao:
 
 social:
   kakao:
-    client-id: ${KAKAO_REST_API_CLIENT_KEY}
+    client-id: ${KAKAO_REST_API_KEY}
     redirect: /social/login/kakao
     url:
       login: https://kauth.kakao.com/oauth/authorize
