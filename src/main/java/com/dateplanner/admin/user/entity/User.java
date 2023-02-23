@@ -30,14 +30,14 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue
     private Long uid;
 
-    @Column(length = 50, nullable = false)
+    @Column(length = 50, nullable = false, unique = true)
     private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false)
+    @Column(length = 100)
     private String password;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false)
     private String nickname;
 
     @Column
@@ -46,21 +46,25 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column
     private boolean social;
 
+    @Column(length = 100)
+    private String provider;
+
     @ElementCollection(fetch = FetchType.EAGER) // 즉시 로딩
     @Builder.Default
     private List<String> roleSet = new ArrayList<>();
 
-    private User(String password, String email, String nickname, boolean deleted, boolean social) {
+    private User(String password, String email, String nickname, boolean deleted, boolean social, String provider) {
 
         this.password = password;
         this.email = email;
         this.nickname = nickname;
         this.deleted = deleted;
         this.social = social;
+        this.provider = provider;
     }
 
-    public static User of(String password, String email, String nickname, boolean deleted, boolean social) {
-        return new User(password, email, nickname, deleted, social);
+    public static User of(String password, String email, String nickname, boolean deleted, boolean social, String provider) {
+        return new User(password, email, nickname, deleted, social, provider);
     }
 
     public void changePassword(String password) {

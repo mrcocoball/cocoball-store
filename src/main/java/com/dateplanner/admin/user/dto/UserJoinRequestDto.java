@@ -24,7 +24,6 @@ public class UserJoinRequestDto {
     private String email;
 
     @Schema(description = "비밀번호")
-    @NotNull
     private String password;
 
     @Schema(description = "닉네임")
@@ -32,19 +31,41 @@ public class UserJoinRequestDto {
     @NotEmpty
     private String nickname;
 
+    @Schema(description = "인증 제공자, 일반 회원가입 시에는 사용하지 않습니다")
+    private String provider;
+
+    @Schema(description = "인증 제공자로부터 받는 액세스 토큰, 일반 회원 가입 시에는 사용하지 않습니다")
+    private String accessToken;
+
     @Builder
-    public UserJoinRequestDto(String password, String email, String nickname) {
+    public UserJoinRequestDto(String password, String email, String nickname, String provider, String accessToken) {
         this.password = password;
         this.email = email;
         this.nickname = nickname;
+        this.provider = provider;
+        this.accessToken = accessToken;
     }
 
+    // 일반 회원가입용
     public User toEntity(PasswordEncoder passwordEncoder) {
         User user = User.builder()
                 .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
                 .roleSet(Collections.singletonList("ROLE_USER"))
+                .build();
+
+        return user;
+    }
+
+    // 소셜 회원가입용 (비밀번호 필요 없음)
+    public User toEntity() {
+        User user = User.builder()
+                .email(email)
+                .nickname(nickname)
+                .roleSet(Collections.singletonList("ROLE_USER"))
+                .provider(provider)
+                .social(true)
                 .build();
 
         return user;
