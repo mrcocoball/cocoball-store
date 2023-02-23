@@ -128,7 +128,7 @@ public class UserJoinApiController {
                     "소셜 로그인 연동 및 인가 코드를 받았다고 하더라도 소셜 로그인에 사용하는 이메일이 이미 서버 DB에 저장되어 있거나 <br>" +
                     "이미 소셜 로그인이 연동된 계정이거나 <br>" +
                     "가입 단계에서 닉네임이 중복인 경우, 가입이 불가능하며 이 경우 소셜 로그인 연동이 해제됩니다.")
-    @PostMapping("/api/v1/join/{provider}")
+    @PostMapping("/api/v1/oauth/join/{provider}")
     public SingleResult<String> joinBySocial(
             @Parameter(description = "회원 가입 요청 정보, 인가 코드(code)는 프론트엔드에서 주입하여야 합니다.",
                     required = true,
@@ -170,7 +170,7 @@ public class UserJoinApiController {
                     "프론트엔드에서 소셜 로그인 연동 요청을 하여 인가 코드를 받아야 합니다. <br>" +
                     "연동에 성공하여 인가 코드를 받았다면, 로그인 요청 폼에 인가 코드를 기입 해야 합니다. <br>" +
                     "소셜 로그인을 제공하는 인증 제공자는 provider로 구분합니다.")
-    @PostMapping("/api/v1/login/{provider}")
+    @PostMapping("/api/v1/oauth/login/{provider}")
     public SingleResult<TokenDto> loginBySocial(
             @Parameter(description = "로그인 요청 정보, 인가 코드(code)는 프론트엔드에서 주입하여야 합니다." +
                     "로그인이 완료되면 액세스 토큰, 리프레시 토큰이 발급이 됩니다. 본 API 문서에서 인증이 필요한 API를 테스트하기 위해서는 <br>" +
@@ -190,12 +190,14 @@ public class UserJoinApiController {
     @Operation(summary = "[POST] 카카오 소셜 로그인 연동 해제 요청",
             description = "테스트용 API이며, 추후 회원 탈퇴 시에 활용될 수 있습니다. 인가 코드를 통해 전달 받는 액세스 토큰이 필요합니다. <br>" +
                     "소셜 로그인을 제공하는 인증 제공자는 provider로 구분합니다.")
-    @PostMapping("/api/v1/unlink/{provider}")
+    @PostMapping("/api/v1/oauth/unlink/{provider}")
     public CommonResult kakaoUnlink(@Parameter(description = "인증 제공자, 카카오(kakao) / 네이버(naver) / 구글(google). 현재 카카오만 구현되어있습니다.")
                                     @PathVariable("provider") String provider,
-                                    @Parameter(description = "연결 해제가 필요한 사용자의 액세스 토큰") String accessToken) {
+                                    @Parameter(description = "연결 해제가 필요한 사용자의 인가 코드") @RequestBody String code) {
 
-        if (provider.equals("kakao")) oAuthProviderService.kakaoUnlink(accessToken);
+        OAuthAccessTokenDto accessToken = oAuthProviderService.getAcessToken(code, provider);
+
+        if (provider.equals("kakao")) oAuthProviderService.kakaoUnlink(accessToken.getAccess_token());
 
         return responseService.getSuccessResult();
 

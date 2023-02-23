@@ -9,6 +9,8 @@ spring:
         - common
       prod:
         - common
+      dev:
+        - common
     include: jwt
 
 springdoc:
