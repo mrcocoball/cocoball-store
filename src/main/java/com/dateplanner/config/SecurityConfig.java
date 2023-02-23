@@ -8,6 +8,7 @@ import com.dateplanner.security.jwt.JwtProvider;
 import com.dateplanner.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +16,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -89,6 +91,12 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 //.formLogin().and()
                 .build();
+    }
+
+    // 소셜 로그인 테스트 페이지용 설정
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations()));
     }
 
     @Bean
