@@ -9,6 +9,7 @@ import com.dateplanner.security.oauth.profile.KakaoProfile;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.web.client.RestTemplate;
 public class OAuthProviderService {
 
     private final OAuthRequestFactory oAuthRequestFactory;
+    private final Environment env;
     private final RestTemplate restTemplate;
     private final Gson gson;
 
@@ -75,7 +77,6 @@ public class OAuthProviderService {
 
     }
 
-
     // response에서 프로필 Dto를 추출
     private ProfileDto extractProfile(ResponseEntity<String> response, String provider) {
 
@@ -85,6 +86,33 @@ public class OAuthProviderService {
         }
 
         return null;
+    }
+
+    // 카카오 언링크 요청
+    public void kakaoUnlink(String accessToken) {
+
+        log.info("[OAuthProviderService kakaoUnlink] unlink start");
+
+        String unlinkUrl = env.getProperty("social.kakao.url.unlink");
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        httpHeaders.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<LinkedMultiValueMap<String, String>> request = new HttpEntity<>(null, httpHeaders);
+
+        log.info("[OAuthProviderService kakaoUnlink] request complete");
+
+        ResponseEntity<String> response = restTemplate.postForEntity(unlinkUrl, request, String.class);
+
+        if (response.getStatusCode() == HttpStatus.OK) {
+            log.info("[OAuthProviderService kakaoUnlink] unlink complete");
+            log.info("unlink " + response.getBody());
+            return;
+        }
+
+        throw new OAuthRequestFailedException();
+
     }
 
 }
