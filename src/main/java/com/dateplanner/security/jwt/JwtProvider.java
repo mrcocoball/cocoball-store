@@ -37,9 +37,9 @@ public class JwtProvider {
 
     private String ROLES = "roles";
 
-    private final Long accessTokenValidMillisecond = 60 * 60 * 1000L; // 1시간
+    private final Long ACCESS_TOKEN_VALID_MILLISECOND = 60 * 60 * 1000L; // 1시간
 
-    private final Long refreshTokenValidMillisecond = 14 * 24 * 60 * 60 * 1000L; // 14일
+    private final Long REFRESH_TOKEN_VALID_MILLISECOND = 14 * 24 * 60 * 60 * 1000L; // 14일
 
     private final CustomUserDetailsService userDetailsService;
 
@@ -67,7 +67,7 @@ public class JwtProvider {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + accessTokenValidMillisecond)) // 발급 시간부터 1시간까지 유효
+                .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_VALID_MILLISECOND)) // 발급 시간부터 1시간까지 유효
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
@@ -75,7 +75,7 @@ public class JwtProvider {
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + refreshTokenValidMillisecond)) // 발급 시간부터 14일까지 유효
+                .setExpiration(new Date(now.getTime() + REFRESH_TOKEN_VALID_MILLISECOND)) // 발급 시간부터 14일까지 유효
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
@@ -83,7 +83,7 @@ public class JwtProvider {
                 .grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpireDate(accessTokenValidMillisecond)
+                .accessTokenExpireDate(ACCESS_TOKEN_VALID_MILLISECOND)
                 .build();
     }
 

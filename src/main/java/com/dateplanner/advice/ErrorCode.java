@@ -27,9 +27,10 @@ public enum ErrorCode {
     // 인증 관련
     AUTHENTICATION_FAILED(9000, "해당 리소스에 접근하기 위한 권한이 없습니다"),
     ACCESS_DENIED(9001, "해당 리소스에 접근하기 위한 권한이 없습니다"),
-    TOKEN_INVALID(9002, "유효하지 않은 토큰입니다"),
+    REFRESH_TOKEN_INVALID(9002, "유효하지 않거나 만료된 리프레시 토큰입니다"),
     OAUTH_FAILED(9003, "소셜 로그인에 실패하였습니다"),
     OAUTH_NOT_AGREED(9004, "이메일 제공 동의를 받지 못하였습니다"),
+    TOKEN_EXPIRED(9002, "만료된 토큰입니다"),
 
     // 서버 내부 오류
     INTERNAL_SERVER_ERROR(10000, "알 수 없는 오류입니다");
