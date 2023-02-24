@@ -59,10 +59,6 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    // spock framework
-    testImplementation('org.spockframework:spock-core:2.1-groovy-3.0')
-    testImplementation('org.spockframework:spock-spring:2.1-groovy-3.0')
-
     // 런타임에 클래스 기반 mock 생성 시 필요
     testImplementation('net.bytebuddy:byte-buddy:1.12.10')
 

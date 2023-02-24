@@ -37,19 +37,19 @@ class BookmarkServiceTest {
     public void 북마크_저장_성공() {
 
         // Given
-        String uid = "test";
+        String nickname = "test";
         String kpid = "test";
         User user = Fixture.user();
         Place place = Fixture.place();
-        given(userRepository.findByUid(uid)).willReturn(Optional.of(user));
+        given(userRepository.findByNickname(nickname)).willReturn(Optional.of(user));
         given(placeRepository.findByPlaceId(kpid)).willReturn(Optional.of(place));
         given(bookmarkRepository.save(any(Bookmark.class))).willReturn(Fixture.bookmark());
 
         // When
-        sut.saveBookmark(uid, kpid);
+        sut.saveBookmark(nickname, kpid);
 
         // Then
-        then(userRepository).should().findByUid(uid);
+        then(userRepository).should().findByNickname(nickname);
         then(placeRepository).should().findByPlaceId(kpid);
         then(bookmarkRepository).should().save(any(Bookmark.class));
 

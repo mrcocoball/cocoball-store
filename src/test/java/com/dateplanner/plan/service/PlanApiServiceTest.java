@@ -70,7 +70,7 @@ class PlanApiServiceTest {
         // Then
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("id", plan.getId())
-                .hasFieldOrPropertyWithValue("uid", plan.getUser().getNickname());
+                .hasFieldOrPropertyWithValue("nickname", plan.getUser().getNickname());
         then(planRepository).should().findById(id);
 
     }

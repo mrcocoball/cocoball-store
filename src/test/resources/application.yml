@@ -11,3 +11,23 @@ kakao:
   rest:
     api:
       key: ${KAKAO_REST_API_KEY}
+
+social:
+  kakao:
+    client-id: ${KAKAO_REST_API_KEY}
+    redirect: /social/login/kakao
+    url:
+      login: https://kauth.kakao.com/oauth/authorize
+      token: https://kauth.kakao.com/oauth/token
+      profile: https://kapi.kakao.com/v2/user/me
+      unlink: https://kapi.kakao.com/v1/user/unlink
+
+com:
+  dateplanner:
+    upload:
+      path: D:\\upload
+    webdriver:
+      path: D:\\chromedriver/chromedriver.exe
+
+url:
+  base: http://localhost:8084
