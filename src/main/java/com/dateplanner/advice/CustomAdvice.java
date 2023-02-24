@@ -3,6 +3,7 @@ package com.dateplanner.advice;
 import com.dateplanner.advice.exception.*;
 import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.service.ResponseService;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,8 +25,6 @@ public class CustomAdvice {
      * 회원 가입, 인증, 인가 관련
      */
 
-    // TODO : TokenExpiredException 추가 필요
-
     @ExceptionHandler(CustomAuthenticationEntrypointException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customAuthenticationEntrypointException(HttpServletRequest request, CustomAuthenticationEntrypointException e) {
@@ -38,6 +37,13 @@ public class CustomAdvice {
     protected CommonResult accessDeniedException(HttpServletRequest request, AccessDeniedException e) {
         return responseService.getFailResult
                 (ErrorCode.ACCESS_DENIED.getCode(), ErrorCode.ACCESS_DENIED.getDescription());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    protected CommonResult expiredJwtException(HttpServletRequest request, ExpiredJwtException e) {
+        return responseService.getFailResult
+                (ErrorCode.TOKEN_EXPIRED.getCode(), ErrorCode.TOKEN_EXPIRED.getDescription());
     }
 
     @ExceptionHandler(UsernameNotFoundException.class)
@@ -79,7 +85,7 @@ public class CustomAdvice {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customRefreshTokenException(HttpServletRequest request, CustomRefreshTokenException e) {
         return responseService.getFailResult
-                (ErrorCode.TOKEN_INVALID.getCode(), ErrorCode.TOKEN_INVALID.getDescription());
+                (ErrorCode.REFRESH_TOKEN_INVALID.getCode(), ErrorCode.REFRESH_TOKEN_INVALID.getDescription());
     }
 
     @ExceptionHandler(OAuthRequestFailedException.class)
