@@ -25,8 +25,8 @@ public class PlanRequestDto {
     private String nickname;
 
     @Schema(description = "플랜 제목, 무조건 기입되어야 함")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "제목이 입력되어야 합니다")
+    @NotNull(message = "제목이 입력되어야 합니다")
     private String title;
 
     @Schema(description = "코멘트, 플랜이 '완료된 상태' 에서만 작성 / 수정할 수 있어야 함")

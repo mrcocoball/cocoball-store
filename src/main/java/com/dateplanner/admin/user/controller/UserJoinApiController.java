@@ -133,7 +133,7 @@ public class UserJoinApiController {
             @Parameter(description = "회원 가입 요청 정보, 인가 코드(code)는 프론트엔드에서 주입하여야 합니다.",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = UserSocialJoinRequestDto.class))) @RequestBody UserSocialJoinRequestDto dto,
+                            schema = @Schema(implementation = UserSocialJoinRequestDto.class))) @Valid @RequestBody UserSocialJoinRequestDto dto,
             @Parameter(description = "인증 제공자, 카카오(kakao) / 네이버(naver) / 구글(google). 현재 카카오만 구현되어있습니다.")
             @PathVariable("provider") String provider) {
 

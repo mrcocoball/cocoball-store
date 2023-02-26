@@ -32,13 +32,13 @@ public class ReviewRequestDto {
     private String placeId;
 
     @Schema(description = "리뷰 제목, 무조건 기입되어야 함")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "제목이 입력되어야 합니다")
+    @NotNull(message = "제목이 입력되어야 합니다")
     private String title;
 
     @Schema(description = "리뷰 내용, 무조건 기입되어야 함")
-    @NotEmpty
-    @NotNull
+    @NotEmpty(message = "내용이 입력되어야 합니다")
+    @NotNull(message = "내용이 입력되어야 합니다")
     private String description;
 
     @Schema(description = "장소에 대한 평점 (리뷰 평점), 0~5까지만")
