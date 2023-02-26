@@ -1,15 +1,13 @@
 package com.dateplanner.api.service;
 
-import com.dateplanner.api.model.CommonResult;
-import com.dateplanner.api.model.ListResult;
-import com.dateplanner.api.model.PageResult;
-import com.dateplanner.api.model.SingleResult;
+import com.dateplanner.api.model.*;
 import com.dateplanner.api.response.CommonResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j(topic = "SERVICE")
 @Service
@@ -47,7 +45,7 @@ public class ResponseService {
     /**
      * 페이지 결과 처리 메소드
      */
-    public <T> PageResult<T> getPageResult(Page<T> page) {
+    public <T>PageResult<T> getPageResult(Page<T> page) {
 
         PageResult<T> result = new PageResult<>();
         result.setData(page);
@@ -84,6 +82,20 @@ public class ResponseService {
 
         CommonResult result = new CommonResult();
         result.setSuccess(false);
+        setFailResult(result, code, msg);
+        return result;
+
+    }
+
+
+    /**
+     * 실패 결과 처리 (코드 및 메시지, Map 바디 전달)
+     */
+    public <T>MapResult<T> getFailResult(int code, String msg, Map<T,T> map) {
+
+        MapResult<T> result = new MapResult();
+        result.setSuccess(false);
+        result.setData(map);
         setFailResult(result, code, msg);
         return result;
 
