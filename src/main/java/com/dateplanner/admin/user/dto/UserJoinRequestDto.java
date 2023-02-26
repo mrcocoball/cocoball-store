@@ -19,16 +19,16 @@ import java.util.Collections;
 public class UserJoinRequestDto {
 
     @Schema(description = "회원 이메일")
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "이메일이 입력되어야 합니다")
+    @NotEmpty(message = "이메일이 입력되어야 합니다")
     private String email;
 
     @Schema(description = "비밀번호")
     private String password;
 
     @Schema(description = "닉네임")
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "닉네임이 입력되어야 합니다")
+    @NotEmpty(message = "닉네임이 입력되어야 합니다")
     private String nickname;
 
     @Schema(description = "인증 제공자, 일반 회원가입 시에는 사용하지 않습니다")

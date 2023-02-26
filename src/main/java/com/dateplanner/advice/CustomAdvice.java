@@ -2,17 +2,27 @@ package com.dateplanner.advice;
 
 import com.dateplanner.advice.exception.*;
 import com.dateplanner.api.model.CommonResult;
+import com.dateplanner.api.model.MapResult;
 import com.dateplanner.api.service.ResponseService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -114,7 +124,24 @@ public class CustomAdvice {
      * 비즈니스 로직 관련
      */
 
-    // TODO : BindException, DataIntegrityViolationException, NoSuchElementException, EmptyResultDataAccessException 추가 필요
+    @ExceptionHandler(BindException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected MapResult<String> bindException(HttpServletRequest request, BindException e) {
+
+        Map<String, String> errorMap = new HashMap<>();
+
+        if (e.hasErrors()) {
+
+            BindingResult bindingResult = e.getBindingResult();
+
+            bindingResult.getFieldErrors().forEach(fieldError -> {
+                errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+            });
+        }
+
+        return responseService.getFailResult
+                (ErrorCode.VALIDATION_ERROR.getCode(), ErrorCode.VALIDATION_ERROR.getDescription(), errorMap);
+    }
 
     @ExceptionHandler(PlaceNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -184,6 +211,46 @@ public class CustomAdvice {
     protected CommonResult categoryInvalidException(HttpServletRequest request, CategoryInvalidException e) {
         return responseService.getFailResult
                 (ErrorCode.CATEGORY_INVALID.getCode(), ErrorCode.CATEGORY_INVALID.getDescription());
+    }
+
+
+    /**
+     * Data Access 관련
+     */
+
+    @ExceptionHandler(BadSqlGrammarException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult badSqlGrammarException(HttpServletRequest request, BadSqlGrammarException e) {
+        return responseService.getFailResult
+                (ErrorCode.SQL_GRAMMAR_ERROR.getCode(), ErrorCode.SQL_GRAMMAR_ERROR.getDescription());
+    }
+
+    @ExceptionHandler(DataAccessResourceFailureException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult dataAccessResourceFailureException(HttpServletRequest request, DataAccessResourceFailureException e) {
+        return responseService.getFailResult
+                (ErrorCode.DB_CONNECTION_OUT.getCode(), ErrorCode.DB_CONNECTION_OUT.getDescription());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult dataIntegrityViolationException(HttpServletRequest request, DataIntegrityViolationException e) {
+        return responseService.getFailResult
+                (ErrorCode.DATA_INTEGRITY_VIOLATION.getCode(), ErrorCode.DATA_INTEGRITY_VIOLATION.getDescription());
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult duplicateKeyException(HttpServletRequest request, DuplicateKeyException e) {
+        return responseService.getFailResult
+                (ErrorCode.DB_KEY_DUPLICATE.getCode(), ErrorCode.DB_KEY_DUPLICATE.getDescription());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult dataAccessException(HttpServletRequest request, DataAccessException e) {
+        return responseService.getFailResult
+                (ErrorCode.DATA_ACCESS_ERROR.getCode(), ErrorCode.DATA_ACCESS_ERROR.getDescription());
     }
 
 

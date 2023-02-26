@@ -23,6 +23,14 @@ public enum ErrorCode {
     ADDRESS_INVALID(6012, "주소가 입력되지 않았거나 잘못된 입력 주소입니다"),
     CATEGORY_INVALID(6013, "유효하지 않은 카테고리입니다"),
     USER_ALREADY_EXISTS(6014, "이미 존재하는 회원입니다"),
+    VALIDATION_ERROR(6015, "입력된 데이터에 오류가 존재합니다"),
+
+    // DB 관련
+    DATA_ACCESS_ERROR(7000, "잘못된 요청입니다"), // DataAccessException, 다양한 Data Access 관련 (JDBC, Hibernate, JPA 등) 스프링 예외
+    DB_CONNECTION_OUT(7001, "잘못된 요청입니다"), // DataAccessResourceFailureException
+    DATA_INTEGRITY_VIOLATION(7002, "잘못된 요청입니다"), // DataIntegrityViolationException
+    SQL_GRAMMAR_ERROR(7003, "잘못된 요청입니다"), // BadSqlGrammarException
+    DB_KEY_DUPLICATE(7004, "잘못된 요청입니다"), // DuplicateKeyException
 
     // 인증 관련
     AUTHENTICATION_FAILED(9000, "해당 리소스에 접근하기 위한 권한이 없습니다"),
@@ -37,4 +45,5 @@ public enum ErrorCode {
 
     private int code;
     private String description;
+
 }
