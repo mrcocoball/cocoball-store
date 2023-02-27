@@ -1,7 +1,7 @@
 package com.dateplanner.plan.dto;
 
 import com.dateplanner.plan.entity.Plan;
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;

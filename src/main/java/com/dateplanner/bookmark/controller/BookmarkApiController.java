@@ -1,6 +1,6 @@
 package com.dateplanner.bookmark.controller;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import com.dateplanner.api.model.CommonResult;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;

@@ -1,7 +1,7 @@
 package com.dateplanner.config;
 
-import com.dateplanner.admin.user.entity.User;
-import com.dateplanner.admin.user.repository.UserRepository;
+import com.dateplanner.user.entity.User;
+import com.dateplanner.user.repository.UserRepository;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.event.annotation.BeforeTestMethod;

@@ -1,6 +1,6 @@
 package com.dateplanner.admin.user.dto;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
