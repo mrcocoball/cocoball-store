@@ -1,8 +1,8 @@
-package com.dateplanner.admin.user.controller;
+package com.dateplanner.user.controller;
 
-import com.dateplanner.admin.user.dto.UserLoginRequestDto;
-import com.dateplanner.admin.user.dto.UserSocialJoinRequestDto;
-import com.dateplanner.admin.user.dto.UserSocialLoginRequestDto;
+import com.dateplanner.user.dto.UserLoginRequestDto;
+import com.dateplanner.user.dto.UserSocialJoinRequestDto;
+import com.dateplanner.user.dto.UserSocialLoginRequestDto;
 import com.dateplanner.advice.ErrorCode;
 import com.dateplanner.advice.exception.OAuthAgreementException;
 import com.dateplanner.advice.exception.UserNotFoundApiException;
@@ -11,8 +11,8 @@ import com.dateplanner.api.model.SingleResult;
 import com.dateplanner.api.service.ResponseService;
 import com.dateplanner.security.dto.TokenDto;
 import com.dateplanner.security.dto.TokenRequestDto;
-import com.dateplanner.admin.user.dto.UserJoinRequestDto;
-import com.dateplanner.admin.user.service.UserJoinService;
+import com.dateplanner.user.dto.UserJoinRequestDto;
+import com.dateplanner.user.service.UserJoinService;
 import com.dateplanner.security.oauth.dto.OAuthAccessTokenDto;
 import com.dateplanner.security.oauth.dto.ProfileDto;
 import com.dateplanner.security.oauth.service.OAuthProviderService;
@@ -23,8 +23,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.api.annotations.ParameterObject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

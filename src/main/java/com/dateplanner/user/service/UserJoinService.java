@@ -1,7 +1,7 @@
-package com.dateplanner.admin.user.service;
+package com.dateplanner.user.service;
 
-import com.dateplanner.admin.user.dto.UserLoginRequestDto;
-import com.dateplanner.admin.user.dto.UserSocialLoginRequestDto;
+import com.dateplanner.user.dto.UserLoginRequestDto;
+import com.dateplanner.user.dto.UserSocialLoginRequestDto;
 import com.dateplanner.advice.exception.*;
 import com.dateplanner.security.dto.TokenDto;
 import com.dateplanner.security.dto.TokenRequestDto;
@@ -11,9 +11,9 @@ import com.dateplanner.security.oauth.dto.OAuthAccessTokenDto;
 import com.dateplanner.security.oauth.dto.ProfileDto;
 import com.dateplanner.security.oauth.service.OAuthProviderService;
 import com.dateplanner.security.repository.RefreshTokenRepository;
-import com.dateplanner.admin.user.dto.UserJoinRequestDto;
-import com.dateplanner.admin.user.entity.User;
-import com.dateplanner.admin.user.repository.UserRepository;
+import com.dateplanner.user.dto.UserJoinRequestDto;
+import com.dateplanner.user.entity.User;
+import com.dateplanner.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor

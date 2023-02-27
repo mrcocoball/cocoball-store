@@ -1,4 +1,4 @@
-package com.dateplanner.admin.user.dto;
+package com.dateplanner.user.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

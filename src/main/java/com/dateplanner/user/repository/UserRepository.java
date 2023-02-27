@@ -1,6 +1,6 @@
-package com.dateplanner.admin.user.repository;
+package com.dateplanner.user.repository;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -1,6 +1,6 @@
-package com.dateplanner.admin.user.dto;
+package com.dateplanner.user.dto;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

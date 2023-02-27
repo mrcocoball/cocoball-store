@@ -1,6 +1,6 @@
-package com.dateplanner.admin.user.dto;
+package com.dateplanner.user.dto;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Builder;
