@@ -1,5 +1,7 @@
 package com.dateplanner;
 
+import com.dateplanner.admin.consumer.entity.Announcement;
+import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
 import com.dateplanner.place.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,6 +35,28 @@ public class InitCategory {
             User user = User.of("test", "tset", "test", "test", false, false);
             em.persist(user);
              */
+
+            AnnouncementCategory category1 = AnnouncementCategory.of("일반");
+            AnnouncementCategory category2 = AnnouncementCategory.of("업데이트");
+            AnnouncementCategory category3 = AnnouncementCategory.of("이벤트");
+            AnnouncementCategory category4 = AnnouncementCategory.of("긴급");
+
+            em.persist(category1);
+            em.persist(category2);
+            em.persist(category3);
+            em.persist(category4);
+
+            // Test Announcements
+            Announcement announcement1 = Announcement.of("test1", "test1", category1);
+            Announcement announcement2 = Announcement.of("test2", "test2", category2);
+            Announcement announcement3 = Announcement.of("test3", "test3", category3);
+            Announcement announcement4 = Announcement.of("test4", "test4", category4);
+
+            em.persist(announcement1);
+            em.persist(announcement2);
+            em.persist(announcement3);
+            em.persist(announcement4);
+
 
             Category CE7 = Category.of("CE7", "카페");
             // Category MT1 = Category.of("MT1", "대형 마트");
