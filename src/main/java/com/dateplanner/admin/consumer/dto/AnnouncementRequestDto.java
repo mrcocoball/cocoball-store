@@ -2,10 +2,7 @@ package com.dateplanner.admin.consumer.dto;
 
 import com.dateplanner.admin.consumer.entity.Announcement;
 import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Slf4j(topic = "DTO")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
