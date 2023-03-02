@@ -4,7 +4,7 @@ import com.dateplanner.admin.consumer.dto.AnnouncementDto;
 import com.dateplanner.admin.consumer.dto.AnnouncementModifyRequestDto;
 import com.dateplanner.admin.consumer.dto.AnnouncementRequestDto;
 import com.dateplanner.admin.consumer.service.AnnouncementService;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
 @RequiredArgsConstructor
@@ -33,7 +34,9 @@ public class AnnouncementAdminController {
                                       ModelMap map) {
 
         Page<AnnouncementDto> dtos = paginationService.listToPage(announcementService.getAnnouncementList(), pageable);
+        List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
+        map.addAttribute("pageBarNumbers", pageBarNumbers);
 
         return "admin/service/announcements";
 

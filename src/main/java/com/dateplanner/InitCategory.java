@@ -47,16 +47,10 @@ public class InitCategory {
             em.persist(category4);
 
             // Test Announcements
-            Announcement announcement1 = Announcement.of("test1", "test1", category1);
-            Announcement announcement2 = Announcement.of("test2", "test2", category2);
-            Announcement announcement3 = Announcement.of("test3", "test3", category3);
-            Announcement announcement4 = Announcement.of("test4", "test4", category4);
-
-            em.persist(announcement1);
-            em.persist(announcement2);
-            em.persist(announcement3);
-            em.persist(announcement4);
-
+            for (int i=0; i < 110; i++) {
+                Announcement announcement = Announcement.of("test" + (i + 1), "test" + (i + 1), category1);
+                em.persist(announcement);
+            }
 
             Category CE7 = Category.of("CE7", "카페");
             // Category MT1 = Category.of("MT1", "대형 마트");
