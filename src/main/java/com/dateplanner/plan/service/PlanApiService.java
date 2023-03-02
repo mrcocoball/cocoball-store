@@ -1,7 +1,7 @@
 package com.dateplanner.plan.service;
 
 import com.dateplanner.advice.exception.PlanNotFoundApiException;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.plan.dto.PlanDto;
 import com.dateplanner.plan.entity.Plan;
 import com.dateplanner.plan.repository.PlanRepository;
