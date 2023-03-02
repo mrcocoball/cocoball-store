@@ -2,6 +2,8 @@ package com.dateplanner;
 
 import com.dateplanner.admin.consumer.entity.Announcement;
 import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
+import com.dateplanner.admin.consumer.entity.FavoriteAnswer;
+import com.dateplanner.admin.consumer.entity.FavoriteQuestionCategory;
 import com.dateplanner.place.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -50,6 +52,23 @@ public class InitCategory {
             for (int i=0; i < 110; i++) {
                 Announcement announcement = Announcement.of("test" + (i + 1), "test" + (i + 1), category1);
                 em.persist(announcement);
+            }
+
+            // Test FavoriteQuestionCategory
+            FavoriteQuestionCategory favoriteQuestionCategory1 = FavoriteQuestionCategory.of("test1");
+            FavoriteQuestionCategory favoriteQuestionCategory2 = FavoriteQuestionCategory.of("test2");
+            em.persist(favoriteQuestionCategory1);
+            em.persist(favoriteQuestionCategory2);
+
+            // Test FavoriteAnswers
+            for (int i=0; i < 10; i++) {
+                FavoriteAnswer answer = FavoriteAnswer.of("test" + (i +1), "test" + (i + 1), favoriteQuestionCategory1);
+                em.persist(answer);
+            }
+
+            for (int i=10; i < 20; i++) {
+                FavoriteAnswer answer = FavoriteAnswer.of("test" + (i +1), "test" + (i + 1), favoriteQuestionCategory2);
+                em.persist(answer);
             }
 
             Category CE7 = Category.of("CE7", "카페");

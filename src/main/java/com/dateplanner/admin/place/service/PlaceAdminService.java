@@ -2,7 +2,7 @@ package com.dateplanner.admin.place.service;
 
 import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
 import com.dateplanner.admin.place.dto.PlaceStatusDto;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
