@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <form id="faq_answer_form" th:action="'/admin/service/faq/answers/' + ${dto.id} + '/modify'" method="post">
+      <div>
+        <ul class="input_item_list">
+          <li class="input_item" hidden>
+            <div>
+              <h6>번호</h6>
+              <input type="text" class="form-control" name="id" id="id" placeholder="제목" th:value="${dto.id}" required>
+            </div>
+          </li>
+          <li class="input_item" hidden>
+            <div hidden>
+              <h6>카테고리</h6>
+              <input type="text" class="form-control" name="categoryId", id="categoryId" th:value="${dto.categoryId}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>제목</h6>
+              <input type="text" class="form-control" name="title" id="title" placeholder="제목" th:value="${dto.title}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>내용</h6>
+              <input type="text" class="form-control" name="description" id="description" placeholder="내용" th:value="${dto.description}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <button type="submit">저장</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

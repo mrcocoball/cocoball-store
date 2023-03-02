@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <button type="button" onclick="location.href='/admin/service/faq/write'">카테고리 생성</button>
+    <button type="button" onclick="location.href='/admin/service/faq/answers/write'">질문/답변 작성</button>
+    <table class="table" id="favorite_question_category_table">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>카테고리</th>
+        <th>질문 목록</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="dto : ${dtos}">
+        <td class="id" th:text="${dto.id}"></td>
+        <td class="category" th:text="${dto.categoryName}"></td>
+        <td class="answers">
+          <div class="answers_list" th:each="answer : ${dto.favoriteAnswers}">
+            <a class="answers" th:text="${answer.title}" th:href="@{'/admin/service/faq/answers/' + ${answer.id}}"></a>
+          </div>
+        </td>
+        <td><a class="detail" th:href="@{'/admin/service/faq/' + ${dto.id}}">상세 보기</a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
