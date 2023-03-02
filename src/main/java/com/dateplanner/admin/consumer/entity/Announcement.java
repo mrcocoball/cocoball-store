@@ -28,7 +28,7 @@ public class Announcement extends BaseTimeEntity {
     @Column(length = 2000)
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "a_category_id")
     private AnnouncementCategory announcementCategory;
 

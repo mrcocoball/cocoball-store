@@ -23,13 +23,14 @@ import java.util.List;
 @Slf4j(topic = "CONTROLLER")
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/admin/service/announcements")
 public class AnnouncementAdminController {
 
     private final AnnouncementService announcementService;
     private final PaginationService paginationService;
 
 
-    @GetMapping("/admin/service/announcements")
+    @GetMapping()
     public String getAnnouncementList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                       ModelMap map) {
 
@@ -42,7 +43,7 @@ public class AnnouncementAdminController {
 
     }
 
-    @GetMapping("/admin/service/announcements/{id}")
+    @GetMapping("/{id}")
     public String getAnnouncement(@PathVariable("id") Long id, ModelMap map) {
 
         AnnouncementDto dto = announcementService.getAnnouncement(id);
@@ -52,14 +53,15 @@ public class AnnouncementAdminController {
 
     }
 
-    @GetMapping("/admin/service/announcements/write")
+    @GetMapping("/write")
     public String getWriteForm() {
 
         return "admin/service/announcements_write";
     }
 
-    @PostMapping("/admin/service/announcements/write")
-    public String writeAnnouncement(@Valid AnnouncementRequestDto dto, BindingResult r, RedirectAttributes ra) {
+    @PostMapping("/write")
+    public String writeAnnouncement(@Valid AnnouncementRequestDto dto,
+                                    BindingResult r, RedirectAttributes ra) {
 
         if (r.hasErrors()) {
 
@@ -76,7 +78,7 @@ public class AnnouncementAdminController {
 
     }
 
-    @GetMapping("/admin/service/announcements/{id}/modify")
+    @GetMapping("/{id}/modify")
     public String getModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
         AnnouncementModifyRequestDto dto = AnnouncementModifyRequestDto.from(announcementService.getAnnouncement(id));
@@ -86,25 +88,27 @@ public class AnnouncementAdminController {
 
     }
 
-    @PostMapping("/admin/service/announcements/{id}/modify")
-    public String modifyAnnouncement(@Valid AnnouncementModifyRequestDto dto, BindingResult r, RedirectAttributes ra) {
+    @PostMapping("/{id}/modify")
+    public String modifyAnnouncement(@PathVariable("id") Long id,
+                                     @Valid AnnouncementModifyRequestDto dto,
+                                     BindingResult r, RedirectAttributes ra) {
 
         if (r.hasErrors()) {
 
             log.info("[AnnounceAdminController writeAnnouncement] validation error");
             ra.addFlashAttribute("errors", r.getAllErrors());
 
-            return "redirect:/admin/service/announcements/modify";
+            return "redirect:/admin/service/announcements/" + id + "/modify";
 
         }
 
         announcementService.updateAnnouncement(dto);
 
-        return "redirect:/admin/service/announcements";
+        return "redirect:/admin/service/announcements/" + id;
 
     }
 
-    @PostMapping("/admin/service/announcements/{id}/delete")
+    @PostMapping("/{id}/delete")
     public String deleteAnnouncement(@PathVariable("id") Long id) {
 
         announcementService.deleteAnnouncement(id);
