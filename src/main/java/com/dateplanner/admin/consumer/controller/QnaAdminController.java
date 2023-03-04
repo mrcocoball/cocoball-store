@@ -3,12 +3,14 @@ package com.dateplanner.admin.consumer.controller;
 import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.service.QnaService;
 import com.dateplanner.common.pagination.PaginationService;
+import com.dateplanner.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -70,7 +72,8 @@ public class QnaAdminController {
     @PostMapping("/write")
     public String writeQuestion(@Valid QuestionRequestDto dto,
                                 BindingResult r,
-                                RedirectAttributes ra) {
+                                RedirectAttributes ra,
+                                Authentication authentication) {
 
         if (r.hasErrors()) {
 
@@ -80,6 +83,10 @@ public class QnaAdminController {
             return "redirect:/admin/service/qna/write";
 
         }
+
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        dto.setUsername(nickname); // 현재 사용자 정보 내 닉네임을 받아서 dto에 주입
 
         qnaService.saveQuestion(dto);
 
@@ -95,7 +102,7 @@ public class QnaAdminController {
         map.addAttribute("dto", dto);
         map.addAttribute("categories", categories);
 
-        return "admin/service/qna_write";
+        return "admin/service/qna_modify";
 
     }
 
@@ -136,7 +143,8 @@ public class QnaAdminController {
     @PostMapping("/answers/write")
     public String writeAnswer(@Valid AnswerRequestDto dto,
                               BindingResult r,
-                              RedirectAttributes ra) {
+                              RedirectAttributes ra,
+                              Authentication authentication) {
 
         if (r.hasErrors()) {
 
@@ -146,6 +154,10 @@ public class QnaAdminController {
             return "redirect:/admin/service/qna/" + dto.getQid();
 
         }
+
+        User user = (User) authentication.getPrincipal();
+        String nickname = user.getNickname();
+        dto.setUsername(nickname); // 현재 사용자 정보 내 닉네임을 받아서 dto에 주입
 
         qnaService.saveAnswer(dto);
 
