@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <form id="announcement_category_form" th:action="'/admin/service/announcements/categories/' + ${dto.id} + '/modify'" method="post">
+      <div>
+        <ul class="input_item_list">
+          <li class="input_item" hidden>
+            <div>
+              <h6>번호</h6>
+              <input type="text" class="form-control" name="id" id="id" placeholder="제목" th:value="${dto.id}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>카테고리명</h6>
+              <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="카테고리명" th:value="${dto.categoryName}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <button type="submit">저장</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

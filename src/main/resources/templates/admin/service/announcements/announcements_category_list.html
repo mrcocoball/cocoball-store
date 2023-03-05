@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <button type="button" onclick="location.href='/admin/service/announcements/categories/write'">카테고리 생성</button>
+    <table class="table" id="announcement_question_category_table">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>이름</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="dto : ${dtos}">
+        <td class="id" th:text="${dto.id}"></td>
+        <td><a class="title" th:text="${dto.categoryName}" th:href="@{'/admin/service/announcements/categories/' + ${dto.id}}"></a></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>
