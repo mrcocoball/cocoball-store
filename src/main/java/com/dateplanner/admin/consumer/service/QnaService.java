@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,8 @@ public class QnaService {
     @Transactional(readOnly = true)
     public List<QuestionDto> getQuestionList() {
 
-        return questionRepository.findAll().stream().map(QuestionDto::from).collect(Collectors.toList());
+        return questionRepository.findAll().stream().map(QuestionDto::from)
+                .sorted(Comparator.comparing(QuestionDto::getCreatedAt).reversed()).collect(Collectors.toList());
 
     }
 
@@ -45,13 +47,6 @@ public class QnaService {
     public QuestionDto getQuestion(Long id) {
 
         return questionRepository.findById(id).map(QuestionDto::from).orElseThrow(EntityNotFoundException::new);
-
-    }
-
-    @Transactional(readOnly = true)
-    public List<QuestionCategoryDto> getQuestionCategoryList() {
-
-        return questionCategoryRepository.findAll().stream().map(QuestionCategoryDto::from).collect(Collectors.toList());
 
     }
 
@@ -115,6 +110,50 @@ public class QnaService {
     public void deleteAnswer(Long id) {
 
         answerRepository.deleteById(id);
+
+    }
+
+
+    /**
+     * 카테고리 관련
+     */
+
+
+    @Transactional(readOnly = true)
+    public QuestionCategoryDto getQuestionCategory(Long id) {
+
+        return questionCategoryRepository.findById(id).map(QuestionCategoryDto::from).orElseThrow(EntityNotFoundException::new);
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<QuestionCategoryDto> getQuestionCategoryList() {
+
+        return questionCategoryRepository.findAll().stream().map(QuestionCategoryDto::from).collect(Collectors.toList());
+
+    }
+
+    public Long saveQuestionCategory(QuestionCategoryRequestDto dto) {
+
+        QuestionCategory questionCategory = questionCategoryRepository.save(dto.toEntity(dto.getCategoryName()));
+
+        return questionCategory.getId();
+
+    }
+
+    public Long updateQuestionCategory(QuestionCategoryModifyRequestDto dto) {
+
+        QuestionCategory questionCategory = questionCategoryRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+
+        questionCategory.changeCategoryName(dto.getCategoryName());
+
+        return questionCategory.getId();
+
+    }
+
+    public void deleteQuestionCategory(Long id) {
+
+        questionCategoryRepository.deleteById(id);
 
     }
 

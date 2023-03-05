@@ -1,8 +1,6 @@
 package com.dateplanner.admin.consumer.controller;
 
-import com.dateplanner.admin.consumer.dto.AnnouncementDto;
-import com.dateplanner.admin.consumer.dto.AnnouncementModifyRequestDto;
-import com.dateplanner.admin.consumer.dto.AnnouncementRequestDto;
+import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.service.AnnouncementService;
 import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +28,10 @@ public class AnnouncementAdminController {
     private final PaginationService paginationService;
 
 
+    /**
+     * 공지사항 관련
+     */
+
     @GetMapping()
     public String getAnnouncementList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                       ModelMap map) {
@@ -39,7 +41,7 @@ public class AnnouncementAdminController {
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
 
-        return "admin/service/announcements";
+        return "admin/service/announcements/announcements";
 
     }
 
@@ -49,14 +51,17 @@ public class AnnouncementAdminController {
         AnnouncementDto dto = announcementService.getAnnouncement(id);
         map.addAttribute("dto", dto);
 
-        return "admin/service/announcements_detail";
+        return "admin/service/announcements/announcements_detail";
 
     }
 
     @GetMapping("/write")
-    public String getWriteForm() {
+    public String getWriteForm(ModelMap map) {
 
-        return "admin/service/announcements_write";
+        List<AnnouncementCategoryDto> categories = announcementService.getAnnouncementCategoryList();
+        map.addAttribute("categories", categories);
+
+        return "admin/service/announcements/announcements_write";
     }
 
     @PostMapping("/write")
@@ -81,10 +86,12 @@ public class AnnouncementAdminController {
     @GetMapping("/{id}/modify")
     public String getModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
+        List<AnnouncementCategoryDto> categories = announcementService.getAnnouncementCategoryList();
         AnnouncementModifyRequestDto dto = AnnouncementModifyRequestDto.from(announcementService.getAnnouncement(id));
         map.addAttribute("dto", dto);
+        map.addAttribute("categories", categories);
 
-        return "admin/service/announcements_modify";
+        return "admin/service/announcements/announcements_modify";
 
     }
 
@@ -95,7 +102,7 @@ public class AnnouncementAdminController {
 
         if (r.hasErrors()) {
 
-            log.info("[AnnounceAdminController writeAnnouncement] validation error");
+            log.info("[AnnounceAdminController modifyAnnouncement] validation error");
             ra.addFlashAttribute("errors", r.getAllErrors());
 
             return "redirect:/admin/service/announcements/" + id + "/modify";
@@ -114,6 +121,95 @@ public class AnnouncementAdminController {
         announcementService.deleteAnnouncement(id);
 
         return "redirect:/admin/service/announcements";
+
+    }
+
+
+    /**
+     * 공지사항 카테고리 관련
+     */
+
+    @GetMapping("/categories")
+    public String getAnnouncementCategoryList(ModelMap map) {
+
+        List<AnnouncementCategoryDto> dtos = announcementService.getAnnouncementCategoryList();
+        map.addAttribute("dtos", dtos);
+
+        return "admin/service/announcements/announcements_category_list";
+
+    }
+
+    @GetMapping("/categories/{id}")
+    public String getAnnouncementCategory(@PathVariable("id") Long id, ModelMap map) {
+
+        AnnouncementCategoryDto dto = announcementService.getAnnouncementCategory(id);
+        map.addAttribute("dto", dto);
+
+        return "admin/service/announcements/announcements_category_detail";
+
+    }
+
+    @GetMapping("/categories/write")
+    public String getCategoryWriteForm() {
+
+        return "admin/service/announcements/announcements_category_write";
+    }
+
+    @PostMapping("/categories/write")
+    public String writeAnnouncementCategory(@Valid AnnouncementCategoryRequestDto dto,
+                                            BindingResult r, RedirectAttributes ra) {
+
+        if (r.hasErrors()) {
+
+            log.info("[AnnounceAdminController writeAnnouncementCategory] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/service/announcements/categories/write";
+
+        }
+
+        announcementService.saveAnnouncementCategory(dto);
+
+        return "redirect:/admin/service/announcements/categories";
+
+    }
+
+    @GetMapping("/categories/{id}/modify")
+    public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
+
+        AnnouncementCategoryModifyRequestDto dto = AnnouncementCategoryModifyRequestDto.from(announcementService.getAnnouncementCategory(id));
+        map.addAttribute("dto", dto);
+
+        return "admin/service/announcements/announcements_category_modify";
+
+    }
+
+    @PostMapping("/categories/{id}/modify")
+    public String modifyAnnouncementCategory(@PathVariable("id") Long id,
+                                             @Valid AnnouncementCategoryModifyRequestDto dto,
+                                             BindingResult r, RedirectAttributes ra) {
+
+        if (r.hasErrors()) {
+
+            log.info("[AnnounceAdminController modifyAnnouncementCategory] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/service/announcements/categories/" + id + "/modify";
+
+        }
+
+        announcementService.updateAnnouncementCategory(dto);
+
+        return "redirect:/admin/service/announcements/categories/" + id;
+
+    }
+
+    @PostMapping("/categories/{id}/delete")
+    public String deleteAnnouncementCategory(@PathVariable("id") Long id) {
+
+        announcementService.deleteAnnouncementCategory(id);
+
+        return "redirect:/admin/service/announcements/categories";
 
     }
 

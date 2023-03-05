@@ -1,8 +1,6 @@
 package com.dateplanner.admin.consumer.service;
 
-import com.dateplanner.admin.consumer.dto.AnnouncementDto;
-import com.dateplanner.admin.consumer.dto.AnnouncementModifyRequestDto;
-import com.dateplanner.admin.consumer.dto.AnnouncementRequestDto;
+import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.entity.Announcement;
 import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
 import com.dateplanner.admin.consumer.repository.AnnouncementCategoryRepository;
@@ -27,6 +25,10 @@ public class AnnouncementService {
     private final AnnouncementRepository announcementRepository;
     private final AnnouncementCategoryRepository announcementCategoryRepository;
 
+
+    /**
+     * 공지사항 관련
+     */
 
     @Transactional(readOnly = true)
     public List<AnnouncementDto> getAnnouncementList() {
@@ -71,6 +73,49 @@ public class AnnouncementService {
     public void deleteAnnouncement(Long id) {
 
         announcementRepository.deleteById(id);
+
+    }
+
+
+    /**
+     * 공지사항 카테고리 관련
+     */
+
+    @Transactional(readOnly = true)
+    public List<AnnouncementCategoryDto> getAnnouncementCategoryList() {
+
+        return announcementCategoryRepository.findAll().stream().map(AnnouncementCategoryDto::from).collect(Collectors.toList());
+
+    }
+
+    @Transactional(readOnly = true)
+    public AnnouncementCategoryDto getAnnouncementCategory(Long id) {
+
+        return announcementCategoryRepository.findById(id).map(AnnouncementCategoryDto::from).orElseThrow(EntityNotFoundException::new);
+
+    }
+
+    public Long saveAnnouncementCategory(AnnouncementCategoryRequestDto dto) {
+
+        AnnouncementCategory category = announcementCategoryRepository.save(dto.toEntity(dto.getCategoryName()));
+
+        return category.getId();
+
+    }
+
+    public Long updateAnnouncementCategory(AnnouncementCategoryModifyRequestDto dto) {
+
+        AnnouncementCategory announcementCategory = announcementCategoryRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+
+        announcementCategory.changeCategoryName(dto.getCategoryName());
+
+        return announcementCategory.getId();
+
+    }
+
+    public void deleteAnnouncementCategory(Long id) {
+
+        announcementCategoryRepository.deleteById(id);
 
     }
 

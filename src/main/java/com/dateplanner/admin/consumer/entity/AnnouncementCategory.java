@@ -28,4 +28,8 @@ public class AnnouncementCategory {
         return new AnnouncementCategory(category);
     }
 
+    public void changeCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
 }

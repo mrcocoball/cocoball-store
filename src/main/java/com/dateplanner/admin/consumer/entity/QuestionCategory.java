@@ -1,5 +1,6 @@
 package com.dateplanner.admin.consumer.entity;
 
+import com.dateplanner.constant.entity.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class QuestionCategory {
+public class QuestionCategory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +31,9 @@ public class QuestionCategory {
 
     public static QuestionCategory of(String categoryName) {
         return new QuestionCategory(categoryName);
+    }
+
+    public void changeCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }

@@ -45,7 +45,7 @@ public class QnaAdminController {
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
 
-        return "admin/service/qna";
+        return "admin/service/qna/qna";
 
     }
 
@@ -55,7 +55,7 @@ public class QnaAdminController {
         QuestionDto dto = qnaService.getQuestion(id);
         map.addAttribute("dto", dto);
 
-        return "admin/service/qna_detail";
+        return "admin/service/qna/qna_detail";
 
     }
 
@@ -65,7 +65,7 @@ public class QnaAdminController {
         List<QuestionCategoryDto> categories = qnaService.getQuestionCategoryList();
         map.addAttribute("categories", categories);
 
-        return "admin/service/qna_write";
+        return "admin/service/qna/qna_write";
 
     }
 
@@ -102,7 +102,7 @@ public class QnaAdminController {
         map.addAttribute("dto", dto);
         map.addAttribute("categories", categories);
 
-        return "admin/service/qna_modify";
+        return "admin/service/qna/qna_modify";
 
     }
 
@@ -171,6 +171,97 @@ public class QnaAdminController {
         qnaService.deleteAnswer(id);
 
         return "redirect:/admin/service/qna/" + qid;
+
+    }
+
+
+    /**
+     * 카테고리 관련
+     */
+
+    @GetMapping("/categories")
+    public String getQuestionCategoryList(ModelMap map) {
+
+        List<QuestionCategoryDto> dtos = qnaService.getQuestionCategoryList();
+        map.addAttribute("dtos", dtos);
+
+        return "admin/service/qna/qna_category_list";
+
+    }
+
+    @GetMapping("/categories/{id}")
+    public String getQuestionCategory(@PathVariable("id") Long id, ModelMap map) {
+
+        QuestionCategoryDto dto = qnaService.getQuestionCategory(id);
+        map.addAttribute("dto", dto);
+
+        return "admin/service/qna/qna_category_detail";
+
+    }
+
+    @GetMapping("/categories/write")
+    public String getCategoryWriteForm() {
+
+        return "admin/service/qna/qna_category_write";
+
+    }
+
+    @PostMapping("/categories/write")
+    public String writeQuestionCategory(@Valid QuestionCategoryRequestDto dto,
+                                        BindingResult r,
+                                        RedirectAttributes ra) {
+
+        if (r.hasErrors()) {
+
+            log.info("[QnaAdminController writeQuestionCategory] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/service/qna/categories/write";
+
+        }
+
+        qnaService.saveQuestionCategory(dto);
+
+        return "redirect:/admin/service/qna/categories";
+
+    }
+
+    @GetMapping("/categories/{id}/modify")
+    public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
+
+        QuestionCategoryModifyRequestDto dto = QuestionCategoryModifyRequestDto.from(qnaService.getQuestionCategory(id));
+        map.addAttribute("dto", dto);
+
+        return "admin/service/qna/qna_category_modify";
+
+    }
+
+    @PostMapping("/categories/{id}/modify")
+    public String modifyQuestionCategory(@PathVariable("id") Long id,
+                                         @Valid QuestionCategoryModifyRequestDto dto,
+                                         BindingResult r,
+                                         RedirectAttributes ra) {
+
+        if (r.hasErrors()) {
+
+            log.info("[QnaAdminController modifyQuestionCategory] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/service/qna/" + id + "/modify";
+
+        }
+
+        qnaService.updateQuestionCategory(dto);
+
+        return "redirect:/admin/service/qna/categories/" + id;
+    }
+
+    @PostMapping("{/categories/id}/delete")
+    public String deleteQuestionCategory(@PathVariable("id") Long id) {
+
+        qnaService.deleteQuestionCategory(id);
+
+        return "redirect:/admin/service/qna/categories";
 
     }
 

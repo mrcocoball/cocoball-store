@@ -1,7 +1,6 @@
 package com.dateplanner.admin.consumer.controller;
 
 import com.dateplanner.admin.consumer.dto.*;
-import com.dateplanner.admin.consumer.entity.FavoriteAnswer;
 import com.dateplanner.admin.consumer.service.FaqService;
 import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +36,7 @@ public class FaqAdminController {
         List<FavoriteQuestionCategoryDto> dtos = faqService.getFavoriteQuestionCategoryList();
         map.addAttribute("dtos", dtos);
 
-        return "admin/service/faq";
+        return "admin/service/faq/faq";
     }
 
     @GetMapping("/{id}")
@@ -46,14 +45,14 @@ public class FaqAdminController {
         FavoriteQuestionCategoryDto dto = faqService.getFavoriteQuestionCategory(id);
         map.addAttribute("dto", dto);
 
-        return "admin/service/faq_detail";
+        return "admin/service/faq/faq_detail";
 
     }
 
     @GetMapping("/write")
     public String getCategoryWriteForm() {
 
-        return "admin/service/faq_write";
+        return "admin/service/faq/faq_write";
     }
 
     @PostMapping("/write")
@@ -79,7 +78,7 @@ public class FaqAdminController {
         FavoriteQuestionCategoryModifyRequestDto dto = FavoriteQuestionCategoryModifyRequestDto.from(faqService.getFavoriteQuestionCategory(id));
         map.addAttribute("dto", dto);
 
-        return "admin/service/faq_modify";
+        return "admin/service/faq/faq_modify";
     }
 
     @PostMapping("/{id}/modify")
@@ -121,7 +120,7 @@ public class FaqAdminController {
         FavoriteAnswerDto dto = faqService.getFavoriteAnswer(id);
         map.addAttribute("dto", dto);
 
-        return "admin/service/faq_answer_detail";
+        return "admin/service/faq/faq_answer_detail";
 
     }
 
@@ -131,7 +130,7 @@ public class FaqAdminController {
         List<FavoriteQuestionCategoryDto> categories = faqService.getFavoriteQuestionCategoryList();
         map.addAttribute("categories", categories);
 
-        return "admin/service/faq_answer_write";
+        return "admin/service/faq/faq_answer_write";
     }
 
     @PostMapping("/answers/write")
@@ -157,7 +156,7 @@ public class FaqAdminController {
         FavoriteAnswerModifyRequestDto dto = FavoriteAnswerModifyRequestDto.from(faqService.getFavoriteAnswer(id));
         map.addAttribute("dto", dto);
 
-        return "admin/service/faq_answer_modify";
+        return "admin/service/faq/faq_answer_modify";
     }
 
     @PostMapping("/answers/{id}/modify")
