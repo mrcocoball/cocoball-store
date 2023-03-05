@@ -1,9 +1,6 @@
 package com.dateplanner;
 
-import com.dateplanner.admin.consumer.entity.Announcement;
-import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
-import com.dateplanner.admin.consumer.entity.FavoriteAnswer;
-import com.dateplanner.admin.consumer.entity.FavoriteQuestionCategory;
+import com.dateplanner.admin.consumer.entity.*;
 import com.dateplanner.place.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -48,29 +45,32 @@ public class InitCategory {
             em.persist(category3);
             em.persist(category4);
 
-            // Test Announcements
-            for (int i=0; i < 110; i++) {
-                Announcement announcement = Announcement.of("test" + (i + 1), "test" + (i + 1), category1);
-                em.persist(announcement);
-            }
-
-            // Test FavoriteQuestionCategory
-            FavoriteQuestionCategory favoriteQuestionCategory1 = FavoriteQuestionCategory.of("test1");
-            FavoriteQuestionCategory favoriteQuestionCategory2 = FavoriteQuestionCategory.of("test2");
+            // FavoriteQuestionCategory
+            FavoriteQuestionCategory favoriteQuestionCategory1 = FavoriteQuestionCategory.of("장소 관련 문의");
+            FavoriteQuestionCategory favoriteQuestionCategory2 = FavoriteQuestionCategory.of("계정 관련 문의");
+            FavoriteQuestionCategory favoriteQuestionCategory3 = FavoriteQuestionCategory.of("이벤트 관련 문의");
+            FavoriteQuestionCategory favoriteQuestionCategory4 = FavoriteQuestionCategory.of("오류 관련 문의");
+            FavoriteQuestionCategory favoriteQuestionCategory5 = FavoriteQuestionCategory.of("기타 문의");
             em.persist(favoriteQuestionCategory1);
             em.persist(favoriteQuestionCategory2);
+            em.persist(favoriteQuestionCategory3);
+            em.persist(favoriteQuestionCategory4);
+            em.persist(favoriteQuestionCategory5);
 
-            // Test FavoriteAnswers
-            for (int i=0; i < 10; i++) {
-                FavoriteAnswer answer = FavoriteAnswer.of("test" + (i +1), "test" + (i + 1), favoriteQuestionCategory1);
-                em.persist(answer);
-            }
+            // QuestionCategory
+            QuestionCategory questionCategory1 = QuestionCategory.of("장소 관련 문의");
+            QuestionCategory questionCategory2 = QuestionCategory.of("계정 관련 문의");
+            QuestionCategory questionCategory3 = QuestionCategory.of("이벤트 관련 문의");
+            QuestionCategory questionCategory4 = QuestionCategory.of("오류 관련 문의");
+            QuestionCategory questionCategory5 = QuestionCategory.of("기타 문의");
 
-            for (int i=10; i < 20; i++) {
-                FavoriteAnswer answer = FavoriteAnswer.of("test" + (i +1), "test" + (i + 1), favoriteQuestionCategory2);
-                em.persist(answer);
-            }
+            em.persist(questionCategory1);
+            em.persist(questionCategory2);
+            em.persist(questionCategory3);
+            em.persist(questionCategory4);
+            em.persist(questionCategory5);
 
+            // Category
             Category CE7 = Category.of("CE7", "카페");
             // Category MT1 = Category.of("MT1", "대형 마트");
             // Category CS2 = Category.of("CS2", "편의점");

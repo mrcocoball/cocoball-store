@@ -15,10 +15,7 @@
             <div>
               <h6>카테고리</h6>
               <select name="categoryId">
-                <option value=1>일반</option>
-                <option value=2>업데이트</option>
-                <option value=3>이벤트</option>
-                <option value=4>긴급</option>
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
               </select>
             </div>
           </li>
