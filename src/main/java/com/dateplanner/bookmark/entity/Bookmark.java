@@ -2,7 +2,7 @@ package com.dateplanner.bookmark.entity;
 
 import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.dateplanner.place.entity.Place;
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

@@ -1,7 +1,7 @@
 package com.dateplanner.place.service;
 
 import com.dateplanner.advice.exception.PlaceNotFoundApiException;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.bookmark.service.BookmarkService;
 import com.dateplanner.kakao.dto.DocumentDto;
 import com.dateplanner.kakao.dto.KakaoApiResponseDto;

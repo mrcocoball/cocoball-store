@@ -1,7 +1,7 @@
 package com.dateplanner.place.service;
 
 import com.dateplanner.advice.exception.SearchResultNotFoundException;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.place.dto.PlaceRecommendationDto;
 import com.dateplanner.place.repository.PlaceRecommendationRepository;
 import lombok.RequiredArgsConstructor;

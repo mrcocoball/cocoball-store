@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <div>
+      <ul class="input_item_list">
+        <li class="input_item">
+          <div>
+            <h6>번호</h6>
+            <p class="id" id="id" th:text="${dto.id}"></p>
+          </div>
+        </li>
+        <li class="input_item">
+          <div>
+            <h6>카테고리명</h6>
+            <p class="categoryName" id="categoryName" th:text="${dto.categoryName}"></p>
+          </div>
+        </li>
+        <li class="input_item">
+          <form class="delete-form" th:action="'/admin/service/qna/categories/' + ${dto.id} + '/delete'" th:method="post">
+            <a th:href="@{'/admin/service/qna/categories/' + ${dto.id} + '/modify'}">
+              <button type="button" class="modify-button">수정</button>
+            </a>
+            <button type="submit" class="delete-button">삭제</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

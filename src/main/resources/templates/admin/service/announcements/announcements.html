@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <button type="button" onclick="location.href='/admin/service/announcements/write'">공지사항 작성하기</button>
+    <button type="button" onclick="location.href='/admin/service/announcements/categories'">카테고리 리스트</button>
+    <table class="table" id="announcements_table">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>카테고리</th>
+        <th>제목</th>
+        <th>작성일자</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="dto : ${dtos}">
+        <td class="id" th:text="${dto.id}"></td>
+        <td class="category" th:text="${dto.categoryName}"></td>
+        <td><a class="title" th:text="${dto.title}" th:href="@{'/admin/service/announcements/' + ${dto.id}}"></a></td>
+        <td class="createdAt" th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row">
+    <nav id="pagination" aria-label="Page navigation">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${dtos.hasPrevious()}">
+          <a class="page-link" href="#"
+             th:text="previous"
+             th:class="'page-link' + (${dtos.number} <= 0 ? ' disabled' : '')"
+             th:href="@{/admin/service/announcements(page=${dtos.number - 1})}">
+          </a>
+        </li>
+        <li class="page-item" th:class="page-item" th:each="pageNumber : ${pageBarNumbers}">
+          <a th:text="${pageNumber + 1}"
+             th:class="'page-link' + (${pageNumber} == ${dtos.number} ? ' disabled' : '')"
+             th:href="@{/admin/service/announcements(page=${pageNumber})}">
+          </a>
+        </li>
+        <li class="page-item" th:if="${dtos.hasNext()}">
+          <a class="page-link" href="#"
+             th:text="next"
+             th:class="'page-link' + (${dtos.number} >= ${dtos.totalPages - 1} ? ' disabled' : '')"
+             th:href="@{/admin/service/announcements(page=${dtos.number + 1})}">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+</div>
+
+</body>
+</html>

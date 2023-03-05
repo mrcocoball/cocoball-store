@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <div>
+      <ul class="input_item_list">
+        <li class="input_item">
+          <div>
+            <h6>번호</h6>
+            <p class="id" id="id" th:text="${dto.id}"></p>
+          </div>
+        </li>
+        <li class="input_item">
+          <div>
+            <h6>카테고리</h6>
+            <p class="categoryId" id="categoryId" th:text="${dto.categoryName}"></p>
+          </div>
+        </li>
+        <li class="input_item">
+          <div>
+            <h6>제목</h6>
+            <p class="title" id="title" th:text="${dto.title}"></p>
+          </div>
+        </li>
+        <li class="input_item">
+          <div>
+            <h6>내용</h6>
+            <article id="description">
+              <pre th:text="${dto.description}"></pre>
+            </article>
+          </div>
+        </li>
+        <li class="input_item">
+          <form class="delete-form" th:action="'/admin/service/announcements/' + ${dto.id} + '/delete'" th:method="post">
+            <a th:href="@{'/admin/service/announcements/' + ${dto.id} + '/modify'}">
+              <button type="button" class="modify-button">수정</button>
+            </a>
+            <button type="submit" class="delete-button">삭제</button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 package com.dateplanner.bookmark.service;
 
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.bookmark.dto.BookmarkDto;
 import com.dateplanner.bookmark.repository.BookmarkRepository;
 import lombok.RequiredArgsConstructor;

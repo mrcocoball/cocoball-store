@@ -1,6 +1,6 @@
 package com.dateplanner.place.controller;
 
-import com.dateplanner.admin.user.entity.User;
+import com.dateplanner.user.entity.User;
 import com.dateplanner.advice.exception.CategoryInvalidException;
 import com.dateplanner.api.model.PageResult;
 import com.dateplanner.api.model.SingleResult;
@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

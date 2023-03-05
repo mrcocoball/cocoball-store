@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -213,6 +214,13 @@ public class CustomAdvice {
                 (ErrorCode.CATEGORY_INVALID.getCode(), ErrorCode.CATEGORY_INVALID.getDescription());
     }
 
+    @ExceptionHandler(AnnouncementNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected CommonResult announcementNotFoundException(HttpServletRequest request, AnnouncementNotFoundException e) {
+        return responseService.getFailResult
+                (ErrorCode.ANNOUNCEMENT_NOT_FOUND.getCode(), ErrorCode.ANNOUNCEMENT_NOT_FOUND.getDescription());
+    }
+
 
     /**
      * Data Access 관련
@@ -251,6 +259,13 @@ public class CustomAdvice {
     protected CommonResult dataAccessException(HttpServletRequest request, DataAccessException e) {
         return responseService.getFailResult
                 (ErrorCode.DATA_ACCESS_ERROR.getCode(), ErrorCode.DATA_ACCESS_ERROR.getDescription());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult entityNotFoundException(HttpServletRequest request, EntityNotFoundException e) {
+        return responseService.getFailResult
+                (ErrorCode.ENTITY_NOT_FOUND.getCode(), ErrorCode.ENTITY_NOT_FOUND.getDescription());
     }
 
 

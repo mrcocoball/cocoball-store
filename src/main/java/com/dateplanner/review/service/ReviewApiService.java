@@ -1,7 +1,7 @@
 package com.dateplanner.review.service;
 
 import com.dateplanner.advice.exception.ReviewNotFoundApiException;
-import com.dateplanner.api.PaginationService;
+import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.review.dto.ReviewDto;
 import com.dateplanner.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
