@@ -1,4 +1,4 @@
-package com.dateplanner.user.repository;
+package com.dateplanner.admin.user.repository;
 
 import com.dateplanner.user.entity.User;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -11,35 +11,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserAdminRepository extends JpaRepository<User, Long> {
 
     @EntityGraph(attributePaths = "roleSet")
     @Override
     List<User> findAll();
 
     @EntityGraph(attributePaths = "roleSet")
-    @Query("select u from User u where u.email = :email and u.social = false")
-    Optional<User> getWithRolesByEmail(@Param("email") String email);
-
-    @EntityGraph(attributePaths = "roleSet")
-    Optional<User> findByEmail(String email);
-
-    @EntityGraph(attributePaths = "roleSet")
-    Optional<User> findByNickname(String nickname);
-
-    @EntityGraph(attributePaths = "roleSet")
-    Optional<User> findByEmailAndProvider(String email, String provider);
+    Optional<User> findByUid(Long uid);
 
     @Modifying
     @Transactional
     @Query("update User u set u.password = :password where u.uid = :uid")
     void updatePassword(@Param("password") String password, @Param("uid") Long uid);
 
-    @EntityGraph(attributePaths = "roleSet")
-    Optional<User> findByUid(Long uid);
 
-    boolean existsByEmail(String email);
-
-    boolean existsByNickname(String nickname);
 
 }
+
