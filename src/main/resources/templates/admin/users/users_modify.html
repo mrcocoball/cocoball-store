@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <form id="modify_user_form" th:action="'/admin/users/create/' + ${dto.uid} + '/modify'" method="post">
+      <div>
+        <ul class="input_item_list">
+          <li class="input_item">
+            <div>
+              <h6>회원 번호</h6>
+              <input type="text" class="form-control" name="uid" id="uid" placeholder="회원번호" th:value="${dto.uid}" required readonly>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>닉네임</h6>
+              <input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" th:value="${dto.nickname}" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <button type="submit">저장</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

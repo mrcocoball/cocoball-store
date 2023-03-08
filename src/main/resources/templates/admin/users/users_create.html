@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <form id="create_user_form" action="/admin/users/create" method="post">
+      <div>
+        <ul class="input_item_list">
+          <li class="input_item">
+            <div>
+              <h6>이메일</h6>
+              <input type="email" class="form-control" name="email" id="email" placeholder="이메일" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>비밀번호</h6>
+              <input type="password" class="form-control" name="password" id="password" placeholder="비밀번호" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>닉네임</h6>
+              <input type="text" class="form-control" name="nickname" id="nickname" placeholder="닉네임" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <button type="submit">저장</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
