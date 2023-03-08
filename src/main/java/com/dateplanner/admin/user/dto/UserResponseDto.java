@@ -21,6 +21,7 @@ public class UserResponseDto {
     private String nickname;
     private boolean social;
     private boolean deleted;
+    private String provider;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -31,6 +32,7 @@ public class UserResponseDto {
                 .nickname(entity.getNickname())
                 .social(entity.isSocial())
                 .deleted(entity.isDeleted())
+                .provider(entity.getProvider())
                 .createdAt(entity.getCreatedAt())
                 .modifiedAt(entity.getModifiedAt())
                 .build();
