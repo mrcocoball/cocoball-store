@@ -18,13 +18,10 @@ public interface UserAdminRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @EntityGraph(attributePaths = "roleSet")
+    List<User> findByDeletedTrue();
+
+    @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByUid(Long uid);
-
-    @Modifying
-    @Transactional
-    @Query("update User u set u.password = :password where u.uid = :uid")
-    void updatePassword(@Param("password") String password, @Param("uid") Long uid);
-
 
 
 }
