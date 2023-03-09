@@ -27,7 +27,7 @@ public class UserModifyRequestDto {
 
     public static UserModifyRequestDto from(UserResponseDto dto) {
         return UserModifyRequestDto.builder()
-                .uid(dto.getId())
+                .uid(dto.getUid())
                 .nickname(dto.getNickname())
                 .build();
     }

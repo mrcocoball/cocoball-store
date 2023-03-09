@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,18 +17,22 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDto {
 
-    private Long id;
+    private Long uid;
     private String email;
     private String nickname;
     private boolean social;
     private boolean deleted;
     private String provider;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifiedAt;
 
     public static UserResponseDto from(User entity) {
         return UserResponseDto.builder()
-                .id(entity.getUid())
+                .uid(entity.getUid())
                 .email(entity.getEmail())
                 .nickname(entity.getNickname())
                 .social(entity.isSocial())
