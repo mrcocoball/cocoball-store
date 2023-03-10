@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.dateplanner.user.entity.QUser.user;
@@ -45,6 +44,30 @@ public class UserAdminCustomRepository {
                 .from(user)
                 .where(
                         searchCondition(deleted, social, provider, startDate, targetDate, email, nickname)
+                )
+                .fetch();
+
+    }
+
+    public List<UserResponseDto> deletedUserList(@Param("email") String email,
+                                                 @Param("nickname") String nickname,
+                                                 @Param("startDate") LocalDate startDate,
+                                                 @Param("targetDate") LocalDate targetDate) {
+
+        return jpaQueryFactory
+                .select(Projections.fields(UserResponseDto.class,
+                        user.uid.as("uid"),
+                        user.email.as("email"),
+                        user.nickname.as("nickname"),
+                        user.social.as("social"),
+                        user.deleted.as("deleted"),
+                        user.provider.as("provider"),
+                        user.createdAt.as("createdAt"),
+                        user.modifiedAt.as("modifiedAt")
+                ))
+                .from(user)
+                .where(
+                        searchConditionDeletedUser(true, startDate, targetDate, email, nickname)
                 )
                 .fetch();
 
@@ -98,6 +121,17 @@ public class UserAdminCustomRepository {
         return deletedEq(deleted)
                 .and(socialEq(social))
                 .and(providerEq(provider))
+                .and(betweenStartDateAndTargetDate(startDate, targetDate))
+                .and(emailEq(email))
+                .and(nicknameEq(nickname));
+    }
+
+    private BooleanExpression searchConditionDeletedUser(boolean deleted,
+                                                         LocalDate startDate,
+                                                         LocalDate targetDate,
+                                                         String email,
+                                                         String nickname) {
+        return deletedEq(deleted)
                 .and(betweenStartDateAndTargetDate(startDate, targetDate))
                 .and(emailEq(email))
                 .and(nicknameEq(nickname));
