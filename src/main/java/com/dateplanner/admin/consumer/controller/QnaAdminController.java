@@ -256,7 +256,7 @@ public class QnaAdminController {
         return "redirect:/admin/service/qna/categories/" + id;
     }
 
-    @PostMapping("{/categories/id}/delete")
+    @PostMapping("/categories/{id}/delete")
     public String deleteQuestionCategory(@PathVariable("id") Long id) {
 
         qnaService.deleteQuestionCategory(id);

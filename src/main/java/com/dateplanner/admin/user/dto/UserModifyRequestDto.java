@@ -1,9 +1,6 @@
 package com.dateplanner.admin.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotEmpty;
@@ -13,6 +10,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserModifyRequestDto {
 
     /**
@@ -20,15 +19,17 @@ public class UserModifyRequestDto {
      */
 
     @NotNull
-    private String password;
+    private Long uid;
 
     @NotNull
     @NotEmpty
     private String nickname;
 
-    @Builder
-    public UserModifyRequestDto(String password, String email, String nickname) {
-        this.password = password;
-        this.nickname = nickname;
+    public static UserModifyRequestDto from(UserResponseDto dto) {
+        return UserModifyRequestDto.builder()
+                .uid(dto.getUid())
+                .nickname(dto.getNickname())
+                .build();
     }
+
 }

@@ -6,9 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 
 @Slf4j(topic = "DTO")
 @Getter
@@ -38,11 +40,12 @@ public class UserRequestDto {
         this.nickname = nickname;
     }
 
-    public User toEntity() {
+    public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .email(email)
                 .nickname(nickname)
+                .roleSet(Collections.singletonList("ROLE_USER"))
                 .build();
     }
 
