@@ -2,8 +2,8 @@ package com.dateplanner.admin.place.service;
 
 import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
 import com.dateplanner.admin.place.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.repository.PlaceAdminRepository;
 import com.dateplanner.common.pagination.PaginationService;
-import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class PlaceAdminService {
 
-    private final PlaceRepository placeRepository;
+    private final PlaceAdminRepository placeAdminRepository;
     private final PaginationService paginationService;
     private final static String NOT_EXIST_IMAGE = "NOT EXISTS";
 
@@ -30,14 +30,14 @@ public class PlaceAdminService {
     @Transactional(readOnly = true)
     public Page<PlaceStatusDto> getImageUrlNullPlacesV1(Pageable pageable) {
 
-        return paginationService.listToPage(placeRepository.findByImageUrlIsNull().stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
+        return paginationService.listToPage(placeAdminRepository.findByImageUrlIsNull().stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
     }
 
 
     @Transactional(readOnly = true)
     public Page<PlaceStatusDto> getImageUrlNotExistPlacesV1(Pageable pageable) {
 
-        return paginationService.listToPage(placeRepository.findByImageUrlIs(NOT_EXIST_IMAGE).stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
+        return paginationService.listToPage(placeAdminRepository.findByImageUrlIs(NOT_EXIST_IMAGE).stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
     }
 
 
@@ -59,7 +59,7 @@ public class PlaceAdminService {
             }
             String description = String.valueOf(stringJoiner);
             if (description.equals("")) {description = null;}
-            placeRepository.updateImageUrlAndDescription(dto.getPlaceId(), dto.getImageUrl(), description);
+            placeAdminRepository.updateImageUrlAndDescription(dto.getPlaceId(), dto.getImageUrl(), description);
             count += 1L;
             log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, dtos.size());
         }

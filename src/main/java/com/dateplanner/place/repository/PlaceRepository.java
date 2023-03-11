@@ -26,17 +26,4 @@ public interface PlaceRepository extends JpaRepository<Place, Long> {
     List<String> findPlaceIdByRegion1DepthNameAndRegion2DepthName(@Param("region1") String region1,
                                                                   @Param("region2s") List<String> region2list);
 
-    List<Place> findByImageUrlIsNull();
-
-    List<Place> findByImageUrlIs(String url);
-
-    @Query("select p.placeId from Place p where p.imageUrl is null")
-    List<String> findPlaceIdByImageUrlIsNull();
-
-    @Modifying(clearAutomatically = true)
-    @Query("update Place p set p.imageUrl = :imageUrl, p.description = :description where p.placeId = :placeId")
-    void updateImageUrlAndDescription(@Param("placeId") String placeId,
-                                      @Param("imageUrl") String imageUrl,
-                                      @Param("description") String description);
-
 }
