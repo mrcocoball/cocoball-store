@@ -1,9 +1,16 @@
 package com.dateplanner.admin.place.service;
 
 import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
+import com.dateplanner.admin.place.dto.PlaceModifyRequestDto;
+import com.dateplanner.admin.place.dto.PlaceRequestDto;
 import com.dateplanner.admin.place.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.repository.PlaceAdminCustomRepository;
 import com.dateplanner.admin.place.repository.PlaceAdminRepository;
+import com.dateplanner.advice.exception.PlaceNotFoundApiException;
 import com.dateplanner.common.pagination.PaginationService;
+import com.dateplanner.kakao.dto.DocumentDto;
+import com.dateplanner.kakao.service.KakaoAddressSearchService;
+import com.dateplanner.place.entity.Place;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -23,9 +30,15 @@ import java.util.stream.Collectors;
 public class PlaceAdminService {
 
     private final PlaceAdminRepository placeAdminRepository;
+    private final PlaceAdminCustomRepository placeAdminCustomRepository;
+    private final KakaoAddressSearchService kakaoAddressSearchService;
     private final PaginationService paginationService;
     private final static String NOT_EXIST_IMAGE = "NOT EXISTS";
 
+
+    /**
+     * 장소 크롤링 및 업데이트 관련
+     */
 
     @Transactional(readOnly = true)
     public Page<PlaceStatusDto> getImageUrlNullPlacesV1(Pageable pageable) {
@@ -71,4 +84,48 @@ public class PlaceAdminService {
         return count;
     }
 
+
+    /**
+     * 장소 CRUD 관련
+     */
+
+    public Long savePlace(PlaceRequestDto dto) {
+
+        DocumentDto addressDto = kakaoAddressSearchService.requestAddressSearch(dto.getAddressName()).getDocumentList().get(0);
+
+        Place place = placeAdminRepository.save(dto.toEntity(
+                dto.getCategoryGroupId(), dto.getPlaceName(), dto.getPlaceId(), dto.getPlaceUrl(), dto.getAddressName(),
+                dto.getRoadAddressName(), dto.getRegion2DepthName(), dto.getRegion2DepthName(), dto.getRegion3DepthName(),
+                Double.valueOf(addressDto.getLongitude()), Double.valueOf(addressDto.getLatitude()), dto.getImageUrl(), dto.getDescription()
+        ));
+
+        return place.getId();
+
+    }
+
+    public Long updatePlace(PlaceModifyRequestDto dto) {
+
+        Place place = placeAdminRepository.findById(dto.getId()).orElseThrow(PlaceNotFoundApiException::new);
+
+        if (place.getPlaceId() != dto.getPlaceId()) place.changePlaceId(dto.getPlaceId());
+        if (place.getPlaceName() != dto.getPlaceName()) place.changePlaceName(dto.getPlaceName());
+        if (place.getPlaceUrl() != dto.getPlaceUrl()) place.changePlaceUrl(dto.getPlaceUrl());
+        if (place.getAddressName() != dto.getAddressName()) place.changeAddressName(dto.getAddressName());
+        if (place.getRoadAddressName() != dto.getRoadAddressName()) place.changeRoadAdressName(dto.getRoadAddressName());
+        if (place.getRegion1DepthName() != dto.getRegion1DepthName()) place.changeRegion1(dto.getRegion1DepthName());
+        if (place.getRegion2DepthName() != dto.getRegion2DepthName()) place.changeRegion2(dto.getRegion2DepthName());
+        if (place.getRegion3DepthName() != dto.getRegion3DepthName()) place.changeRegion3(dto.getRegion3DepthName());
+        if (place.getLatitude() != dto.getLatitude()) place.changeLatitude(dto.getLatitude());
+        if (place.getLongitude() != dto.getLongitude()) place.changeLongitude(dto.getLongitude());
+        if (place.getImageUrl() != dto.getImageUrl()) place.changeImageUrl(dto.getImageUrl());
+        if (place.getDescription() != dto.getDescription()) place.changeDescription(dto.getDescription());
+
+        return place.getId();
+
+    }
+
+    public void deletePlace(Long id) {
+
+        placeAdminRepository.deleteById(id);
+    }
 }

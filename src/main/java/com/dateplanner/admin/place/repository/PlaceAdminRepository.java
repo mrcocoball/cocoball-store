@@ -23,4 +23,6 @@ public interface PlaceAdminRepository extends JpaRepository<Place, Long> {
                                       @Param("imageUrl") String imageUrl,
                                       @Param("description") String description);
 
+    void deleteById(Long id);
+
 }
