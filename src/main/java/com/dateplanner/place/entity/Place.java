@@ -127,11 +127,51 @@ public class Place extends BaseTimeEntity {
         this.reviewScore -= score;
     }
 
-    public void addImageUrl(String imageUrl) {
+    public void changePlaceName(String placeName) {
+        this.placeName = placeName;
+    }
+
+    public void changePlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
+    public void changePlaceUrl(String placeUrl) {
+        this.placeUrl = placeUrl;
+    }
+
+    public void changeAddressName(String addressName) {
+        this.addressName = addressName;
+    }
+
+    public void changeRoadAdressName(String roadAddressName) {
+        this.roadAddressName = roadAddressName;
+    }
+
+    public void changeRegion1(String region1DepthName) {
+        this.region1DepthName = region1DepthName;
+    }
+
+    public void changeRegion2(String region2DepthName) {
+        this.region2DepthName = region2DepthName;
+    }
+
+    public void changeRegion3(String region3DepthName) {
+        this.region3DepthName = region3DepthName;
+    }
+
+    public void changeLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void changeLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void changeImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    public void addDescription(String description) {
+    public void changeDescription(String description) {
         this.description = description;
     }
 

@@ -152,9 +152,11 @@ public class UserAdminController {
 
     // @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/delete")
-    public void deleteUser(@Parameter(description = "회원 ID", required = true) @PathVariable("id") Long uid) {
+    public String deleteUser(@Parameter(description = "회원 ID", required = true) @PathVariable("id") Long uid) {
 
         userAdminService.deleteUser(uid);
+
+        return "redirect:/admin/users";
 
     }
 

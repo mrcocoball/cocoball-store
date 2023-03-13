@@ -1,76 +1,128 @@
 package com.dateplanner.admin.place.controller;
 
-import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
-import com.dateplanner.admin.place.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.dto.PlaceAdminDetailDto;
+import com.dateplanner.admin.place.dto.PlaceModifyRequestDto;
+import com.dateplanner.admin.place.dto.PlaceRequestDto;
 import com.dateplanner.admin.place.service.PlaceAdminService;
-import com.dateplanner.admin.place.service.PlaceCrawlingService;
-import com.dateplanner.api.model.PageResult;
-import com.dateplanner.api.model.SingleResult;
-import com.dateplanner.api.service.ResponseService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springdoc.api.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
-@Tag(name = "8. [어드민 전용] PlaceAdminController - 장소 정보 수정 관련 API")
 @RequiredArgsConstructor
-@RestController // 테스트 이후 Controller로 변환하여 SSR 페이지에 사용할 예정
+@Controller
+@RequestMapping("/admin/places")
 public class PlaceAdminController {
 
     private final PlaceAdminService placeAdminService;
-    private final PlaceCrawlingService placeCrawlingService;
-    private final ResponseService responseService;
+    private final PaginationService paginationService;
 
+    @GetMapping()
+    public String getPlaceList(@RequestParam(required = false) String region1, @RequestParam(required = false) String region2, @RequestParam(required = false) String region3,
+                               @RequestParam(required = false) String categoryId, @RequestParam(required = false) Long id,
+                               @RequestParam(required = false) String placeId, @RequestParam(required = false) String placeName, @RequestParam(required = false) Long reviewCount,
+                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate targetDate,
+                               @PageableDefault(size = 50, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable, ModelMap map) {
 
-    // 어드민 권한 요구 추가 예정
-    @Operation(summary = "[GET] 이미지 URL이 추가가 되지 않은 장소 조회",
-            description = "DB에 생성이 되었으나 이미지 URL이 추가 되지 않은 장소(이미지 URL이 NULL인 장소)들을 조회합니다.")
-    @GetMapping("/api/v1/admin/nullPlaces")
-    public PageResult<PlaceStatusDto> getImageUrlNullPlacesV1(@ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+        Page<PlaceAdminDetailDto> dtos = paginationService.listToPage(
+                placeAdminService.getPlaceList(region1, region2, region3, categoryId, id, placeId, placeName, reviewCount, startDate, targetDate), pageable);
+        List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
+        map.addAttribute("dtos", dtos);
+        map.addAttribute("pageBarNumbers", pageBarNumbers);
 
-        return responseService.getPageResult(placeAdminService.getImageUrlNullPlacesV1(pageable));
+        return "admin/places/places";
     }
 
+    @GetMapping("/{id}")
+    public String getPlace(@PathVariable("id") Long id, ModelMap map) {
 
-    // 어드민 권한 요구 추가 예정
-    @Operation(summary = "[GET] 이미지 URL 업데이트를 진행하였으나 이미지가 존재하지 않은 장소 조회",
-            description = "이미지 URL 업데이트를 진행하였으나 원본 장소의 이미지가 존재하지 않아 추가를 하지 못했던 장소들을 조회합니다.")
-    @GetMapping("/api/v1/admin/notExistPlaces")
-    public PageResult<PlaceStatusDto> getImageUrlNotExistPlacesV1(@ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+        PlaceAdminDetailDto dto = placeAdminService.getPlace(id);
+        map.addAttribute("dto", dto);
 
-        return responseService.getPageResult(placeAdminService.getImageUrlNotExistPlacesV1(pageable));
+        return "admin/places/places_detail";
     }
 
+    @GetMapping("/create")
+    public String createPlaceForm() {
 
-    // 어드민 권한 요구 추가 예정, 테스트용
-    @Operation(summary = "[POST] 장소 이미지, 설명 크롤링 요청 및 결과 확인 테스트",
-            description = "이미지 URL이 추가되지 않은 장소들을 조회한 뒤 해당 장소들에 대해 크롤링을 요청하고 크롤링 결과를 조회합니다. <br>" +
-                    "실제 DB 장소에는 저장되지는 않습니다.")
-    @PostMapping("/api/v1/admin/crawling")
-    public PageResult<PlaceCrawlingDto> crawlingPlacesV1(@ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+        return "admin/places/places_create";
 
-        return responseService.getPageResult(placeCrawlingService.searchAndCrawling(pageable));
     }
 
-    // 어드민 권한 요구 추가 예정, 테스트용
-    @Operation(summary = "[POST] 장소 이미지, 설명 크롤링 요청 및 결과 확인",
-            description = "이미지 URL이 추가되지 않은 장소들을 조회한 뒤 해당 장소들에 대해 크롤링을 요청하고 <br>" +
-                    "크롤링된 정보를 토대로 장소 정보를 업데이트합니다. 업데이트된 장소의 개수가 반환됩니다.")
-    @PostMapping("/api/v1/admin/crawlingAndUpdate")
-    public SingleResult<Long> crawlingAndUpdatePlacesV1() {
+    @PostMapping("/create")
+    public String createPlace(@Valid PlaceRequestDto dto,
+                             BindingResult r,
+                             RedirectAttributes ra) {
 
-        List<PlaceCrawlingDto> dtos = placeCrawlingService.searchAndCrawling();
+        if (r.hasErrors()) {
 
-        return responseService.getSingleResult(placeAdminService.updatePlacesV1(dtos));
+            log.info("[PlaceAdminController createPlace] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/places/create";
+
+        }
+
+        placeAdminService.savePlace(dto);
+
+        return "redirect:/admin/places";
+
     }
 
+    @GetMapping("/{id}/modify")
+    public String modifyPlaceForm(@PathVariable("id") Long id, ModelMap map) {
+
+        PlaceModifyRequestDto dto = PlaceModifyRequestDto.from(placeAdminService.getPlace(id));
+        map.addAttribute("dto", dto);
+
+        return "admin/places/places_modify";
+
+    }
+
+    @PostMapping("/{id}/modify")
+    public String modifyPlace(@PathVariable("id") Long id,
+                             @Valid PlaceModifyRequestDto dto,
+                             BindingResult r,
+                             RedirectAttributes ra) {
+
+        if (r.hasErrors()) {
+
+            log.info("[PlaceAdminController modifyPlace] validation error");
+            ra.addFlashAttribute("errors", r.getAllErrors());
+
+            return "redirect:/admin/places/" + id + "/modify";
+
+        }
+
+        placeAdminService.updatePlace(dto);
+
+        return "redirect:/admin/places/" + id;
+
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deletePlace(@PathVariable("id") Long id) {
+
+        placeAdminService.deletePlace(id);
+
+        return "redirect:/admin/places";
+
+    }
 }
+
+

@@ -1,8 +1,8 @@
 package com.dateplanner.admin.place.service;
 
 import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
+import com.dateplanner.admin.place.repository.PlaceAdminRepository;
 import com.dateplanner.common.pagination.PaginationService;
-import com.dateplanner.place.repository.PlaceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -27,8 +27,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class PlaceCrawlingService {
-
-    private final PlaceRepository placeRepository;
+    private final PlaceAdminRepository placeAdminRepository;
     private final PaginationService paginationService;
     private static final String BASE_URL = "https://place.map.kakao.com/";
     private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
@@ -39,7 +38,7 @@ public class PlaceCrawlingService {
 
     public Page<PlaceCrawlingDto> searchAndCrawling(Pageable pageable) {
 
-        List<String> placeIds = placeRepository.findPlaceIdByImageUrlIsNull();
+        List<String> placeIds = placeAdminRepository.findPlaceIdByImageUrlIsNull();
 
         List<PlaceCrawlingDto> results = new ArrayList<>();
 
@@ -68,7 +67,7 @@ public class PlaceCrawlingService {
 
     public List<PlaceCrawlingDto> searchAndCrawling() {
 
-        List<String> placeIds = placeRepository.findPlaceIdByImageUrlIsNull();
+        List<String> placeIds = placeAdminRepository.findPlaceIdByImageUrlIsNull();
 
         List<PlaceCrawlingDto> results = new ArrayList<>();
 
