@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div>
+  <div class="col">
+    <form id="create_place_form" action="/admin/places/create" method="post">
+      <div>
+        <ul class="input_item_list">
+          <li class="input_item">
+            <div>
+              <h6>카테고리</h6>
+              <select name="categoryGroupId">
+                <option name="CE7" value="CE7">카페</option>
+                <option name="SW8" value="SW8">지하철역</option>
+                <option name="CT1" value="CT1">문화시설</option>
+                <option name="AT4" value="AT4">관광명소</option>
+                <option name="FD6" value="FD6">음식점</option>
+              </select>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>장소 ID</h6>
+              <input type="text" class="form-control" name="placeId" id="placeId" placeholder="장소 ID" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>장소명</h6>
+              <input type="text" class="form-control" name="placeName" id="placeName" placeholder="장소명" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>장소 URL</h6>
+              <input type="text" class="form-control" name="placeUrl" id="placeUrl" placeholder="장소 URL" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>주소(지번 주소)</h6>
+              <input type="text" class="form-control" name="addressName" id="addressName" placeholder="주소(지번 주소)" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>주소(도로명 주소)</h6>
+              <input type="text" class="form-control" name="roadAddressName" id="roadAddressName" placeholder="주소(도로명 주소)">
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>시,도(region_1depth_name)</h6>
+              <input type="text" class="form-control" name="region1DepthName" id="region1DepthName" placeholder="시,도" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>군,구(region_2depth_name)</h6>
+              <input type="text" class="form-control" name="region2DepthName" id="region2DepthName" placeholder="군,구" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>읍,면,동(region_3depth_name)</h6>
+              <input type="text" class="form-control" name="region3DepthName" id="region3DepthName" placeholder="읍,면,동" required>
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>이미지 URL</h6>
+              <input type="text" class="form-control" name="imageUrl" id="imageUrl" placeholder="이미지 URL">
+            </div>
+          </li>
+          <li class="input_item">
+            <div>
+              <h6>설명</h6>
+              <input type="text" class="form-control" name="description" id="description" placeholder="설명">
+            </div>
+          </li>
+          <li class="input_item">
+            <button type="submit">저장</button>
+          </li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

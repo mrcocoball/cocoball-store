@@ -116,9 +116,11 @@ public class PlaceAdminController {
     }
 
     @PostMapping("/{id}/delete")
-    public void deletePlace(@PathVariable("id") Long id) {
+    public String deletePlace(@PathVariable("id") Long id) {
 
         placeAdminService.deletePlace(id);
+
+        return "redirect:/admin/places";
 
     }
 }

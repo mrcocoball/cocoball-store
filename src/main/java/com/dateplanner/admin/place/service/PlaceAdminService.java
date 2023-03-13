@@ -129,8 +129,6 @@ public class PlaceAdminService {
         if (place.getRegion1DepthName() != dto.getRegion1DepthName()) place.changeRegion1(dto.getRegion1DepthName());
         if (place.getRegion2DepthName() != dto.getRegion2DepthName()) place.changeRegion2(dto.getRegion2DepthName());
         if (place.getRegion3DepthName() != dto.getRegion3DepthName()) place.changeRegion3(dto.getRegion3DepthName());
-        if (place.getLatitude() != dto.getLatitude()) place.changeLatitude(dto.getLatitude());
-        if (place.getLongitude() != dto.getLongitude()) place.changeLongitude(dto.getLongitude());
         if (place.getImageUrl() != dto.getImageUrl()) place.changeImageUrl(dto.getImageUrl());
         if (place.getDescription() != dto.getDescription()) place.changeDescription(dto.getDescription());
 
