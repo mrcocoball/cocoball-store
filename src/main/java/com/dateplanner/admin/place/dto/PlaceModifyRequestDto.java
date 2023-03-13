@@ -40,22 +40,22 @@ public class PlaceModifyRequestDto {
 
     private String description;
 
-    public static PlaceModifyRequestDto from(Place entity) {
+    public static PlaceModifyRequestDto from(PlaceAdminDetailDto dto) {
         return PlaceModifyRequestDto.builder()
-                .id(entity.getId())
-                .categoryGroupId(entity.getCategory().getId())
-                .placeName(entity.getPlaceName())
-                .placeId(entity.getPlaceId())
-                .placeUrl(entity.getPlaceUrl())
-                .addressName(entity.getAddressName())
-                .roadAddressName(entity.getRoadAddressName())
-                .region1DepthName(entity.getRegion1DepthName())
-                .region2DepthName(entity.getRegion2DepthName())
-                .region3DepthName(entity.getRegion3DepthName())
-                .longitude(entity.getLongitude())
-                .latitude(entity.getLatitude())
-                .imageUrl(entity.getImageUrl())
-                .description(entity.getDescription())
+                .id(dto.getId())
+                .categoryGroupId(dto.getCategoryGroupId())
+                .placeName(dto.getPlaceName())
+                .placeId(dto.getPlaceId())
+                .placeUrl(dto.getPlaceUrl())
+                .addressName(dto.getAddressName())
+                .roadAddressName(dto.getRoadAddressName())
+                .region1DepthName(dto.getRegion1DepthName())
+                .region2DepthName(dto.getRegion2DepthName())
+                .region3DepthName(dto.getRegion3DepthName())
+                .longitude(dto.getLongitude())
+                .latitude(dto.getLatitude())
+                .imageUrl(dto.getImageUrl())
+                .description(dto.getDescription())
                 .build();
     }
 

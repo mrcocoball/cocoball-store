@@ -1,9 +1,6 @@
 package com.dateplanner.admin.place.service;
 
-import com.dateplanner.admin.place.dto.PlaceCrawlingDto;
-import com.dateplanner.admin.place.dto.PlaceModifyRequestDto;
-import com.dateplanner.admin.place.dto.PlaceRequestDto;
-import com.dateplanner.admin.place.dto.PlaceStatusDto;
+import com.dateplanner.admin.place.dto.*;
 import com.dateplanner.admin.place.repository.PlaceAdminCustomRepository;
 import com.dateplanner.admin.place.repository.PlaceAdminRepository;
 import com.dateplanner.advice.exception.PlaceNotFoundApiException;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
@@ -88,6 +86,22 @@ public class PlaceAdminService {
     /**
      * 장소 CRUD 관련
      */
+
+    @Transactional(readOnly = true)
+    public List<PlaceAdminDetailDto> getPlaceList(String region1, String region2, String region3,
+                                                  String categoryId, Long id, String placeId, String placeName,
+                                                  Long reviewCount, LocalDate startDate, LocalDate targetDate) {
+
+        return placeAdminCustomRepository.placeList(region1, region2, region3, categoryId, id, placeId, placeName, reviewCount, startDate, targetDate);
+
+    }
+
+    @Transactional(readOnly = true)
+    public PlaceAdminDetailDto getPlace(Long id) {
+
+        return placeAdminRepository.findById(id).map(PlaceAdminDetailDto::from).orElseThrow(PlaceNotFoundApiException::new);
+
+    }
 
     public Long savePlace(PlaceRequestDto dto) {
 
