@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import static com.dateplanner.user.entity.QUser.user;
@@ -107,7 +108,7 @@ public class UserAdminCustomRepository {
             targetDate = defaultTargetDate;
         }
 
-        return user.createdAt.between(startDate.atStartOfDay(), targetDate.atStartOfDay());
+        return user.createdAt.between(startDate.atStartOfDay(), targetDate.atTime(LocalTime.MAX));
 
     }
 
