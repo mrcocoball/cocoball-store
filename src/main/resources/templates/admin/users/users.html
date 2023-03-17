@@ -1,48 +1,48 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <button type="button" onclick="location.href='/admin/users/create'">사용자 ID 생성하기</button>
-    <form id="dynamic-query-parameter-form" method="get" action="/admin/users">
-      <div class="input_item">
-        <input type="text" class="form-control" id="email" name="email" th:value="${param.email}"/>
-      </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="nickname" name="nickname" th:value="${param.nickname}"/>
-      </div>
-      <div class="input_item">
-        <input type="date" class="form-control" id="start_date" name="startDate" min="2020-01-01" th:value="${param.startDate}"/>
-      </div>
-      <div class="input_item">
+<div layout:fragment="content">
+
+  <div class="search_navigation">
+    <form id="dynamic-query-parameter-form" th:method="get" th:action="@{/admin/users}">
+      <label class="users_label">
+        <h6>유저 검색 조건</h6>
+      </label>
+      <div class="user_search_condition">
+        <input type="text" class="form-control" id="email" name="email" autocomplete="off" placeholder="이메일"
+               th:value="${param.email}"/>
+        <input type="text" class="form-control" id="nickname" name="nickname" autocomplete="off" placeholder="닉네임"
+               th:value="${param.nickname}"/>
+        <input type="date" class="form-control" id="start_date" name="startDate" min="2020-01-01"
+               th:value="${param.startDate}"/>
         <input type="date" class="form-control" id="target_date" name="targetDate" th:value="${param.targetDate}"/>
-      </div>
-      <div class="input_item">
         <select name="deleted" id="deleted" form="dynamic-query-parameter-form">
-          <option th:value="true" th:text="탈퇴" th:selected="${param.deleted == true}"></option>
           <option th:value="false" th:text="활동" th:selected="${param.deleted == false}"></option>
+          <option th:value="true" th:text="탈퇴" th:selected="${param.deleted == true}"></option>
         </select>
-      </div>
-      <div class="input_item">
         <select name="social" id="social" form="dynamic-query-parameter-form">
           <option th:value="true" th:selected="${param.social == true}">소셜 로그인 연동</option>
           <option th:value="false" th:selected="${param.social == false}">소셜 로그인 미연동</option>
         </select>
-      </div>
-      <div class="input_item">
         <select name="provider" id="provider" form="dynamic-query-parameter-form">
-          <option th:name="'kakao'" th:value="'kakao'" th:text="카카오" th:selected="${param.provider == 'kakao'}"></option>
-          <option th:name="'naver'" th:value="'naver'" th:text="네이버" th:selected="${param.provider == 'naver'}"></option>
-          <option th:name="'google'" th:value="'google'" th:text="구글" th:selected="${param.provider == 'google'}"></option>
+          <option th:name="'kakao'" th:value="'kakao'" th:text="카카오"
+                  th:selected="${param.provider eq 'kakao'}"></option>
+          <option th:name="'naver'" th:value="'naver'" th:text="네이버"
+                  th:selected="${param.provider eq 'naver'}"></option>
+          <option th:name="'google'" th:value="'google'" th:text="구글"
+                  th:selected="${param.provider eq 'google'}"></option>
         </select>
       </div>
-      <button type="submit" class="stats-btn btn btn-primary" role="button" id="search_button">검색</button>
+      <div class="reverse-align">
+        <button type="submit" class="btn btn-search" role="button">검색</button>
+      </div>
     </form>
+  </div>
+
+  <div class="information_container">
     <table class="table" id="users_table">
       <thead>
       <tr>
@@ -77,26 +77,30 @@
           <a class="page-link" href="#"
              th:text="previous"
              th:class="'page-link' + (${dtos.number} <= 0 ? ' disabled' : '')"
-             th:href="@{/admin/users(page=${dtos.number - 1})}">
+             th:href="@{/admin/users(page=${dtos.number - 1}, email=${param.email}, nickname=${param.nickname},
+             startDate=${param.startDate}, targetDate=${param.targetDate}, deleted=${param.deleted}, social=${param.social}, provider=${param.provider})}">
           </a>
         </li>
         <li class="page-item" th:class="page-item" th:each="pageNumber : ${pageBarNumbers}">
           <a th:text="${pageNumber + 1}"
              th:class="'page-link' + (${pageNumber} == ${dtos.number} ? ' disabled' : '')"
-             th:href="@{/admin/users(page=${pageNumber})}">
+             th:href="@{/admin/users(page=${pageNumber}, email=${param.email}, nickname=${param.nickname},
+             startDate=${param.startDate}, targetDate=${param.targetDate}, deleted=${param.deleted}, social=${param.social}, provider=${param.provider})}">
           </a>
         </li>
         <li class="page-item" th:if="${dtos.hasNext()}">
           <a class="page-link" href="#"
              th:text="next"
              th:class="'page-link' + (${dtos.number} >= ${dtos.totalPages - 1} ? ' disabled' : '')"
-             th:href="@{/admin/users(page=${dtos.number + 1})}">
+             th:href="@{/admin/users(page=${dtos.number + 1}, email=${param.email}, nickname=${param.nickname},
+             startDate=${param.startDate}, targetDate=${param.targetDate}, deleted=${param.deleted}, social=${param.social}, provider=${param.provider})}">
           </a>
         </li>
       </ul>
     </nav>
   </div>
 
+</div>
 </div>
 
 </body>

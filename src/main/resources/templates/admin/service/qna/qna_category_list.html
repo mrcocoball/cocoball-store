@@ -1,14 +1,18 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <button type="button" onclick="location.href='/admin/service/qna/categories/write'">카테고리 생성</button>
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <div class="reverse-align">
+    <button type="button" class="btn btn-create" onclick="location.href='/admin/service/qna/categories/write'">카테고리 생성</button>
+    </div>
+  </div>
+
+  <div class="information_container">
     <table class="table" id="question_category_table">
       <thead>
       <tr>

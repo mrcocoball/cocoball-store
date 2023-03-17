@@ -1,54 +1,68 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <button type="button" onclick="location.href='/admin/places/create'">장소 생성하기</button>
+<div layout:fragment="content">
+
+  <div class="search_navigation">
     <form id="dynamic-query-parameter-form" th:method="get" th:action="@{/admin/places}">
-      <div class="input_item">
-        <input type="text" class="form-control" id="region1" name="region1" placeholder="시,도" th:value="${param.region1}"/>
+      <label class="address_label">
+        <h6>주소 검색 조건</h6>
+      </label>
+      <div class="address_search_condition">
+        <input type="text" class="form-control" id="region1" name="region1" autocomplete="off" placeholder="시,도"
+               th:value="${param.region1}"/>
+        <input type="text" class="form-control" id="region2" name="region2" autocomplete="off" placeholder="군,구"
+               th:value="${param.region2}"/>
+        <input type="text" class="form-control" id="region3" name="region3" autocomplete="off" placeholder="동,읍,면"
+               th:value="${param.region3}"/>
       </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="region2" name="region2" placeholder="군,구" th:value="${param.region2}"/>
-      </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="region3" name="region3" placeholder="동,읍,면" th:value="${param.region3}"/>
-      </div>
-      <div class="input_item">
+      <label class="place_label">
+        <h6>장소 검색 조건</h6>
+      </label>
+      <div class="place_search_condition">
         <select name="categoryId" id="categoryId" form="dynamic-query-parameter-form">
-          <option th:name="null" th:value="null">카테고리 선택</option>
-          <option th:name="'CE7'" th:value="'CE7'" th:text="카페" th:selected="${param.categoryId == 'CE7'}"></option>
-          <option th:name="'SW8'" th:value="'SW8'" th:text="지하철역" th:selected="${param.categoryId == 'SW8'}"></option>
-          <option th:name="'CT1'" th:value="'CT1'" th:text="문화시설" th:selected="${param.categoryId == 'CT1'}"></option>
-          <option th:name="'AT4'" th:value="'AT4'" th:text="관광명소" th:selected="${param.categoryId == 'AT4'}"></option>
-          <option th:name="'FD6'" th:value="'FD6'" th:text="음식점" th:selected="${param.categoryId == 'FD6'}"></option>
+          <option th:name="null" th:value="null">카테고리</option>
+          <option th:name="'CE7'" th:value="'CE7'" th:text="카페" th:selected="${param.categoryId eq 'CE7'}"></option>
+          <option th:name="'SW8'" th:value="'SW8'" th:text="지하철역" th:selected="${param.categoryId eq 'SW8'}"></option>
+          <option th:name="'CT1'" th:value="'CT1'" th:text="문화시설" th:selected="${param.categoryId eq 'CT1'}"></option>
+          <option th:name="'AT4'" th:value="'AT4'" th:text="관광명소" th:selected="${param.categoryId eq 'AT4'}"></option>
+          <option th:name="'FD6'" th:value="'FD6'" th:text="음식점" th:selected="${param.categoryId eq 'FD6'}"></option>
         </select>
+        <div class="input_item">
+          <input type="text" class="form-control" id="id" name="id" autocomplete="off" placeholder="ID"
+                 th:value="${param.id}"/>
+        </div>
+        <div class="input_item">
+          <input type="text" class="form-control" id="placeId" autocomplete="off" name="placeId" placeholder="장소 ID"
+                 th:value="${param.placeId}"/>
+        </div>
+        <div class="input_item">
+          <input type="text" class="form-control" id="placeName" autocomplete="off" name="placeName" placeholder="장소명"
+                 th:value="${param.placeName}"/>
+        </div>
+        <div class="input_item">
+          <input type="text" class="form-control" id="reviewCount" autocomplete="off" name="reviewCount"
+                 placeholder="리뷰 X건 이상"
+                 th:value="${param.reviewCount}"/>
+        </div>
+        <div class="input_item">
+          <input type="date" class="form-control" id="start_date" name="startDate" min="2020-01-01"
+                 th:value="${param.startDate}"/>
+        </div>
+        <div class="input_item">
+          <input type="date" class="form-control" id="target_date" name="targetDate" th:value="${param.targetDate}"/>
+        </div>
       </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="id" name="id" placeholder="ID" th:value="${param.id}"/>
+      <div class="reverse-align">
+        <button type="submit" class="btn btn-search" role="button">검색</button>
       </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="placeId" name="placeId" placeholder="장소 ID" th:value="${param.placeId}"/>
-      </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="placeName" name="placeName" placeholder="장소명" th:value="${param.placeName}"/>
-      </div>
-      <div class="input_item">
-        <input type="text" class="form-control" id="reviewCount" name="reviewCount" placeholder="리뷰 X건 이상" th:value="${param.reviewCount}"/>
-      </div>
-      <div class="input_item">
-        <input type="date" class="form-control" id="start_date" name="startDate" min="2020-01-01" th:value="${param.startDate}"/>
-      </div>
-      <div class="input_item">
-        <input type="date" class="form-control" id="target_date" name="targetDate" th:value="${param.targetDate}"/>
-      </div>
-      <button type="submit" class="stats-btn btn btn-primary" role="button" id="search_button">검색</button>
     </form>
+  </div>
+
+  <div class="information_container">
     <table class="table" id="places_table">
       <thead>
       <tr>
@@ -56,7 +70,6 @@
         <th>ID</th>
         <th>장소 ID</th>
         <th>장소명</th>
-        <th>장소 URL</th>
         <th>주소(지번 주소)</th>
         <th>주소(도로명 주소)</th>
         <th>리뷰 건수</th>
@@ -64,6 +77,7 @@
         <th>리뷰 평점</th>
         <th>생성일자</th>
         <th>수정일자</th>
+        <th>상세 정보</th>
       </tr>
       </thead>
       <tbody>
@@ -72,14 +86,14 @@
         <td class="id" th:text="${dto.id}"></td>
         <td class="placeId" th:text="${dto.placeId}"></td>
         <td class="placeName" th:text="${dto.placeName}"></td>
-        <td><a class="detail" th:href="@{'/admin/places/' + ${dto.id}}">[상세 정보 보기]</a></td>
         <td class="addressName" th:text="${dto.addressName}"></td>
         <td class="roadAddressName" th:text="${dto.roadAddressName}"></td>
         <td class="reviewCount" th:text="${dto.reviewCount}"></td>
         <td class="reviewScore" th:text="${dto.reviewScore}"></td>
         <td class="avgReviewScore" th:text="${dto.avgReviewScore}"></td>
-        <td class="createdAt" th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
-        <td class="modifiedAt" th:text="${#temporals.format(dto.modifiedAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td class="createdAt" th:text="${#temporals.format(dto.createdAt, 'yyyy-MM-dd')}"></td>
+        <td class="modifiedAt" th:text="${#temporals.format(dto.modifiedAt, 'yyyy-MM-dd')}"></td>
+        <td><a class="btn-search" th:href="@{'/admin/places/' + ${dto.id}}">상세 정보 보기</a></td>
       </tr>
       </tbody>
     </table>
@@ -92,27 +106,29 @@
           <a class="page-link" href="#"
              th:text="previous"
              th:class="'page-link' + (${dtos.number} <= 0 ? ' disabled' : '')"
-             th:href="@{/admin/places(page=${dtos.number - 1})}">
+             th:href="@{/admin/places(page=${dtos.number - 1}, region1=${param.region1}, region2=${param.region2}, region3=${param.region3},
+             categoryId=${param.categoryId}, id=${param.id}, placeId=${param.placeId}, placeName=${param.placeName}, reviewCount=${param.reviewCount},
+             startDate=${param.startDate}, targetDate=${param.targetDate})}">
           </a>
         </li>
         <li class="page-item" th:class="page-item" th:each="pageNumber : ${pageBarNumbers}">
           <a th:text="${pageNumber + 1}"
              th:class="'page-link' + (${pageNumber} == ${dtos.number} ? ' disabled' : '')"
-             th:href="@{/admin/places(page=${pageNumber})}">
+             th:href="@{/admin/places(page=${pageNumber}, region1=${param.region1}, region2=${param.region2}, region3=${param.region3},
+             categoryId=${param.categoryId}, id=${param.id}, placeId=${param.placeId}, placeName=${param.placeName}, reviewCount=${param.reviewCount},
+             startDate=${param.startDate}, targetDate=${param.targetDate})}">
           </a>
         </li>
         <li class="page-item" th:if="${dtos.hasNext()}">
           <a class="page-link" href="#"
              th:text="next"
              th:class="'page-link' + (${dtos.number} >= ${dtos.totalPages - 1} ? ' disabled' : '')"
-             th:href="@{/admin/places(page=${dtos.number + 1})}">
+             th:href="@{/admin/places(page=${dtos.number + 1}, region1=${param.region1}, region2=${param.region2}, region3=${param.region3},
+             categoryId=${param.categoryId}, id=${param.id}, placeId=${param.placeId}, placeName=${param.placeName}, reviewCount=${param.reviewCount},
+             startDate=${param.startDate}, targetDate=${param.targetDate})}">
           </a>
         </li>
       </ul>
     </nav>
   </div>
-
 </div>
-
-</body>
-</html>
