@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <button type="button" onclick="location.href='/admin/service/qna/write'">공지사항 작성하기</button>
-    <button type="button" onclick="location.href='/admin/service/qna/categories'">카테고리 리스트</button>
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <div class="reverse-align">
+      <button type="button" class="btn btn-create" onclick="location.href='/admin/service/qna/write'">공지사항 작성하기</button>
+      <button type="button" class="btn btn-search" onclick="location.href='/admin/service/qna/categories'">카테고리 리스트</button>
+    </div>
+  </div>
+
+  <div class="information_container">
     <table class="table" id="questions_table">
       <thead>
       <tr>
