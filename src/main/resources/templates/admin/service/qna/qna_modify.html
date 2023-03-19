@@ -1,54 +1,58 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <form id="question_form" th:action="'/admin/service/qna/' + ${dto.id} + '/modify'" method="post">
-      <div>
-        <ul class="input_item_list">
-          <li class="input_item" hidden>
-            <div>
-              <h6>작성자</h6>
-              <input type="text" class="form-control" name="username" id="username" placeholder="제목" th:value="${dto.username}" required>
-            </div>
-          </li>
-          <li class="input_item" hidden>
-            <div>
-              <h6>번호</h6>
-              <input type="text" class="form-control" name="id" id="id" placeholder="제목" th:value="${dto.id}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div hidden>
-              <h6>카테고리</h6>
-              <select name="categoryId">
-                <option th:selected="${category.id eq dto.categoryId}" th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
-              </select>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>제목</h6>
-              <input type="text" class="form-control" name="title" id="title" placeholder="제목" th:value="${dto.title}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>내용</h6>
-              <input type="text" class="form-control" name="description" id="description" placeholder="내용" th:value="${dto.description}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <button type="submit">저장</button>
-          </li>
-        </ul>
-      </div>
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <h2>질문 수정</h2>
+  </div>
+
+  <div class="col-md-7 col-lg-8 common_form">
+    <form id="question_modify_form" th:action="'/admin/service/qna/' + ${dto.id} + '/modify'" method="post">
+      <li hidden>
+        <div>
+          <h6>작성자</h6>
+          <input type="text" class="form-control" name="username" id="username" placeholder="제목" th:value="${dto.username}" required>
+        </div>
+      </li>
+      <li hidden>
+        <div>
+          <h6>번호</h6>
+          <input type="text" class="form-control" name="id" id="id" placeholder="제목" th:value="${dto.id}" required>
+        </div>
+      </li>
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div hidden>
+            <h6>카테고리</h6>
+            <select name="categoryId">
+              <option th:selected="${category.id eq dto.categoryId}" th:each="category : ${categories}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+            </select>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>제목</h6>
+            <input type="text" class="form-control" name="title" id="title" placeholder="제목" th:value="${dto.title}" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>내용</h6>
+            <input type="text" class="form-control" name="description" id="description" placeholder="내용" th:value="${dto.description}" required>
+          </div>
+        </li>
+      </ul>
     </form>
+    <div class="reverse-align">
+      <button form="question_modify_form" class="btn btn-update" type="submit">수정</button>
+      <a class="exit" th:href="@{'/admin/service/qna/' + ${dto.id}}">
+        <button class="btn btn-cancel">취소</button>
+      </a>
+    </div>
   </div>
 </div>
 
