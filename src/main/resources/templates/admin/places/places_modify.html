@@ -80,13 +80,13 @@
           </div>
         </li>
       </ul>
-      <div class="reverse-align">
-        <button class="btn btn-update" type="submit">수정</button>
-        <a class="exit" th:href="@{'/admin/places/' + ${dto.id}}">
-          <button class="btn btn-cancel">취소</button>
-        </a>
-      </div>
     </form>
+    <div class="reverse-align">
+      <button form="modify_place_form" class="btn btn-update" type="submit">수정</button>
+      <a class="exit" th:href="@{'/admin/places/' + ${dto.id}}">
+        <button class="btn btn-cancel">취소</button>
+      </a>
+    </div>
   </div>
 </div>
 
