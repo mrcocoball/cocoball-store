@@ -1,88 +1,92 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <h2>장소 수정</h2>
+  </div>
+
+  <div class="col-md-7 col-lg-8 common_form">
     <form id="modify_place_form" th:action="'/admin/places/' + ${dto.id} + '/modify'" th:method="post">
-      <div>
-        <ul class="input_item_list">
-          <li class="input_item" hidden>
-            <div>
-              <h6>ID</h6>
-              <input type="text" class="form-control" name="id" id="id" placeholder="ID" th:value="${dto.id}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>장소 ID</h6>
-              <input type="text" class="form-control" name="placeId" id="placeId" placeholder="장소 ID" th:value="${dto.placeId}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>장소명</h6>
-              <input type="text" class="form-control" name="placeName" id="placeName" placeholder="장소명" th:value="${dto.placeName}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>장소 URL</h6>
-              <input type="text" class="form-control" name="placeUrl" id="placeUrl" placeholder="장소 URL" th:value="${dto.placeUrl}" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>주소(지번 주소)</h6>
-              <input type="text" class="form-control" name="addressName" id="addressName" th:value="${dto.addressName}" placeholder="주소(지번 주소)" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>주소(도로명 주소)</h6>
-              <input type="text" class="form-control" name="roadAddressName" id="roadAddressName" th:value="${dto.roadAddressName}" placeholder="주소(도로명 주소)">
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>시,도(region_1depth_name)</h6>
-              <input type="text" class="form-control" name="region1DepthName" id="region1DepthName" th:value="${dto.region1DepthName}" placeholder="시,도" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>군,구(region_2depth_name)</h6>
-              <input type="text" class="form-control" name="region2DepthName" id="region2DepthName" th:value="${dto.region2DepthName}" placeholder="군,구" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>읍,면,동(region_3depth_name)</h6>
-              <input type="text" class="form-control" name="region3DepthName" id="region3DepthName" th:value="${dto.region3DepthName}" placeholder="읍,면,동" required>
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>이미지 URL</h6>
-              <input type="text" class="form-control" name="imageUrl" id="imageUrl" th:value="${dto.imageUrl}" placeholder="이미지 URL">
-            </div>
-          </li>
-          <li class="input_item">
-            <div>
-              <h6>설명</h6>
-              <input type="text" class="form-control" name="description" id="description" th:value="${dto.description}" placeholder="설명">
-            </div>
-          </li>
-          <li class="input_item">
-            <button type="submit">저장</button>
-          </li>
-        </ul>
-      </div>
+      <li hidden>
+        <div>
+          <h6>ID</h6>
+          <input type="text" class="form-control" name="id" id="id" placeholder="ID" th:value="${dto.id}" required>
+        </div>
+      </li>
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div>
+            <h6>장소 ID</h6>
+            <input type="text" class="form-control" name="placeId" id="placeId" autocomplete="off" placeholder="장소 ID" th:value="${dto.placeId}" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>장소명</h6>
+            <input type="text" class="form-control" name="placeName" id="placeName" autocomplete="off" placeholder="장소명" th:value="${dto.placeName}" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>장소 URL</h6>
+            <input type="text" class="form-control" name="placeUrl" id="placeUrl" autocomplete="off" placeholder="장소 URL" th:value="${dto.placeUrl}" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>주소(지번 주소)</h6>
+            <input type="text" class="form-control" name="addressName" id="addressName" th:value="${dto.addressName}" autocomplete="off" placeholder="주소(지번 주소)" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>주소(도로명 주소)</h6>
+            <input type="text" class="form-control" name="roadAddressName" id="roadAddressName" th:value="${dto.roadAddressName}" autocomplete="off" placeholder="주소(도로명 주소)">
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>시,도(region_1depth_name)</h6>
+            <input type="text" class="form-control" name="region1DepthName" id="region1DepthName" th:value="${dto.region1DepthName}" autocomplete="off" placeholder="시,도" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>군,구(region_2depth_name)</h6>
+            <input type="text" class="form-control" name="region2DepthName" id="region2DepthName" th:value="${dto.region2DepthName}" autocomplete="off" placeholder="군,구" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>읍,면,동(region_3depth_name)</h6>
+            <input type="text" class="form-control" name="region3DepthName" id="region3DepthName" th:value="${dto.region3DepthName}" autocomplete="off" placeholder="읍,면,동" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>이미지 URL</h6>
+            <input type="text" class="form-control" name="imageUrl" id="imageUrl" th:value="${dto.imageUrl}" autocomplete="off" placeholder="이미지 URL">
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>설명</h6>
+            <input type="text" class="form-control" name="description" id="description" th:value="${dto.description}" autocomplete="off" placeholder="설명">
+          </div>
+        </li>
+      </ul>
     </form>
+    <div class="reverse-align">
+      <button form="modify_place_form" class="btn btn-update" type="submit">수정</button>
+      <a class="exit" th:href="@{'/admin/places/' + ${dto.id}}">
+        <button class="btn btn-cancel">취소</button>
+      </a>
+    </div>
   </div>
 </div>
 

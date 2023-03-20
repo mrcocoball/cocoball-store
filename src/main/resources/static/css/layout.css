@@ -3,6 +3,10 @@
 
 /* 전역 설정 */
 
+html, body {
+    height: 100%;
+}
+
 * {
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -21,6 +25,55 @@ a {
     vertical-align: middle;
 }
 
+article > pre {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 헤더, 푸터 */
+
+header {
+    flex:1 1 100%
+}
+
+#wrapper {
+    min-height: 93%;
+    position: relative;
+    padding-bottom: 130px;
+    overflow: auto;
+}
+
+footer.border-top {
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-bottom: 30px;
+    position: relative;
+    transform: translateY(-100%);
+}
+
+/* 내비게이션 관련 */
+
+/*
+#main_nav {
+    width: 100%;
+    height: 55px;
+    position: absolute;
+}
+
+.fix {
+    position: fixed;
+    animation: down 0.5s ease;
+}
+
+@keyframes down {
+    0% {
+        transform: translateY(-50px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+ */
 
 /* 컨테이너 관련 */
 div.information_container {
@@ -32,7 +85,7 @@ div.common_header {
     min-width: 450px;
     max-width: 1280px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 /* 역정렬 관련 */
@@ -42,6 +95,10 @@ div.reverse-align {
 }
 
 div.reverse-align > button {
+    margin-right: 10px;
+}
+
+div.reverse-align > a {
     margin-right: 10px;
 }
 
@@ -109,38 +166,22 @@ div.user_search_condition {
     font-size: 13px;
 }
 
-/*
-#announcements_table {
-
-}
-
-#announcement_question_category_table > thead {
-    font-size: 15px;
-}
-
-#announcement_question_category_table > tbody {
-    font-size: 13px;
-}
-
-#favorite_question_category_table > thead {
-    font-size: 15px;
-}
-
-#favorite_question_category_table > tbody {
-    font-size: 13px;
-}
-
-#questions_table {
-
-}
-
-#question_category_table {
-
-}
- */
 
 /* 입력 폼 관련 */
 
+.common_form {
+    min-width: 450px;
+    max-width: 1280px;
+    margin-top: 20px;
+}
+
+ul.list-group {
+    margin-bottom: 20px;
+}
+
+li.list-group-item > div > p {
+    margin-bottom: 0px;
+}
 
 /* 버튼 관련 */
 
@@ -167,57 +208,35 @@ div.user_search_condition {
 .btn-update {
     background-color: rgb(36, 23, 82);
     color: aliceblue;
-    font-size: small;
 }
 
 .btn-update:hover {
     background-color: rgb(83, 64, 153);
     color: aliceblue;
-    font-size: small;
 }
 
 .btn-delete {
     background-color: rgb(90, 8, 72);
     color: aliceblue;
-    font-size: small;
 }
 
 .btn-delete:hover {
     background-color: rgb(175, 16, 141);
     color: aliceblue;
-    font-size: small;
 }
 
-.btn-complete {
-    background-color: rgb(11, 141, 192);
+.btn-cancel {
+    background-color: rgb(6, 82, 108);
     color: aliceblue;
-    font-size: small;
 }
 
-.btn-complete:hover {
+.btn-cancel:hover {
     background-color: rgb(77, 202, 252);
     color: aliceblue;
-    font-size: small;
 }
 
-.btn-create > a:link {
-    color: white;
-    text-decoration: none;
-}
-
-.btn-create > a:visited {
-    color: white;
-    text-decoration: none;
-}
-
-.btn-create > a:hover {
-    color: white;
-    text-decoration: none;
-}
-
-.btn-create > a:active {
-    color: white;
-    text-decoration: none;
+.back_list_button {
+    margin-top: 10px;
 }
 
 

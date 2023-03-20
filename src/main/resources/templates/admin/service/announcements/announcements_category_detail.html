@@ -1,36 +1,42 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
 
-<div>
-  <div class="col">
-    <div>
-      <ul class="input_item_list">
-        <li class="input_item">
-          <div>
-            <h6>번호</h6>
-            <p class="id" id="id" th:text="${dto.id}"></p>
-          </div>
-        </li>
-        <li class="input_item">
-          <div>
-            <h6>카테고리명</h6>
-            <p class="categoryName" id="categoryName" th:text="${dto.categoryName}"></p>
-          </div>
-        </li>
-        <li class="input_item">
-          <form class="delete-form" th:action="'/admin/service/announcements/categories/' + ${dto.id} + '/delete'" th:method="post">
-            <a th:href="@{'/admin/service/announcements/categories/' + ${dto.id} + '/modify'}">
-              <button type="button" class="modify-button">수정</button>
-            </a>
-            <button type="submit" class="delete-button">삭제</button>
-          </form>
-        </li>
-      </ul>
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <h2>공지사항 카테고리 정보</h2>
+  </div>
+
+  <div class="col-md-7 col-lg-8 common_form">
+    <ul class="list-group mb-3">
+      <li class="list-group-item">
+        <div>
+          <h6>번호</h6>
+          <p class="id" id="id" th:text="${dto.id}"></p>
+        </div>
+      </li>
+      <li class="list-group-item">
+        <div>
+          <h6>카테고리명</h6>
+          <p class="categoryName" id="categoryName" th:text="${dto.categoryName}"></p>
+        </div>
+      </li>
+    </ul>
+    <div class="reverse-align">
+      <form class="delete-form" th:action="'/admin/service/announcements/categories/' + ${dto.id} + '/delete'" th:method="post">
+        <a th:href="@{'/admin/service/announcements/categories/' + ${dto.id} + '/modify'}">
+          <button type="button" class="btn btn-update">수정</button>
+        </a>
+        <button type="submit" class="btn btn-delete">삭제</button>
+      </form>
+    </div>
+    <div class="back_list_button">
+      <a th:href="@{'/admin/service/announcements/categories'}">
+        <button type="button" class="w-100 btn btn-cancel">리스트로 이동하기</button>
+      </a>
     </div>
   </div>
 </div>
