@@ -24,10 +24,11 @@
           <option th:value="true" th:text="탈퇴" th:selected="${param.deleted == true}"></option>
         </select>
         <select name="social" id="social" form="dynamic-query-parameter-form">
-          <option th:value="true" th:selected="${param.social == true}">소셜 로그인 연동</option>
           <option th:value="false" th:selected="${param.social == false}">소셜 로그인 미연동</option>
+          <option th:value="true" th:selected="${param.social == true}">소셜 로그인 연동</option>
         </select>
         <select name="provider" id="provider" form="dynamic-query-parameter-form">
+          <option th:name="null" th:value="null">인증 제공</option>
           <option th:name="'kakao'" th:value="'kakao'" th:text="카카오"
                   th:selected="${param.provider eq 'kakao'}"></option>
           <option th:name="'naver'" th:value="'naver'" th:text="네이버"
@@ -49,6 +50,7 @@
         <th>회원 번호</th>
         <th>이메일</th>
         <th>닉네임</th>
+        <th>상세 정보</th>
         <th>탈퇴 여부</th>
         <th>소셜 로그인 연동</th>
         <th>생성일자</th>

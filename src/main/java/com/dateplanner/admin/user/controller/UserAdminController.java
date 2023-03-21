@@ -78,8 +78,8 @@ public class UserAdminController {
 
 
     // @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{id}")
-    public String getUserByUid(@PathVariable("id") Long uid, ModelMap map) {
+    @GetMapping("/{uid}")
+    public String getUserByUid(@PathVariable("uid") Long uid, ModelMap map) {
 
         UserResponseDto dto = userAdminService.getUserByUid(uid);
         map.addAttribute("dto", dto);
