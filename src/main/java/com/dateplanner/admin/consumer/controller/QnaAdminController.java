@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +38,7 @@ public class QnaAdminController {
      */
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelMap map) {
 
@@ -50,6 +52,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestion(@PathVariable("id") Long id, ModelMap map) {
 
         QuestionDto dto = qnaService.getQuestion(id);
@@ -60,6 +63,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getWriteForm(ModelMap map) {
 
         List<QuestionCategoryDto> categories = qnaService.getQuestionCategoryList();
@@ -70,6 +74,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String writeQuestion(@Valid QuestionRequestDto dto,
                                 BindingResult r,
                                 RedirectAttributes ra,
@@ -95,6 +100,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
         QuestionModifyRequestDto dto = QuestionModifyRequestDto.from(qnaService.getQuestion(id));
@@ -107,6 +113,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyQuestion(@PathVariable("id") Long id,
                                  @Valid QuestionModifyRequestDto dto,
                                  BindingResult r,
@@ -127,6 +134,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("{/id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteQuestion(@PathVariable("id") Long id) {
 
         qnaService.deleteQuestion(id);
@@ -141,6 +149,7 @@ public class QnaAdminController {
      */
 
     @PostMapping("/answers/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String writeAnswer(@Valid AnswerRequestDto dto,
                               BindingResult r,
                               RedirectAttributes ra,
@@ -166,6 +175,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/answers/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAnswer(@PathVariable("id") Long id, Long qid) {
 
         qnaService.deleteAnswer(id);
@@ -180,6 +190,7 @@ public class QnaAdminController {
      */
 
     @GetMapping("/categories")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionCategoryList(ModelMap map) {
 
         List<QuestionCategoryDto> dtos = qnaService.getQuestionCategoryList();
@@ -190,6 +201,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/categories/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionCategory(@PathVariable("id") Long id, ModelMap map) {
 
         QuestionCategoryDto dto = qnaService.getQuestionCategory(id);
@@ -200,6 +212,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/categories/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryWriteForm() {
 
         return "admin/service/qna/qna_category_write";
@@ -207,6 +220,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/categories/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String writeQuestionCategory(@Valid QuestionCategoryRequestDto dto,
                                         BindingResult r,
                                         RedirectAttributes ra) {
@@ -227,6 +241,7 @@ public class QnaAdminController {
     }
 
     @GetMapping("/categories/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
         QuestionCategoryModifyRequestDto dto = QuestionCategoryModifyRequestDto.from(qnaService.getQuestionCategory(id));
@@ -237,6 +252,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/categories/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyQuestionCategory(@PathVariable("id") Long id,
                                          @Valid QuestionCategoryModifyRequestDto dto,
                                          BindingResult r,
@@ -257,6 +273,7 @@ public class QnaAdminController {
     }
 
     @PostMapping("/categories/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteQuestionCategory(@PathVariable("id") Long id) {
 
         qnaService.deleteQuestionCategory(id);

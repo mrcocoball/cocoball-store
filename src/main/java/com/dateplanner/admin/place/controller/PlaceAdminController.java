@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,6 +33,7 @@ public class PlaceAdminController {
     private final PaginationService paginationService;
 
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getPlaceList(@RequestParam(required = false) String region1, @RequestParam(required = false) String region2, @RequestParam(required = false) String region3,
                                @RequestParam(required = false) String categoryId, @RequestParam(required = false) Long id,
                                @RequestParam(required = false) String placeId, @RequestParam(required = false) String placeName, @RequestParam(required = false) Long reviewCount,
@@ -49,6 +51,7 @@ public class PlaceAdminController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getPlace(@PathVariable("id") Long id, ModelMap map) {
 
         PlaceAdminDetailDto dto = placeAdminService.getPlace(id);
@@ -58,6 +61,7 @@ public class PlaceAdminController {
     }
 
     @GetMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createPlaceForm() {
 
         return "admin/places/places_create";
@@ -65,6 +69,7 @@ public class PlaceAdminController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createPlace(@Valid PlaceRequestDto dto,
                              BindingResult r,
                              RedirectAttributes ra) {
@@ -85,6 +90,7 @@ public class PlaceAdminController {
     }
 
     @GetMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyPlaceForm(@PathVariable("id") Long id, ModelMap map) {
 
         PlaceModifyRequestDto dto = PlaceModifyRequestDto.from(placeAdminService.getPlace(id));
@@ -95,6 +101,7 @@ public class PlaceAdminController {
     }
 
     @PostMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyPlace(@PathVariable("id") Long id,
                              @Valid PlaceModifyRequestDto dto,
                              BindingResult r,
@@ -116,6 +123,7 @@ public class PlaceAdminController {
     }
 
     @PostMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deletePlace(@PathVariable("id") Long id) {
 
         placeAdminService.deletePlace(id);

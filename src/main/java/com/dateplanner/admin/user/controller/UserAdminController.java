@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,13 +31,12 @@ import java.util.List;
 @RequestMapping("/admin/users")
 public class UserAdminController {
 
-
     private final UserAdminService userAdminService;
     private final PaginationService paginationService;
 
 
-    // @PreAuthorize("isAuthenticated()")
     @GetMapping()
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getUserList(@RequestParam(required = false) String email,
                               @RequestParam(required = false) String nickname,
                               @RequestParam(required = false) boolean deleted,
@@ -57,8 +57,8 @@ public class UserAdminController {
         return "admin/users/users";
     }
 
-    // @PreAuthorize("isAuthenticated()")
     @GetMapping("/deleted")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getDeletedUserList(@RequestParam(required = false) String email,
                                      @RequestParam(required = false) String nickname,
                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -77,9 +77,9 @@ public class UserAdminController {
     }
 
 
-    // @PreAuthorize("isAuthenticated()")
-    @GetMapping("/{id}")
-    public String getUserByUid(@PathVariable("id") Long uid, ModelMap map) {
+    @GetMapping("/{uid}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String getUserByUid(@PathVariable("uid") Long uid, ModelMap map) {
 
         UserResponseDto dto = userAdminService.getUserByUid(uid);
         map.addAttribute("dto", dto);
@@ -88,16 +88,16 @@ public class UserAdminController {
     }
 
 
-    // @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createUserForm() {
 
         return "admin/users/users_create";
 
     }
 
-    // @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String createUser(@Valid UserRequestDto dto,
                              BindingResult r,
                              RedirectAttributes ra) {
@@ -117,8 +117,8 @@ public class UserAdminController {
 
     }
 
-    // @PreAuthorize("isAuthenticated()")
     @GetMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyUserForm(@PathVariable("id") Long uid, ModelMap map) {
 
         UserModifyRequestDto dto = UserModifyRequestDto.from(userAdminService.getUserByUid(uid));
@@ -128,8 +128,8 @@ public class UserAdminController {
 
     }
 
-    // @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyUser(@PathVariable("id") Long uid,
                              @Valid UserModifyRequestDto dto,
                              BindingResult r,
@@ -150,8 +150,8 @@ public class UserAdminController {
 
     }
 
-    // @PreAuthorize("isAuthenticated()")
     @PostMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteUser(@Parameter(description = "회원 ID", required = true) @PathVariable("id") Long uid) {
 
         userAdminService.deleteUser(uid);
@@ -166,6 +166,7 @@ public class UserAdminController {
      */
 
     @GetMapping("/passwordRequests")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getUserPasswordRequestList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                              ModelMap map) {
 
