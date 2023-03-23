@@ -29,12 +29,6 @@ public class InitCategory {
         @Transactional
         public void init() {
 
-            /*
-            // Mock User 생성
-            User user = User.of("test", "tset", "test", "test", false, false);
-            em.persist(user);
-             */
-
             AnnouncementCategory category1 = AnnouncementCategory.of("일반");
             AnnouncementCategory category2 = AnnouncementCategory.of("업데이트");
             AnnouncementCategory category3 = AnnouncementCategory.of("이벤트");
