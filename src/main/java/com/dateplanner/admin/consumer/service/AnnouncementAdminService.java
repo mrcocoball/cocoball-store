@@ -4,7 +4,7 @@ import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.entity.Announcement;
 import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
 import com.dateplanner.admin.consumer.repository.AnnouncementCategoryRepository;
-import com.dateplanner.admin.consumer.repository.AnnouncementRepository;
+import com.dateplanner.admin.consumer.repository.AnnouncementAdminRepository;
 import com.dateplanner.advice.exception.AnnouncementNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AnnouncementService {
+public class AnnouncementAdminService {
 
-    private final AnnouncementRepository announcementRepository;
+    private final AnnouncementAdminRepository announcementAdminRepository;
     private final AnnouncementCategoryRepository announcementCategoryRepository;
 
 
@@ -33,7 +33,7 @@ public class AnnouncementService {
     @Transactional(readOnly = true)
     public List<AnnouncementDto> getAnnouncementList() {
 
-        return announcementRepository.findAll().stream().map(AnnouncementDto::from)
+        return announcementAdminRepository.findAll().stream().map(AnnouncementDto::from)
                         .sorted(Comparator.comparing(AnnouncementDto::getCreatedAt).reversed()).collect(Collectors.toList());
 
     }
@@ -41,14 +41,14 @@ public class AnnouncementService {
     @Transactional(readOnly = true)
     public AnnouncementDto getAnnouncement(Long id) {
 
-        return announcementRepository.findById(id).map(AnnouncementDto::from).orElseThrow(AnnouncementNotFoundException::new);
+        return announcementAdminRepository.findById(id).map(AnnouncementDto::from).orElseThrow(AnnouncementNotFoundException::new);
 
     }
 
     public Long saveAnnouncement(AnnouncementRequestDto dto) {
 
         AnnouncementCategory category = announcementCategoryRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
-        Announcement announcement = announcementRepository.save(dto.toEntity(dto.getTitle(), dto.getDescription(), category));
+        Announcement announcement = announcementAdminRepository.save(dto.toEntity(dto.getTitle(), dto.getDescription(), category));
 
         return announcement.getId();
 
@@ -56,7 +56,7 @@ public class AnnouncementService {
 
     public Long updateAnnouncement(AnnouncementModifyRequestDto dto) {
 
-        Announcement announcement = announcementRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+        Announcement announcement = announcementAdminRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
 
         announcement.changeTitle(dto.getTitle());
         announcement.changeDescription(dto.getDescription());
@@ -72,7 +72,7 @@ public class AnnouncementService {
 
     public void deleteAnnouncement(Long id) {
 
-        announcementRepository.deleteById(id);
+        announcementAdminRepository.deleteById(id);
 
     }
 

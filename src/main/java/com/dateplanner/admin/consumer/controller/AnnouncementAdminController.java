@@ -1,7 +1,7 @@
 package com.dateplanner.admin.consumer.controller;
 
 import com.dateplanner.admin.consumer.dto.*;
-import com.dateplanner.admin.consumer.service.AnnouncementService;
+import com.dateplanner.admin.consumer.service.AnnouncementAdminService;
 import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequestMapping("/admin/service/announcements")
 public class AnnouncementAdminController {
 
-    private final AnnouncementService announcementService;
+    private final AnnouncementAdminService announcementAdminService;
     private final PaginationService paginationService;
 
 
@@ -38,7 +38,7 @@ public class AnnouncementAdminController {
     public String getAnnouncementList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                       ModelMap map) {
 
-        Page<AnnouncementDto> dtos = paginationService.listToPage(announcementService.getAnnouncementList(), pageable);
+        Page<AnnouncementDto> dtos = paginationService.listToPage(announcementAdminService.getAnnouncementList(), pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
@@ -51,7 +51,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnnouncement(@PathVariable("id") Long id, ModelMap map) {
 
-        AnnouncementDto dto = announcementService.getAnnouncement(id);
+        AnnouncementDto dto = announcementAdminService.getAnnouncement(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/announcements/announcements_detail";
@@ -62,7 +62,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getWriteForm(ModelMap map) {
 
-        List<AnnouncementCategoryDto> categories = announcementService.getAnnouncementCategoryList();
+        List<AnnouncementCategoryDto> categories = announcementAdminService.getAnnouncementCategoryList();
         map.addAttribute("categories", categories);
 
         return "admin/service/announcements/announcements_write";
@@ -82,7 +82,7 @@ public class AnnouncementAdminController {
 
         }
 
-        announcementService.saveAnnouncement(dto);
+        announcementAdminService.saveAnnouncement(dto);
 
         return "redirect:/admin/service/announcements";
 
@@ -92,8 +92,8 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        List<AnnouncementCategoryDto> categories = announcementService.getAnnouncementCategoryList();
-        AnnouncementModifyRequestDto dto = AnnouncementModifyRequestDto.from(announcementService.getAnnouncement(id));
+        List<AnnouncementCategoryDto> categories = announcementAdminService.getAnnouncementCategoryList();
+        AnnouncementModifyRequestDto dto = AnnouncementModifyRequestDto.from(announcementAdminService.getAnnouncement(id));
         map.addAttribute("dto", dto);
         map.addAttribute("categories", categories);
 
@@ -116,7 +116,7 @@ public class AnnouncementAdminController {
 
         }
 
-        announcementService.updateAnnouncement(dto);
+        announcementAdminService.updateAnnouncement(dto);
 
         return "redirect:/admin/service/announcements/" + id;
 
@@ -126,7 +126,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAnnouncement(@PathVariable("id") Long id) {
 
-        announcementService.deleteAnnouncement(id);
+        announcementAdminService.deleteAnnouncement(id);
 
         return "redirect:/admin/service/announcements";
 
@@ -141,7 +141,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnnouncementCategoryList(ModelMap map) {
 
-        List<AnnouncementCategoryDto> dtos = announcementService.getAnnouncementCategoryList();
+        List<AnnouncementCategoryDto> dtos = announcementAdminService.getAnnouncementCategoryList();
         map.addAttribute("dtos", dtos);
 
         return "admin/service/announcements/announcements_category_list";
@@ -152,7 +152,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnnouncementCategory(@PathVariable("id") Long id, ModelMap map) {
 
-        AnnouncementCategoryDto dto = announcementService.getAnnouncementCategory(id);
+        AnnouncementCategoryDto dto = announcementAdminService.getAnnouncementCategory(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/announcements/announcements_category_detail";
@@ -180,7 +180,7 @@ public class AnnouncementAdminController {
 
         }
 
-        announcementService.saveAnnouncementCategory(dto);
+        announcementAdminService.saveAnnouncementCategory(dto);
 
         return "redirect:/admin/service/announcements/categories";
 
@@ -190,7 +190,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        AnnouncementCategoryModifyRequestDto dto = AnnouncementCategoryModifyRequestDto.from(announcementService.getAnnouncementCategory(id));
+        AnnouncementCategoryModifyRequestDto dto = AnnouncementCategoryModifyRequestDto.from(announcementAdminService.getAnnouncementCategory(id));
         map.addAttribute("dto", dto);
 
         return "admin/service/announcements/announcements_category_modify";
@@ -212,7 +212,7 @@ public class AnnouncementAdminController {
 
         }
 
-        announcementService.updateAnnouncementCategory(dto);
+        announcementAdminService.updateAnnouncementCategory(dto);
 
         return "redirect:/admin/service/announcements/categories/" + id;
 
@@ -222,7 +222,7 @@ public class AnnouncementAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAnnouncementCategory(@PathVariable("id") Long id) {
 
-        announcementService.deleteAnnouncementCategory(id);
+        announcementAdminService.deleteAnnouncementCategory(id);
 
         return "redirect:/admin/service/announcements/categories";
 
