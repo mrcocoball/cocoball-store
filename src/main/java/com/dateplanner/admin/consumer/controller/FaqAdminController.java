@@ -5,6 +5,7 @@ import com.dateplanner.admin.consumer.service.FaqService;
 import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +32,7 @@ public class FaqAdminController {
      */
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteQuestionCategoryList(ModelMap map) {
 
         List<FavoriteQuestionCategoryDto> dtos = faqService.getFavoriteQuestionCategoryList();
@@ -40,6 +42,7 @@ public class FaqAdminController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteQuestionCategory(@PathVariable("id") Long id, ModelMap map) {
 
         FavoriteQuestionCategoryDto dto = faqService.getFavoriteQuestionCategory(id);
@@ -50,12 +53,14 @@ public class FaqAdminController {
     }
 
     @GetMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryWriteForm() {
 
         return "admin/service/faq/faq_write";
     }
 
     @PostMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String writeFavoriteQuestionCategory(@Valid FavoriteQuestionCategoryRequestDto dto, BindingResult r, RedirectAttributes ra) {
 
         if (r.hasErrors()) {
@@ -73,6 +78,7 @@ public class FaqAdminController {
     }
 
     @GetMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
         FavoriteQuestionCategoryModifyRequestDto dto = FavoriteQuestionCategoryModifyRequestDto.from(faqService.getFavoriteQuestionCategory(id));
@@ -82,6 +88,7 @@ public class FaqAdminController {
     }
 
     @PostMapping("/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyFavoriteQuestionCategory(@PathVariable("id") Long id,
                                                  @Valid FavoriteQuestionCategoryModifyRequestDto dto,
                                                  BindingResult r, RedirectAttributes ra) {
@@ -101,6 +108,7 @@ public class FaqAdminController {
     }
 
     @PostMapping("/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFavoriteQuestionCategory(@PathVariable("id") Long id) {
 
         faqService.deleteFavoriteQuestionCategory(id);
@@ -115,6 +123,7 @@ public class FaqAdminController {
      */
 
     @GetMapping("/answers/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteAnswer(@PathVariable("id") Long id, ModelMap map) {
 
         FavoriteAnswerDto dto = faqService.getFavoriteAnswer(id);
@@ -125,6 +134,7 @@ public class FaqAdminController {
     }
 
     @GetMapping("/answers/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnswerWriteForm(ModelMap map) {
 
         List<FavoriteQuestionCategoryDto> categories = faqService.getFavoriteQuestionCategoryList();
@@ -134,6 +144,7 @@ public class FaqAdminController {
     }
 
     @PostMapping("/answers/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String writeFavoriteAnswer(@Valid FavoriteAnswerRequestDto dto, BindingResult r, RedirectAttributes ra) {
 
         if (r.hasErrors()) {
@@ -151,6 +162,7 @@ public class FaqAdminController {
     }
 
     @GetMapping("/answers/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnswerModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
         FavoriteAnswerModifyRequestDto dto = FavoriteAnswerModifyRequestDto.from(faqService.getFavoriteAnswer(id));
@@ -160,6 +172,7 @@ public class FaqAdminController {
     }
 
     @PostMapping("/answers/{id}/modify")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String modifyFavoriteAnswer(@PathVariable("id") Long id,
                                        @Valid FavoriteAnswerModifyRequestDto dto,
                                        BindingResult r, RedirectAttributes ra) {
@@ -179,6 +192,7 @@ public class FaqAdminController {
     }
 
     @PostMapping("/answers/{id}/delete")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFavoriteAnswer(@PathVariable("id") Long id) {
 
         faqService.deleteFavoriteAnswer(id);
