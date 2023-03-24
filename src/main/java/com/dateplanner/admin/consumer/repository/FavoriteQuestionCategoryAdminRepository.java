@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface FavoriteQuestionCategoryRepository extends JpaRepository<FavoriteQuestionCategory, Long> {
+public interface FavoriteQuestionCategoryAdminRepository extends JpaRepository<FavoriteQuestionCategory, Long> {
 
     @EntityGraph(attributePaths = "favoriteAnswers")
     @Override
