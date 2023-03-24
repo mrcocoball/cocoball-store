@@ -48,8 +48,7 @@ public class AnnouncementApiController {
     @Operation(summary = "[GET] 공지사항 게시글 ID로 단건 조회",
             description = "공지사항 게시글 ID로 게시글을 단건 조회합니다.")
     @GetMapping("/api/v1/announcements/{id}")
-    public SingleResult<AnnouncementDto> getAnnouncementsV1(@Parameter(description = "장소 ID, 장소 리스트의 place_id를 사용합니다")
-                                                            @PathVariable("id") Long id) {
+    public SingleResult<AnnouncementDto> getAnnouncementsV1(@Parameter(description = "공지사항 ID") @PathVariable("id") Long id) {
 
         return responseService.getSingleResult(announcementApiService.getAnnouncement(id));
 

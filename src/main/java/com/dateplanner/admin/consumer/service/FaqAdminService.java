@@ -3,8 +3,8 @@ package com.dateplanner.admin.consumer.service;
 import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.entity.FavoriteAnswer;
 import com.dateplanner.admin.consumer.entity.FavoriteQuestionCategory;
-import com.dateplanner.admin.consumer.repository.FavoriteAnswerRepostory;
-import com.dateplanner.admin.consumer.repository.FavoriteQuestionCategoryRepository;
+import com.dateplanner.admin.consumer.repository.FavoriteAnswerAdminRepository;
+import com.dateplanner.admin.consumer.repository.FavoriteQuestionCategoryAdminRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class FaqService {
+public class FaqAdminService {
 
-    private final FavoriteQuestionCategoryRepository favoriteQuestionCategoryRepository;
-    private final FavoriteAnswerRepostory favoriteAnswerRepostory;
+    private final FavoriteQuestionCategoryAdminRepository favoriteQuestionCategoryAdminRepository;
+    private final FavoriteAnswerAdminRepository favoriteAnswerAdminRepository;
 
 
     /**
@@ -31,20 +31,20 @@ public class FaqService {
     @Transactional(readOnly = true)
     public List<FavoriteQuestionCategoryDto> getFavoriteQuestionCategoryList() {
 
-        return favoriteQuestionCategoryRepository.findAll().stream().map(FavoriteQuestionCategoryDto::from).collect(Collectors.toList());
+        return favoriteQuestionCategoryAdminRepository.findAll().stream().map(FavoriteQuestionCategoryDto::from).collect(Collectors.toList());
 
     }
 
     @Transactional(readOnly = true)
     public FavoriteQuestionCategoryDto getFavoriteQuestionCategory(Long id) {
 
-        return favoriteQuestionCategoryRepository.findById(id).map(FavoriteQuestionCategoryDto::from).orElseThrow(EntityNotFoundException::new);
+        return favoriteQuestionCategoryAdminRepository.findById(id).map(FavoriteQuestionCategoryDto::from).orElseThrow(EntityNotFoundException::new);
 
     }
 
     public Long saveFavoriteQuestionCategory(FavoriteQuestionCategoryRequestDto dto) {
 
-        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryRepository.save(dto.toEntity(dto.getCategoryName()));
+        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryAdminRepository.save(dto.toEntity(dto.getCategoryName()));
 
         return favoriteQuestionCategory.getId();
 
@@ -52,7 +52,7 @@ public class FaqService {
 
     public Long updateFavoriteQuestionCategory(FavoriteQuestionCategoryModifyRequestDto dto) {
 
-        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryAdminRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
 
         favoriteQuestionCategory.changeCategoryName(dto.getCategoryName());
 
@@ -62,7 +62,7 @@ public class FaqService {
 
     public void deleteFavoriteQuestionCategory(Long id) {
 
-        favoriteQuestionCategoryRepository.deleteById(id);
+        favoriteQuestionCategoryAdminRepository.deleteById(id);
 
     }
 
@@ -74,14 +74,14 @@ public class FaqService {
     @Transactional(readOnly = true)
     public FavoriteAnswerDto getFavoriteAnswer(Long id) {
 
-        return favoriteAnswerRepostory.findById(id).map(FavoriteAnswerDto::from).orElseThrow(EntityNotFoundException::new);
+        return favoriteAnswerAdminRepository.findById(id).map(FavoriteAnswerDto::from).orElseThrow(EntityNotFoundException::new);
 
     }
 
     public Long saveFavoriteAnswer(FavoriteAnswerRequestDto dto) {
 
-        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
-        FavoriteAnswer favoriteAnswer = favoriteAnswerRepostory.save(dto.toEntity(dto.getTitle(), dto.getDescription(), favoriteQuestionCategory));
+        FavoriteQuestionCategory favoriteQuestionCategory = favoriteQuestionCategoryAdminRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
+        FavoriteAnswer favoriteAnswer = favoriteAnswerAdminRepository.save(dto.toEntity(dto.getTitle(), dto.getDescription(), favoriteQuestionCategory));
         favoriteQuestionCategory.addFavoriteAnswer(favoriteAnswer);
 
         return favoriteQuestionCategory.getId();
@@ -90,7 +90,7 @@ public class FaqService {
 
     public Long updateFavoriteAnswer(FavoriteAnswerModifyRequestDto dto) {
 
-        FavoriteAnswer favoriteAnswer = favoriteAnswerRepostory.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+        FavoriteAnswer favoriteAnswer = favoriteAnswerAdminRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
 
         favoriteAnswer.changeTitle(dto.getTitle());
         favoriteAnswer.changeDescription(dto.getDescription());
@@ -101,7 +101,7 @@ public class FaqService {
 
     public void deleteFavoriteAnswer(Long id) {
 
-        favoriteAnswerRepostory.deleteById(id);
+        favoriteAnswerAdminRepository.deleteById(id);
 
     }
 

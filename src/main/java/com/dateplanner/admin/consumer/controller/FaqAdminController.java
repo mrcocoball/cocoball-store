@@ -1,7 +1,7 @@
 package com.dateplanner.admin.consumer.controller;
 
 import com.dateplanner.admin.consumer.dto.*;
-import com.dateplanner.admin.consumer.service.FaqService;
+import com.dateplanner.admin.consumer.service.FaqAdminService;
 import com.dateplanner.common.pagination.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import java.util.List;
 @RequestMapping("/admin/service/faq")
 public class FaqAdminController {
 
-    private final FaqService faqService;
+    private final FaqAdminService faqAdminService;
     private final PaginationService paginationService;
 
     /**
@@ -35,7 +35,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteQuestionCategoryList(ModelMap map) {
 
-        List<FavoriteQuestionCategoryDto> dtos = faqService.getFavoriteQuestionCategoryList();
+        List<FavoriteQuestionCategoryDto> dtos = faqAdminService.getFavoriteQuestionCategoryList();
         map.addAttribute("dtos", dtos);
 
         return "admin/service/faq/faq";
@@ -45,7 +45,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteQuestionCategory(@PathVariable("id") Long id, ModelMap map) {
 
-        FavoriteQuestionCategoryDto dto = faqService.getFavoriteQuestionCategory(id);
+        FavoriteQuestionCategoryDto dto = faqAdminService.getFavoriteQuestionCategory(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/faq/faq_detail";
@@ -72,7 +72,7 @@ public class FaqAdminController {
 
         }
 
-        faqService.saveFavoriteQuestionCategory(dto);
+        faqAdminService.saveFavoriteQuestionCategory(dto);
 
         return "redirect:/admin/service/faq";
     }
@@ -81,7 +81,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        FavoriteQuestionCategoryModifyRequestDto dto = FavoriteQuestionCategoryModifyRequestDto.from(faqService.getFavoriteQuestionCategory(id));
+        FavoriteQuestionCategoryModifyRequestDto dto = FavoriteQuestionCategoryModifyRequestDto.from(faqAdminService.getFavoriteQuestionCategory(id));
         map.addAttribute("dto", dto);
 
         return "admin/service/faq/faq_modify";
@@ -102,7 +102,7 @@ public class FaqAdminController {
 
         }
 
-        faqService.updateFavoriteQuestionCategory(dto);
+        faqAdminService.updateFavoriteQuestionCategory(dto);
 
         return "redirect:/admin/service/faq/" + id;
     }
@@ -111,7 +111,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFavoriteQuestionCategory(@PathVariable("id") Long id) {
 
-        faqService.deleteFavoriteQuestionCategory(id);
+        faqAdminService.deleteFavoriteQuestionCategory(id);
 
         return "redirect:/admin/service/faq";
 
@@ -126,7 +126,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getFavoriteAnswer(@PathVariable("id") Long id, ModelMap map) {
 
-        FavoriteAnswerDto dto = faqService.getFavoriteAnswer(id);
+        FavoriteAnswerDto dto = faqAdminService.getFavoriteAnswer(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/faq/faq_answer_detail";
@@ -137,7 +137,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnswerWriteForm(ModelMap map) {
 
-        List<FavoriteQuestionCategoryDto> categories = faqService.getFavoriteQuestionCategoryList();
+        List<FavoriteQuestionCategoryDto> categories = faqAdminService.getFavoriteQuestionCategoryList();
         map.addAttribute("categories", categories);
 
         return "admin/service/faq/faq_answer_write";
@@ -156,7 +156,7 @@ public class FaqAdminController {
 
         }
 
-        faqService.saveFavoriteAnswer(dto);
+        faqAdminService.saveFavoriteAnswer(dto);
 
         return "redirect:/admin/service/faq";
     }
@@ -165,7 +165,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getAnswerModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        FavoriteAnswerModifyRequestDto dto = FavoriteAnswerModifyRequestDto.from(faqService.getFavoriteAnswer(id));
+        FavoriteAnswerModifyRequestDto dto = FavoriteAnswerModifyRequestDto.from(faqAdminService.getFavoriteAnswer(id));
         map.addAttribute("dto", dto);
 
         return "admin/service/faq/faq_answer_modify";
@@ -186,7 +186,7 @@ public class FaqAdminController {
 
         }
 
-        faqService.updateFavoriteAnswer(dto);
+        faqAdminService.updateFavoriteAnswer(dto);
 
         return "redirect:/admin/service/faq/answers/" + id;
     }
@@ -195,7 +195,7 @@ public class FaqAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteFavoriteAnswer(@PathVariable("id") Long id) {
 
-        faqService.deleteFavoriteAnswer(id);
+        faqAdminService.deleteFavoriteAnswer(id);
 
         return "redirect:/admin/service/faq";
 
