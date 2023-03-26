@@ -1,6 +1,5 @@
 package com.dateplanner.support.service;
 
-import com.dateplanner.admin.consumer.entity.Announcement;
 import com.dateplanner.advice.exception.AnnouncementNotFoundException;
 import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.support.dto.AnnouncementDto;
