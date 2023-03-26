@@ -4,9 +4,9 @@ import com.dateplanner.admin.consumer.dto.*;
 import com.dateplanner.admin.consumer.entity.Answer;
 import com.dateplanner.admin.consumer.entity.Question;
 import com.dateplanner.admin.consumer.entity.QuestionCategory;
-import com.dateplanner.admin.consumer.repository.AnswerRepository;
+import com.dateplanner.admin.consumer.repository.AnswerAdminRepository;
 import com.dateplanner.admin.consumer.repository.QuestionCategoryRepository;
-import com.dateplanner.admin.consumer.repository.QuestionRepository;
+import com.dateplanner.admin.consumer.repository.QuestionAdminRepository;
 import com.dateplanner.advice.exception.UserNotFoundApiException;
 import com.dateplanner.user.entity.User;
 import com.dateplanner.user.repository.UserRepository;
@@ -24,11 +24,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class QnaService {
+public class QnaAdminService {
 
     private final QuestionCategoryRepository questionCategoryRepository;
-    private final QuestionRepository questionRepository;
-    private final AnswerRepository answerRepository;
+    private final QuestionAdminRepository questionAdminRepository;
+    private final AnswerAdminRepository answerAdminRepository;
     private final UserRepository userRepository;
 
     /**
@@ -38,7 +38,7 @@ public class QnaService {
     @Transactional(readOnly = true)
     public List<QuestionDto> getQuestionList() {
 
-        return questionRepository.findAll().stream().map(QuestionDto::from)
+        return questionAdminRepository.findAll().stream().map(QuestionDto::from)
                 .sorted(Comparator.comparing(QuestionDto::getCreatedAt).reversed()).collect(Collectors.toList());
 
     }
@@ -46,7 +46,7 @@ public class QnaService {
     @Transactional(readOnly = true)
     public QuestionDto getQuestion(Long id) {
 
-        return questionRepository.findById(id).map(QuestionDto::from).orElseThrow(EntityNotFoundException::new);
+        return questionAdminRepository.findById(id).map(QuestionDto::from).orElseThrow(EntityNotFoundException::new);
 
     }
 
@@ -55,7 +55,7 @@ public class QnaService {
         User user = userRepository.findByNickname(dto.getUsername()).orElseThrow(UserNotFoundApiException::new);
         QuestionCategory questionCategory = questionCategoryRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
 
-        Question question = questionRepository.save(dto.toEntity(dto.getTitle(), dto.getDescription(), user, questionCategory));
+        Question question = questionAdminRepository.save(dto.toEntity(dto.getTitle(), dto.getDescription(), user, questionCategory));
 
         return question.getId();
 
@@ -63,7 +63,7 @@ public class QnaService {
 
     public Long updateQuestion(QuestionModifyRequestDto dto) {
 
-        Question question = questionRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+        Question question = questionAdminRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
 
         question.changeTitle(dto.getTitle());
         question.changeDescription(dto.getDescription());
@@ -79,7 +79,7 @@ public class QnaService {
 
     public void deleteQuestion(Long id) {
 
-        questionRepository.deleteById(id);
+        questionAdminRepository.deleteById(id);
 
     }
 
@@ -91,16 +91,16 @@ public class QnaService {
     @Transactional(readOnly = true)
     public AnswerDto getAnswer(Long id) {
 
-        return answerRepository.findById(id).map(AnswerDto::from).orElseThrow(EntityNotFoundException::new);
+        return answerAdminRepository.findById(id).map(AnswerDto::from).orElseThrow(EntityNotFoundException::new);
 
     }
 
     public Long saveAnswer(AnswerRequestDto dto) {
 
         User user = userRepository.findByNickname(dto.getUsername()).orElseThrow(UserNotFoundApiException::new);
-        Question question = questionRepository.findById(dto.getQid()).orElseThrow(EntityNotFoundException::new);
+        Question question = questionAdminRepository.findById(dto.getQid()).orElseThrow(EntityNotFoundException::new);
 
-        Answer answer = answerRepository.save(dto.toEntity(user, question, dto.getDescription()));
+        Answer answer = answerAdminRepository.save(dto.toEntity(user, question, dto.getDescription()));
         question.addAnswer(answer);
 
         return answer.getId();
@@ -109,7 +109,7 @@ public class QnaService {
 
     public void deleteAnswer(Long id) {
 
-        answerRepository.deleteById(id);
+        answerAdminRepository.deleteById(id);
 
     }
 
