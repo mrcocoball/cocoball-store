@@ -1,7 +1,7 @@
 package com.dateplanner.admin.consumer.controller;
 
 import com.dateplanner.admin.consumer.dto.*;
-import com.dateplanner.admin.consumer.service.QnaService;
+import com.dateplanner.admin.consumer.service.QnaAdminService;
 import com.dateplanner.common.pagination.PaginationService;
 import com.dateplanner.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ import java.util.List;
 @RequestMapping("/admin/service/qna")
 public class QnaAdminController {
 
-    private final QnaService qnaService;
+    private final QnaAdminService qnaAdminService;
     private final PaginationService paginationService;
 
     /**
@@ -38,11 +38,11 @@ public class QnaAdminController {
      */
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelMap map) {
 
-        Page<QuestionDto> dtos = paginationService.listToPage(qnaService.getQuestionList(), pageable);
+        Page<QuestionDto> dtos = paginationService.listToPage(qnaAdminService.getQuestionList(), pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
@@ -52,10 +52,10 @@ public class QnaAdminController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestion(@PathVariable("id") Long id, ModelMap map) {
 
-        QuestionDto dto = qnaService.getQuestion(id);
+        QuestionDto dto = qnaAdminService.getQuestion(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/qna/qna_detail";
@@ -66,7 +66,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getWriteForm(ModelMap map) {
 
-        List<QuestionCategoryDto> categories = qnaService.getQuestionCategoryList();
+        List<QuestionCategoryDto> categories = qnaAdminService.getQuestionCategoryList();
         map.addAttribute("categories", categories);
 
         return "admin/service/qna/qna_write";
@@ -93,7 +93,7 @@ public class QnaAdminController {
         String nickname = user.getNickname();
         dto.setUsername(nickname); // 현재 사용자 정보 내 닉네임을 받아서 dto에 주입
 
-        qnaService.saveQuestion(dto);
+        qnaAdminService.saveQuestion(dto);
 
         return "redirect:/admin/service/qna";
 
@@ -103,8 +103,8 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        QuestionModifyRequestDto dto = QuestionModifyRequestDto.from(qnaService.getQuestion(id));
-        List<QuestionCategoryDto> categories = qnaService.getQuestionCategoryList();
+        QuestionModifyRequestDto dto = QuestionModifyRequestDto.from(qnaAdminService.getQuestion(id));
+        List<QuestionCategoryDto> categories = qnaAdminService.getQuestionCategoryList();
         map.addAttribute("dto", dto);
         map.addAttribute("categories", categories);
 
@@ -128,7 +128,7 @@ public class QnaAdminController {
 
         }
 
-        qnaService.updateQuestion(dto);
+        qnaAdminService.updateQuestion(dto);
 
         return "redirect:/admin/service/qna/" + id;
     }
@@ -137,7 +137,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteQuestion(@PathVariable("id") Long id) {
 
-        qnaService.deleteQuestion(id);
+        qnaAdminService.deleteQuestion(id);
 
         return "redirect:/admin/service/qna";
 
@@ -168,7 +168,7 @@ public class QnaAdminController {
         String nickname = user.getNickname();
         dto.setUsername(nickname); // 현재 사용자 정보 내 닉네임을 받아서 dto에 주입
 
-        qnaService.saveAnswer(dto);
+        qnaAdminService.saveAnswer(dto);
 
         return "redirect:/admin/service/qna/" + dto.getQid();
 
@@ -178,7 +178,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteAnswer(@PathVariable("id") Long id, Long qid) {
 
-        qnaService.deleteAnswer(id);
+        qnaAdminService.deleteAnswer(id);
 
         return "redirect:/admin/service/qna/" + qid;
 
@@ -193,7 +193,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionCategoryList(ModelMap map) {
 
-        List<QuestionCategoryDto> dtos = qnaService.getQuestionCategoryList();
+        List<QuestionCategoryDto> dtos = qnaAdminService.getQuestionCategoryList();
         map.addAttribute("dtos", dtos);
 
         return "admin/service/qna/qna_category_list";
@@ -204,7 +204,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getQuestionCategory(@PathVariable("id") Long id, ModelMap map) {
 
-        QuestionCategoryDto dto = qnaService.getQuestionCategory(id);
+        QuestionCategoryDto dto = qnaAdminService.getQuestionCategory(id);
         map.addAttribute("dto", dto);
 
         return "admin/service/qna/qna_category_detail";
@@ -234,7 +234,7 @@ public class QnaAdminController {
 
         }
 
-        qnaService.saveQuestionCategory(dto);
+        qnaAdminService.saveQuestionCategory(dto);
 
         return "redirect:/admin/service/qna/categories";
 
@@ -244,7 +244,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getCategoryModifyForm(@PathVariable("id") Long id, ModelMap map) {
 
-        QuestionCategoryModifyRequestDto dto = QuestionCategoryModifyRequestDto.from(qnaService.getQuestionCategory(id));
+        QuestionCategoryModifyRequestDto dto = QuestionCategoryModifyRequestDto.from(qnaAdminService.getQuestionCategory(id));
         map.addAttribute("dto", dto);
 
         return "admin/service/qna/qna_category_modify";
@@ -267,7 +267,7 @@ public class QnaAdminController {
 
         }
 
-        qnaService.updateQuestionCategory(dto);
+        qnaAdminService.updateQuestionCategory(dto);
 
         return "redirect:/admin/service/qna/categories/" + id;
     }
@@ -276,7 +276,7 @@ public class QnaAdminController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String deleteQuestionCategory(@PathVariable("id") Long id) {
 
-        qnaService.deleteQuestionCategory(id);
+        qnaAdminService.deleteQuestionCategory(id);
 
         return "redirect:/admin/service/qna/categories";
 

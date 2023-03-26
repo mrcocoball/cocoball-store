@@ -100,7 +100,7 @@ public class ReviewApiController {
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 작성한 리뷰 리스트를 출력합니다. <br><br>" +
                     "장소 상세 정보 화면에서 보는 것이 아닌 마이페이지에서 보는 것이라 <br>" +
                     "리스트 내 리뷰 조회 시 화면 처리에 대해서는 논의가 필요합니다. (리뷰만 띄울지, 리뷰 + 장소 같이 띄울지)")
-    @GetMapping("/api/v1/reviews/")
+    @GetMapping("/api/v1/reviews")
     public PageResult<ReviewDto> getReviewsByUserNicknameV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
