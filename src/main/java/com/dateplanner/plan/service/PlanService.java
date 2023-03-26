@@ -4,7 +4,6 @@ import com.dateplanner.advice.exception.PlanNotFoundApiException;
 import com.dateplanner.advice.exception.UserNotFoundApiException;
 import com.dateplanner.plan.dto.PlanRequestDto;
 import com.dateplanner.plan.entity.Plan;
-import com.dateplanner.plan.repository.DetailPlanRepository;
 import com.dateplanner.plan.repository.PlanRepository;
 import com.dateplanner.user.entity.User;
 import com.dateplanner.user.repository.UserRepository;
@@ -21,7 +20,6 @@ public class PlanService {
 
     private final PlanRepository planRepository;
     private final UserRepository userRepository;
-    private final DetailPlanRepository detailPlanRepository;
 
 
     public Long savePlan(PlanRequestDto dto) {
@@ -49,7 +47,6 @@ public class PlanService {
 
     public void deletePlan(Long id) {
         planRepository.deleteById(id);
-        detailPlanRepository.deleteByPlan_Id(id);
     }
 
     public Long finishPlan(Long id) {
