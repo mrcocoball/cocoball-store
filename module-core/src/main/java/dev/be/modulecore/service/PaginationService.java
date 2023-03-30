@@ -1,4 +1,4 @@
-package com.dateplanner.common.pagination;
+package dev.be.modulecore.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

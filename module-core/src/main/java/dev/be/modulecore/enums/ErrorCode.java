@@ -1,4 +1,4 @@
-package com.dateplanner.advice;
+package dev.be.modulecore.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
