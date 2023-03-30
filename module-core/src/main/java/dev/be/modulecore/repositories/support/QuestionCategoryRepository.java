@@ -1,6 +1,6 @@
-package com.dateplanner.admin.consumer.repository;
+package dev.be.modulecore.repositories.support;
 
-import com.dateplanner.admin.consumer.entity.QuestionCategory;
+import dev.be.modulecore.domain.support.QuestionCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface QuestionCategoryRepository extends JpaRepository<QuestionCategory, Long> {

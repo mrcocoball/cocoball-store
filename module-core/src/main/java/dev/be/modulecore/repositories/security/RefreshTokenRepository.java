@@ -1,6 +1,6 @@
-package com.dateplanner.security.repository;
+package dev.be.modulecore.repositories.security;
 
-import com.dateplanner.security.entity.RefreshToken;
+import dev.be.modulecore.domain.security.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

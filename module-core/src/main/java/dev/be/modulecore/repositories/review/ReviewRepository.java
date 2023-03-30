@@ -1,6 +1,6 @@
-package com.dateplanner.review.repository;
+package dev.be.modulecore.repositories.review;
 
-import com.dateplanner.review.entity.Review;
+import dev.be.modulecore.domain.review.Review;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

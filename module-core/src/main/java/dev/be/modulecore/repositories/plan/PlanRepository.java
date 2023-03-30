@@ -1,6 +1,6 @@
-package com.dateplanner.plan.repository;
+package dev.be.modulecore.repositories.plan;
 
-import com.dateplanner.plan.entity.Plan;
+import dev.be.modulecore.domain.plan.Plan;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

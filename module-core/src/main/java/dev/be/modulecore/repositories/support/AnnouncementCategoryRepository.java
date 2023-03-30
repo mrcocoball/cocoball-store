@@ -1,6 +1,6 @@
-package com.dateplanner.admin.consumer.repository;
+package dev.be.modulecore.repositories.support;
 
-import com.dateplanner.admin.consumer.entity.AnnouncementCategory;
+import dev.be.modulecore.domain.support.AnnouncementCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AnnouncementCategoryRepository extends JpaRepository<AnnouncementCategory, Long> {

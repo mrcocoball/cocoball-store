@@ -1,6 +1,6 @@
-package com.dateplanner.support.repository;
+package dev.be.modulecore.repositories.support;
 
-import com.dateplanner.admin.consumer.entity.Question;
+import dev.be.modulecore.domain.support.Question;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

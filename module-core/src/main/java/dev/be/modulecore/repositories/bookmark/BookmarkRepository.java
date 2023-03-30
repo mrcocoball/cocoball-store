@@ -1,6 +1,6 @@
-package com.dateplanner.bookmark.repository;
+package dev.be.modulecore.repositories.bookmark;
 
-import com.dateplanner.bookmark.entity.Bookmark;
+import dev.be.modulecore.domain.bookmark.Bookmark;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

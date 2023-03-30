@@ -1,6 +1,6 @@
-package com.dateplanner.admin.user.repository;
+package dev.be.modulecore.repositories.support;
 
-import com.dateplanner.admin.user.entity.UserPasswordRequest;
+import dev.be.modulecore.domain.support.UserPasswordRequest;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
