@@ -1,5 +1,6 @@
-package com.dateplanner.admin.consumer.entity;
+package dev.be.modulecore.domain.support;
 
+import dev.be.modulecore.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,28 +9,31 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 
 @Slf4j(topic = "ENTITY")
+@Table(indexes = {
+        @Index(columnList = "categoryName"),
+        @Index(columnList = "createdAt")
+})
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AnnouncementCategory {
+public class QuestionCategory extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "a_category_id")
+    @Column(name = "q_category_id")
     private Long id;
 
     private String categoryName;
 
-    private AnnouncementCategory(String categoryName) {
+    private QuestionCategory(String categoryName) {
         this.categoryName = categoryName;
     }
 
-    public static AnnouncementCategory of(String category) {
-        return new AnnouncementCategory(category);
+    public static QuestionCategory of(String categoryName) {
+        return new QuestionCategory(categoryName);
     }
 
     public void changeCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
 }

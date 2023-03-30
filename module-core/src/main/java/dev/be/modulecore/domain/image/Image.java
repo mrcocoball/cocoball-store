@@ -1,7 +1,10 @@
-package com.dateplanner.image.entity;
+package dev.be.modulecore.domain.image;
 
-import com.dateplanner.review.entity.Review;
-import lombok.*;
+import dev.be.modulecore.domain.review.Review;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

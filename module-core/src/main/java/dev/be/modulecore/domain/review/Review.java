@@ -1,10 +1,12 @@
-package com.dateplanner.review.entity;
+package dev.be.modulecore.domain.review;
 
-import com.dateplanner.constant.entity.BaseTimeEntity;
-import com.dateplanner.image.entity.Image;
-import com.dateplanner.place.entity.Place;
-import com.dateplanner.user.entity.User;
-import lombok.*;
+import dev.be.modulecore.domain.BaseTimeEntity;
+import dev.be.modulecore.domain.image.Image;
+import dev.be.modulecore.domain.place.Place;
+import dev.be.modulecore.domain.user.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.BatchSize;
 

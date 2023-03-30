@@ -1,7 +1,7 @@
-package com.dateplanner.user.entity;
+package dev.be.modulecore.domain.user;
 
-import com.dateplanner.constant.entity.BaseTimeEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.be.modulecore.domain.BaseTimeEntity;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

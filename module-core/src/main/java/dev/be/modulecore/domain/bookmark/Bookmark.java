@@ -1,9 +1,11 @@
-package com.dateplanner.bookmark.entity;
+package dev.be.modulecore.domain.bookmark;
 
-import com.dateplanner.constant.entity.BaseTimeEntity;
-import com.dateplanner.place.entity.Place;
-import com.dateplanner.user.entity.User;
-import lombok.*;
+import dev.be.modulecore.domain.BaseTimeEntity;
+import dev.be.modulecore.domain.place.Place;
+import dev.be.modulecore.domain.user.User;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 

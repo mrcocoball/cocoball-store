@@ -1,6 +1,6 @@
-package com.dateplanner.place.entity;
+package dev.be.modulecore.domain.place;
 
-import com.dateplanner.constant.entity.BaseTimeEntity;
+import dev.be.modulecore.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
