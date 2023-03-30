@@ -1,4 +1,4 @@
-package com.dateplanner.config;
+package dev.be.moduleapi.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.EnableRetry;

@@ -1,4 +1,4 @@
-package com.dateplanner.config;
+package dev.be.moduleapi.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

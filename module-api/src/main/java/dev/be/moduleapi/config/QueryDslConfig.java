@@ -1,4 +1,4 @@
-package com.dateplanner.config;
+package dev.be.moduleapi.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

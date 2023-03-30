@@ -1,11 +1,11 @@
-package com.dateplanner.config;
+package dev.be.moduleapi.config;
 
-import com.dateplanner.security.handler.CustomAccessDeniedHandler;
-import com.dateplanner.security.handler.CustomAuthenticationEntryPoint;
-import com.dateplanner.security.handler.CustomLoginSuccessHandler;
-import com.dateplanner.security.jwt.JwtAuthenticationFilter;
-import com.dateplanner.security.jwt.JwtProvider;
-import com.dateplanner.security.service.CustomUserDetailsService;
+import dev.be.moduleapi.security.handler.CustomAccessDeniedHandler;
+import dev.be.moduleapi.security.handler.CustomAuthenticationEntryPoint;
+import dev.be.moduleapi.security.handler.CustomLoginSuccessHandler;
+import dev.be.moduleapi.security.jwt.JwtAuthenticationFilter;
+import dev.be.moduleapi.security.jwt.JwtProvider;
+import dev.be.moduleapi.security.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
