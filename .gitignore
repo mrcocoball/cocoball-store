@@ -225,6 +225,7 @@ module-api/.env
 
 ### Querydsl
 /src/main/generated
+module-core/src/main/generated
 
 ### secretkey
 application-jwt.yml
