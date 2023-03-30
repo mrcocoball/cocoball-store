@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, shrink-to-fit=no"/>
+  <meta name="description" content=""/>
+  <meta name="author" content=""/>
+  <title>어드민 로그인 페이지</title>
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="/css/layout.css" rel="stylesheet">
+  <link href="/css/signin.css" rel="stylesheet">
+</head>
+<body class="text-center">
+
+<main class="form-signin w-100 m-auto">
+  <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  <th:block th:if="${param.error}">
+    <p class="error-message" style="color: crimson" th:text="${errorMessage}">로그인 실패!</p>
+  </th:block>
+  <form id="registerForm" action="/admin/login" method="post">
+    <div class="form-floating">
+      <input type="text" class="form-control" name="email" id="floatingInput" placeholder="이메일">
+      <label for="floatingInput">이메일</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" name="password" id="floatingPassword" placeholder="PASSWORD">
+      <label for="floatingPassword">비밀번호</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">LOGIN</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2023 Cocoball Enterprise</p>
+  </form>
+</main>
+</body>
+</html>

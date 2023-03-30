@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <h2>고객센터 카테고리 생성</h2>
+  </div>
+
+  <div class="col-md-7 col-lg-8 common_form">
+    <form id="question_category_form" action="/admin/service/qna/categories/write" method="post">
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div>
+            <h6>카테고리명</h6>
+            <input type="text" class="form-control" name="categoryName" id="categoryName" placeholder="카테고리명" required>
+          </div>
+        </li>
+      </ul>
+    </form>
+    <div class="reverse-align">
+      <button form="question_category_form" class="btn btn-create" type="submit">저장</button>
+      <a class="exit" th:href="@{/admin/service/qna/categories}">
+        <button class="btn btn-cancel">취소</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

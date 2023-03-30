@@ -1,1 +1,5 @@
 rootProject.name = 'Date-Planner'
+
+include 'module-api'
+include 'module-core'
+include 'module-admin'

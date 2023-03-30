@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic.html}">
+
+<div layout:fragment="content">
+
+  <div class="common_header">
+    <h2>장소 생성</h2>
+  </div>
+
+  <div class="col-md-7 col-lg-8 common_form">
+    <form id="create_place_form" action="/admin/places/create" method="post">
+      <ul class="list-group mb-3">
+        <li class="list-group-item">
+          <div>
+            <h6>카테고리</h6>
+            <select name="categoryGroupId">
+              <option name="CE7" value="CE7">카페</option>
+              <option name="SW8" value="SW8">지하철역</option>
+              <option name="CT1" value="CT1">문화시설</option>
+              <option name="AT4" value="AT4">관광명소</option>
+              <option name="FD6" value="FD6">음식점</option>
+            </select>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>장소 ID</h6>
+            <input type="text" class="form-control" name="placeId" id="placeId" placeholder="장소 ID" autocomplete="off" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>장소명</h6>
+            <input type="text" class="form-control" name="placeName" id="placeName" placeholder="장소명" autocomplete="off" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>장소 URL</h6>
+            <input type="text" class="form-control" name="placeUrl" id="placeUrl" placeholder="장소 URL" autocomplete="off" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>주소(지번 주소)</h6>
+            <input type="text" class="form-control" name="addressName" id="addressName" autocomplete="off" placeholder="주소(지번 주소)" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>주소(도로명 주소)</h6>
+            <input type="text" class="form-control" name="roadAddressName" id="roadAddressName" autocomplete="off" placeholder="주소(도로명 주소)">
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>시,도(region_1depth_name)</h6>
+            <input type="text" class="form-control" name="region1DepthName" id="region1DepthName" autocomplete="off" placeholder="시,도" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>군,구(region_2depth_name)</h6>
+            <input type="text" class="form-control" name="region2DepthName" id="region2DepthName" autocomplete="off" placeholder="군,구" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>읍,면,동(region_3depth_name)</h6>
+            <input type="text" class="form-control" name="region3DepthName" id="region3DepthName" autocomplete="off" placeholder="읍,면,동" required>
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>이미지 URL</h6>
+            <input type="text" class="form-control" name="imageUrl" id="imageUrl" autocomplete="off" placeholder="이미지 URL">
+          </div>
+        </li>
+        <li class="list-group-item">
+          <div>
+            <h6>설명</h6>
+            <input type="text" class="form-control" name="description" id="description" autocomplete="off" placeholder="설명">
+          </div>
+        </li>
+      </ul>
+    </form>
+    <div class="reverse-align">
+      <button form="create_place_form" class="btn btn-create" type="submit">저장</button>
+      <a class="exit" th:href="@{/admin/places}">
+        <button class="btn btn-cancel">취소</button>
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

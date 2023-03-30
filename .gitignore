@@ -221,7 +221,7 @@ gradle-app.setting
 *.hprof
 
 ### env ###
-.env
+module-api/.env
 
 ### Querydsl
 /src/main/generated
