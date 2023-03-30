@@ -61,7 +61,7 @@ spring:
   jpa:
     hibernate:
       generate-ddl: true
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false # hibernate_sequence false
     properties:
       hibernate:
@@ -142,7 +142,7 @@ spring:
   jpa:
     hibernate:
       generate-ddl: true
-      ddl-auto: create
+      ddl-auto: update
       use-new-id-generator-mappings: false # hibernate_sequence false
     properties:
       hibernate:

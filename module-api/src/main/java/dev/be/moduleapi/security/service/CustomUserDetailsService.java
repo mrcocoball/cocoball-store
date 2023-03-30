@@ -1,7 +1,7 @@
 package dev.be.moduleapi.security.service;
 
-import com.dateplanner.advice.exception.UserNotFoundApiException;
-import com.dateplanner.user.repository.UserRepository;
+import dev.be.moduleapi.advice.exception.UserNotFoundApiException;
+import dev.be.modulecore.repositories.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
