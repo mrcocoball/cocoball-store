@@ -1,8 +1,8 @@
-package com.dateplanner.kakao.service;
+package dev.be.moduleapi.kakao.service;
 
-import com.dateplanner.advice.exception.AddressInvalidException;
-import com.dateplanner.advice.exception.CustomRetryException;
-import com.dateplanner.kakao.dto.KakaoApiResponseDto;
+import dev.be.moduleapi.advice.exception.AddressInvalidException;
+import dev.be.moduleapi.advice.exception.CustomRetryException;
+import dev.be.moduleapi.kakao.dto.KakaoApiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

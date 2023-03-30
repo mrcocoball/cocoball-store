@@ -1,4 +1,4 @@
-package com.dateplanner.kakao.dto;
+package dev.be.moduleapi.kakao.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
