@@ -1,4 +1,4 @@
-package com.dateplanner.security.service;
+package dev.be.moduleapi.security.service;
 
 import com.dateplanner.advice.exception.UserNotFoundApiException;
 import com.dateplanner.user.repository.UserRepository;

@@ -1,12 +1,12 @@
-package com.dateplanner.security.oauth.service;
+package dev.be.moduleapi.security.oauth.service;
 
-import com.dateplanner.advice.exception.OAuthRequestFailedException;
-import com.dateplanner.security.oauth.OAuthRequestFactory;
-import com.dateplanner.security.oauth.dto.OAuthAccessTokenDto;
-import com.dateplanner.security.oauth.dto.OAuthRequestDto;
-import com.dateplanner.security.oauth.dto.ProfileDto;
-import com.dateplanner.security.oauth.profile.KakaoProfile;
 import com.google.gson.Gson;
+import dev.be.moduleapi.advice.exception.OAuthRequestFailedException;
+import dev.be.moduleapi.security.oauth.OAuthRequestFactory;
+import dev.be.moduleapi.security.oauth.dto.OAuthAccessTokenDto;
+import dev.be.moduleapi.security.oauth.dto.OAuthRequestDto;
+import dev.be.moduleapi.security.oauth.dto.ProfileDto;
+import dev.be.moduleapi.security.oauth.profile.KakaoProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;

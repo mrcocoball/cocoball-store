@@ -1,4 +1,4 @@
-package com.dateplanner.security.oauth.profile;
+package dev.be.moduleapi.security.oauth.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

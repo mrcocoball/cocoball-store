@@ -1,4 +1,4 @@
-package com.dateplanner.security.oauth.dto;
+package dev.be.moduleapi.security.oauth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

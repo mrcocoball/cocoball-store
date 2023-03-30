@@ -1,8 +1,8 @@
-package com.dateplanner.security.jwt;
+package dev.be.moduleapi.security.jwt;
 
-import com.dateplanner.advice.exception.CustomAuthenticationEntrypointException;
-import com.dateplanner.security.dto.TokenDto;
-import com.dateplanner.security.service.CustomUserDetailsService;
+import dev.be.moduleapi.advice.exception.CustomAuthenticationEntrypointException;
+import dev.be.moduleapi.security.dto.TokenDto;
+import dev.be.moduleapi.security.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

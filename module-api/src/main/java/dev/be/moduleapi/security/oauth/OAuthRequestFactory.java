@@ -1,6 +1,6 @@
-package com.dateplanner.security.oauth;
+package dev.be.moduleapi.security.oauth;
 
-import com.dateplanner.security.oauth.dto.OAuthRequestDto;
+import dev.be.moduleapi.security.oauth.dto.OAuthRequestDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
