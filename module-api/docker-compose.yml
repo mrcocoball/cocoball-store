@@ -3,8 +3,8 @@ services:
   backend-database:
     container_name: backend-database
     build:
-      dockerfile: Dockerfile
-      context: ./database
+      dockerfile: ../database/Dockerfile
+      context: ../database
     image: mrcocoball/backend-database
     environment:
       - MARIADB_DATABASE=backend-database

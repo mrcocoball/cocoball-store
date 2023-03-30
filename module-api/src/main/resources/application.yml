@@ -1,0 +1,173 @@
+server:
+  port: 8084
+
+spring:
+  profiles:
+    active: local
+    group:
+      local:
+        - common
+      prod:
+        - common
+      dev:
+        - common
+    include: jwt
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+  paths-to-match:
+    - /api/**
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    #org.hibernate.type.descriptor.sql.BasicBinder: trace
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+  jpa:
+    open-in-view: false
+
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
+
+social:
+  kakao:
+    client-id: ${KAKAO_REST_API_KEY}
+    redirect: /social/login/kakao
+    url:
+      login: https://kauth.kakao.com/oauth/authorize
+      token: https://kauth.kakao.com/oauth/token
+      profile: https://kapi.kakao.com/v2/user/me
+      unlink: https://kapi.kakao.com/v1/user/unlink
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:4000/date_planner
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      generate-ddl: true
+      ddl-auto: create
+      use-new-id-generator-mappings: false # hibernate_sequence false
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        hibernate.default_batch_fetch_size: 100
+    use_sql_comments: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: D:\\upload
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: D:\\upload
+    webdriver:
+      path: D:\\chromedriver/chromedriver.exe
+
+url:
+  base: http://localhost:8084
+---
+spring:
+  config:
+    activate:
+      on-profile: local2
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/date_planner
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      generate-ddl: true
+      ddl-auto: create
+      use-new-id-generator-mappings: false # hibernate_sequence false
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        hibernate.default_batch_fetch_size: 100
+    use_sql_comments: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: D:\\upload
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: D:\\upload
+
+url:
+  base: http://localhost:8084
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://backend-database:3306/backend-database
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      generate-ddl: true
+      ddl-auto: create
+      use-new-id-generator-mappings: false # hibernate_sequence false
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        hibernate.default_batch_fetch_size: 100
+    use_sql_comments: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: /home/mrcocoball/date_planner/image
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: /home/mrcocoball/date_planner/image
+    webdriver:
+      path: /usr/src/chrome/chromedriver
+
+url:
+  base: http://dateplanner.ykstyle.info:81/
+---
