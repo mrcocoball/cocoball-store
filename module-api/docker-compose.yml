@@ -3,8 +3,8 @@ services:
   backend-database:
     container_name: backend-database
     build:
-      dockerfile: ../database/Dockerfile
-      context: ../database
+      dockerfile: ./database/Dockerfile
+      context: ./database
     image: mrcocoball/backend-database
     environment:
       - MARIADB_DATABASE=backend-database
@@ -16,8 +16,10 @@ services:
       - .env
     ports:
       - "3307:3306"
-  backend-app:
-    container_name: backend-app
+    networks:
+      - devnetwork
+  devnetwork.backend-app:
+    container_name: devnetwork.backend-app
     depends_on: # DB 컨테이너 실행 후 WEB을 실행시킴
       - backend-database
     image: mrcocoball/dateplanner_backend:dev
@@ -26,11 +28,19 @@ services:
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}
+      - VIRTUAL_HOST = devnetwork.backend-app
     ports:
       - "81:8084" # 기본 포트
+    networks:
+      - devnetwork
     volumes:
       - /home/mrcocoball/date_planner/image:/home/mrcocoball/date_planner/image
       #- /opt/chromedriver:/opt/chromedriver:ro
       # 호스트 경로 : 컨테이너 내부 경로 mount(연결) (해당 내용 지정 안할 경우 컨테이너 내부의 경로에만 저장이 됨)
     restart: always # depends on은 실행 순서만 컨트롤, 컨테이너 안의 서비스가 실행 가능한 상태인지는 확인하지 않으므로
     # DB가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정
+
+# API 서버 - 어드민 서버 컨테이너 간 연결을 위한 network
+networks:
+  devnetwork:
+    external: true
