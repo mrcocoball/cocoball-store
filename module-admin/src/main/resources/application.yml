@@ -48,6 +48,12 @@ social:
       profile: https://kapi.kakao.com/v2/user/me
       unlink: https://kapi.kakao.com/v1/user/unlink
 
+server:
+  error:
+    path: /error
+    whitelabel:
+      enabled: false
+
 ---
 spring:
   config:
