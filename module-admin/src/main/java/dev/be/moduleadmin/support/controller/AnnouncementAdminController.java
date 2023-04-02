@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,7 +22,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
-//@PreAuthorize("hasRole('ROLE_ADMIN')")
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/admin/service/announcements")

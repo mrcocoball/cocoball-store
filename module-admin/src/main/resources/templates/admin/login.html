@@ -20,9 +20,9 @@
   <th:block th:if="${param.error}">
     <p class="error-message" style="color: crimson" th:text="${errorMessage}">로그인 실패!</p>
   </th:block>
-  <form id="registerForm" action="/admin/login" method="post">
+  <form id="registerForm" action="/user/login" method="post">
     <div class="form-floating">
-      <input type="text" class="form-control" name="email" id="floatingInput" placeholder="이메일">
+      <input type="text" class="form-control" name="username" id="floatingInput" placeholder="이메일">
       <label for="floatingInput">이메일</label>
     </div>
     <div class="form-floating">
