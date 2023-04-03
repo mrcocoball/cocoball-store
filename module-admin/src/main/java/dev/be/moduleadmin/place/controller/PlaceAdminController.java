@@ -3,6 +3,7 @@ package dev.be.moduleadmin.place.controller;
 import dev.be.moduleadmin.place.dto.PlaceAdminDetailDto;
 import dev.be.moduleadmin.place.dto.PlaceModifyRequestDto;
 import dev.be.moduleadmin.place.dto.PlaceRequestDto;
+import dev.be.moduleadmin.place.dto.PlaceStatusDto;
 import dev.be.moduleadmin.place.service.PlaceAdminService;
 import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
@@ -123,6 +124,33 @@ public class PlaceAdminController {
         return "redirect:/admin/places";
 
     }
+
+    /**
+     * 장소 크롤링 관련
+     */
+
+    @GetMapping("/nullPlaces")
+    public String getImageUrlNullPlacesV1(@PageableDefault(size = 50) Pageable pageable, ModelMap map) {
+
+        Page<PlaceStatusDto> dtos =  paginationService.listToPage(placeAdminService.getImageUrlNullPlacesV1(), pageable);
+        List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
+        map.addAttribute("dtos", dtos);
+        map.addAttribute("pageBarNumbers", pageBarNumbers);
+
+        return "admin/places/places_null";
+    }
+
+    @GetMapping("/notExistPlaces")
+    public String getImageUrlNotExistPlacesV1(@PageableDefault(size = 50) Pageable pageable, ModelMap map) {
+
+        Page<PlaceStatusDto> dtos = paginationService.listToPage(placeAdminService.getImageUrlNotExistPlacesV1(), pageable);
+        List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
+        map.addAttribute("dtos", dtos);
+        map.addAttribute("pageBarNumbers", pageBarNumbers);
+
+        return "admin/places/places_notExist";
+    }
+
 }
 
 

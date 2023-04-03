@@ -92,6 +92,9 @@ com:
       path: D:\\upload
     webdriver:
       path: D:\\chromedriver/chromedriver.exe
+    admin:
+      username: ${SECRET_USERNAME}
+      password: ${SECRET_PASSWORD}
 
 url:
   base: http://localhost:8085
@@ -173,6 +176,9 @@ com:
       path: /home/mrcocoball/date_planner/image
     webdriver:
       path: /usr/src/chrome/chromedriver
+    admin:
+      username: ${SECRET_USERNAME}
+      password: ${SECRET_PASSWORD}
 
 url:
   base: http://dateplanner.ykstyle.info:82/

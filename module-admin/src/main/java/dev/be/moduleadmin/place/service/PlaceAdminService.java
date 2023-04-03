@@ -3,22 +3,21 @@ package dev.be.moduleadmin.place.service;
 import dev.be.moduleadmin.advice.exception.PlaceNotFoundApiException;
 import dev.be.moduleadmin.kakao.dto.DocumentDto;
 import dev.be.moduleadmin.kakao.service.KakaoAddressSearchService;
-import dev.be.moduleadmin.place.dto.*;
+import dev.be.moduleadmin.place.dto.PlaceAdminDetailDto;
+import dev.be.moduleadmin.place.dto.PlaceModifyRequestDto;
+import dev.be.moduleadmin.place.dto.PlaceRequestDto;
+import dev.be.moduleadmin.place.dto.PlaceStatusDto;
 import dev.be.moduleadmin.place.repository.PlaceAdminCustomRepository;
 import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.repositories.support.PlaceAdminRepository;
-import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
@@ -30,57 +29,7 @@ public class PlaceAdminService {
     private final PlaceAdminRepository placeAdminRepository;
     private final PlaceAdminCustomRepository placeAdminCustomRepository;
     private final KakaoAddressSearchService kakaoAddressSearchService;
-    private final PaginationService paginationService;
     private final static String NOT_EXIST_IMAGE = "NOT EXISTS";
-
-
-    /**
-     * 장소 크롤링 및 업데이트 관련
-     */
-
-    @Transactional(readOnly = true)
-    public Page<PlaceStatusDto> getImageUrlNullPlacesV1(Pageable pageable) {
-
-        return paginationService.listToPage(placeAdminRepository.findByImageUrlIsNull().stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
-    }
-
-
-    @Transactional(readOnly = true)
-    public Page<PlaceStatusDto> getImageUrlNotExistPlacesV1(Pageable pageable) {
-
-        return paginationService.listToPage(placeAdminRepository.findByImageUrlIs(NOT_EXIST_IMAGE).stream().map(PlaceStatusDto::from).collect(Collectors.toList()), pageable);
-    }
-
-
-    public Long updatePlacesV1(List<PlaceCrawlingDto> dtos) {
-
-        // 저장 시간 비교 계산용 측정
-        long beforeTime = System.currentTimeMillis();
-
-        Long count = 0L;
-
-        for (PlaceCrawlingDto dto : dtos) {
-            List<String> tags = dto.getTags();
-            StringJoiner stringJoiner = new StringJoiner(", ");
-            stringJoiner.setEmptyValue("");
-            if (!ObjectUtils.isEmpty(tags) || tags != null) {
-                for (String tag : tags) {
-                    stringJoiner.add(tag);
-                }
-            }
-            String description = String.valueOf(stringJoiner);
-            if (description.equals("")) {description = null;}
-            placeAdminRepository.updateImageUrlAndDescription(dto.getPlaceId(), dto.getImageUrl(), description);
-            count += 1L;
-            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, dtos.size());
-        }
-
-        // 저장 시간 비교 계산용 측정
-        long afterTime = System.currentTimeMillis();
-        log.info("elapsed time : " + (afterTime - beforeTime));
-
-        return count;
-    }
 
 
     /**
@@ -139,5 +88,29 @@ public class PlaceAdminService {
     public void deletePlace(Long id) {
 
         placeAdminRepository.deleteById(id);
+    }
+
+
+    /**
+     * 업데이트가 필요한 장소 찾기
+     */
+
+    @Transactional(readOnly = true)
+    public List<PlaceStatusDto> getImageUrlNullPlacesV1() {
+
+        return placeAdminRepository.findByImageUrlIsNull().stream()
+                .map(PlaceStatusDto::from)
+                .sorted(Comparator.comparing(PlaceStatusDto::getModifiedAt).reversed())
+                .collect(Collectors.toList());
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<PlaceStatusDto> getImageUrlNotExistPlacesV1() {
+
+        return placeAdminRepository.findByImageUrlIs(NOT_EXIST_IMAGE).stream()
+                .map(PlaceStatusDto::from)
+                .sorted(Comparator.comparing(PlaceStatusDto::getModifiedAt).reversed())
+                .collect(Collectors.toList());
     }
 }
