@@ -21,12 +21,14 @@ import org.springframework.util.ObjectUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class PlaceCrawlingService {
+
     private final PlaceAdminRepository placeAdminRepository;
     private final PaginationService paginationService;
     private static final String BASE_URL = "https://place.map.kakao.com/";
@@ -36,36 +38,7 @@ public class PlaceCrawlingService {
     private String webDriverPath;
 
 
-    public Page<PlaceCrawlingDto> searchAndCrawling(Pageable pageable) {
-
-        List<String> placeIds = placeAdminRepository.findPlaceIdByImageUrlIsNull();
-
-        List<PlaceCrawlingDto> results = new ArrayList<>();
-
-        if (ObjectUtils.isEmpty(placeIds) || placeIds == null) {
-            return paginationService.listToPage(results, pageable);
-        }
-
-        // 저장 시간 비교 계산용 측정
-        long beforeTime = System.currentTimeMillis();
-
-        int count = 0;
-
-        for (String placeId : placeIds) {
-            PlaceCrawlingDto dto = crawling(placeId);
-            results.add(dto);
-            count += 1;
-            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, placeIds.size());
-        }
-
-        // 저장 시간 비교 계산용 측정
-        long afterTime = System.currentTimeMillis();
-        log.info("elapsed time : " + (afterTime - beforeTime));
-
-        return paginationService.listToPage(results, pageable);
-    }
-
-    public List<PlaceCrawlingDto> searchAndCrawling() {
+    public List<PlaceCrawlingDto> searchAndCrawlingV1() {
 
         List<String> placeIds = placeAdminRepository.findPlaceIdByImageUrlIsNull();
 
@@ -81,7 +54,7 @@ public class PlaceCrawlingService {
         int count = 0;
 
         for (String placeId : placeIds) {
-            PlaceCrawlingDto dto = crawling(placeId);
+            PlaceCrawlingDto dto = crawlingV1(placeId);
             results.add(dto);
             count += 1;
             log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, placeIds.size());
@@ -95,7 +68,7 @@ public class PlaceCrawlingService {
     }
 
 
-    private PlaceCrawlingDto crawling(String placeId) {
+    private PlaceCrawlingDto crawlingV1(String placeId) {
 
         PlaceCrawlingDto dto = new PlaceCrawlingDto();
         dto.setPlaceId(placeId);
@@ -105,6 +78,7 @@ public class PlaceCrawlingService {
         ChromeOptions chromeOptions = new ChromeOptions()
                 .addArguments("--start-maximized")
                 .addArguments("--disable-popup-blocking")
+                .addArguments("--remote-allow-origins=*") // 웹소켓 연결 실패 방지용
                 .addArguments("--single-process") // docker 환경용 추가
                 .addArguments("--disable-dev-shm-usage") // docker 환경용 추가
                 .addArguments("--no-sandbox") // docker 환경용 추가
@@ -155,6 +129,40 @@ public class PlaceCrawlingService {
 
         return dto;
 
+    }
+
+    /**
+     * 장소 크롤링 후 업데이트
+     */
+
+    public Long updatePlacesV1(List<PlaceCrawlingDto> dtos) {
+
+        // 저장 시간 비교 계산용 측정
+        long beforeTime = System.currentTimeMillis();
+
+        Long count = 0L;
+
+        for (PlaceCrawlingDto dto : dtos) {
+            List<String> tags = dto.getTags();
+            StringJoiner stringJoiner = new StringJoiner(", ");
+            stringJoiner.setEmptyValue("");
+            if (!ObjectUtils.isEmpty(tags) || tags != null) {
+                for (String tag : tags) {
+                    stringJoiner.add(tag);
+                }
+            }
+            String description = String.valueOf(stringJoiner);
+            if (description.equals("")) {description = null;}
+            placeAdminRepository.updateImageUrlAndDescription(dto.getPlaceId(), dto.getImageUrl(), description);
+            count += 1L;
+            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, dtos.size());
+        }
+
+        // 저장 시간 비교 계산용 측정
+        long afterTime = System.currentTimeMillis();
+        log.info("elapsed time : " + (afterTime - beforeTime));
+
+        return count;
     }
 
 }
