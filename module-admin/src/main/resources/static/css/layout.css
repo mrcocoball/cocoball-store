@@ -140,6 +140,10 @@ div.user_search_condition {
     display: flex !important;
 }
 
+.crawling_form {
+    margin-right: 10px;
+}
+
 /* 테이블 관련 */
 
 #places_table > thead {
@@ -147,6 +151,22 @@ div.user_search_condition {
 }
 
 #places_table > tbody {
+    font-size: 11px;
+}
+
+#places_null_table > thead {
+    font-size: 13px;
+}
+
+#places_null_table > tbody {
+    font-size: 11px;
+}
+
+#places_not_exist_table > thead {
+    font-size: 13px;
+}
+
+#places_not_exist_table > tbody {
     font-size: 11px;
 }
 

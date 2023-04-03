@@ -107,6 +107,12 @@
           <p class="imageUrl" id="imageUrl" th:text="${dto.imageUrl}"></p>
         </div>
       </li>
+      <li class="list-group-item" th:if="${dto.imageUrl != 'NOT EXISTS'}">
+        <div>
+          <h6>이미지</h6>
+          <img class="place_image" th:src="${dto.imageUrl}"></p>
+        </div>
+      </li>
       <li class="list-group-item">
         <div>
           <h6>설명</h6>
