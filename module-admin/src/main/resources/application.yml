@@ -176,6 +176,9 @@ com:
       path: /home/mrcocoball/date_planner/image
     webdriver:
       path: /usr/src/chrome/chromedriver
+    admin:
+      username: ${SECRET_USERNAME}
+      password: ${SECRET_PASSWORD}
 
 url:
   base: http://dateplanner.ykstyle.info:82/
