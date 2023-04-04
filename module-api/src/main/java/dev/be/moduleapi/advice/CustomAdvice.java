@@ -222,6 +222,13 @@ public class CustomAdvice {
                 (ErrorCode.ANNOUNCEMENT_NOT_FOUND.getCode(), ErrorCode.ANNOUNCEMENT_NOT_FOUND.getDescription());
     }
 
+    @ExceptionHandler(SortTypeInvalidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected CommonResult SortTypeInvalidException(HttpServletRequest request, SortTypeInvalidException e) {
+        return responseService.getFailResult
+                (ErrorCode.SORTTYPE_INVALID.getCode(), ErrorCode.SORTTYPE_INVALID.getDescription());
+    }
+
 
     /**
      * Data Access 관련
