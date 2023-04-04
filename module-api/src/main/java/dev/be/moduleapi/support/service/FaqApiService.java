@@ -4,7 +4,6 @@ import dev.be.moduleapi.support.dto.FaqCategoryDto;
 import dev.be.moduleapi.support.dto.FaqDto;
 import dev.be.modulecore.repositories.support.FaqCategoryRepository;
 import dev.be.modulecore.repositories.support.FaqRepository;
-import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor
@@ -23,12 +21,11 @@ public class FaqApiService {
 
     private final FaqRepository faqRepository;
     private final FaqCategoryRepository faqCategoryRepository;
-    private final PaginationService paginationService;
 
 
     public Page<FaqCategoryDto> getFaqCategoryList(Pageable pageable) {
 
-        return paginationService.listToPage(faqCategoryRepository.findAll().stream().map(FaqCategoryDto::from).collect(Collectors.toList()), pageable);
+        return faqCategoryRepository.findAll(pageable).map(favoriteQuestionCategory -> FaqCategoryDto.from(favoriteQuestionCategory));
 
     }
 

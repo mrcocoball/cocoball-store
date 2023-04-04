@@ -3,16 +3,12 @@ package dev.be.moduleapi.review.service;
 import dev.be.moduleapi.advice.exception.ReviewNotFoundApiException;
 import dev.be.moduleapi.review.dto.ReviewDto;
 import dev.be.modulecore.repositories.review.ReviewRepository;
-import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor
@@ -21,7 +17,6 @@ import java.util.stream.Collectors;
 public class ReviewApiService {
 
     private final ReviewRepository reviewRepository;
-    private final PaginationService paginationService;
 
 
     public Page<ReviewDto> getReviewListByPlaceId(String placeId, Pageable pageable) {
@@ -30,23 +25,23 @@ public class ReviewApiService {
         long beforeTime = System.currentTimeMillis();
 
         log.info("[ReviewApiService getReviewList] get review list start...");
-        List<ReviewDto> dtos = reviewRepository.findByKpid(placeId).stream().map(ReviewDto::from).collect(Collectors.toList());
-        log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.size());
+        Page<ReviewDto> dtos = reviewRepository.findByKpid(placeId, pageable).map(review -> ReviewDto.from(review));
+        log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.getSize());
 
         // 인덱스 계산용 시간 측정
         long afterTime = System.currentTimeMillis();
         log.info("elapsed time : " + (afterTime - beforeTime));
 
-        return paginationService.listToPage(dtos, pageable);
+        return dtos;
     }
 
     public Page<ReviewDto> getReviewListByNickname(String nickname, Pageable pageable) {
 
         log.info("[ReviewApiService getReviewList] get review list start...");
-        List<ReviewDto> dtos = reviewRepository.findByUser_Nickname(nickname).stream().map(ReviewDto::from).collect(Collectors.toList());
-        log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.size());
+        Page<ReviewDto> dtos = reviewRepository.findByUser_Nickname(nickname, pageable).map(review -> ReviewDto.from(review));
+        log.info("[ReviewApiService getReviewList] get review list complete, size : {}", dtos.getSize());
 
-        return paginationService.listToPage(dtos, pageable);
+        return dtos;
     }
 
 

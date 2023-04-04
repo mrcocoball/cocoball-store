@@ -12,6 +12,8 @@ import dev.be.modulecore.repositories.support.QuestionCategoryRepository;
 import dev.be.modulecore.repositories.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +38,9 @@ public class QnaAdminService {
      */
 
     @Transactional(readOnly = true)
-    public List<QuestionDto> getQuestionList() {
+    public Page<QuestionDto> getQuestionList(Pageable pageable) {
 
-        return questionAdminRepository.findAll().stream().map(QuestionDto::from)
-                .sorted(Comparator.comparing(QuestionDto::getCreatedAt).reversed()).collect(Collectors.toList());
+        return questionAdminRepository.findAll(pageable).map(question -> QuestionDto.from(question));
 
     }
 
