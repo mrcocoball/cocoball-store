@@ -2,7 +2,6 @@ package dev.be.moduleadmin.support.controller;
 
 import dev.be.moduleadmin.support.dto.*;
 import dev.be.moduleadmin.support.service.FaqAdminService;
-import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,7 +23,6 @@ import java.util.List;
 public class FaqAdminController {
 
     private final FaqAdminService faqAdminService;
-    private final PaginationService paginationService;
 
     /**
      * 카테고리 관련

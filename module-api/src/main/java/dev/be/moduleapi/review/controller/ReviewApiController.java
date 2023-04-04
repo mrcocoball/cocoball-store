@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -82,7 +83,7 @@ public class ReviewApiController {
     @GetMapping("/api/v1/reviews/list/{place_id}")
     public PageResult<ReviewDto> getReviewsByPlaceIdV1(
             @Parameter(description = "장소 ID", required = true) @PathVariable("place_id") String placeId,
-            @ParameterObject @PageableDefault(size = 5, sort = "createdAt") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 5, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         return responseService.getPageResult(reviewApiService.getReviewListByPlaceId(placeId, pageable));
     }
@@ -103,7 +104,7 @@ public class ReviewApiController {
     @GetMapping("/api/v1/reviews")
     public PageResult<ReviewDto> getReviewsByUserNicknameV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
-            @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         User user = (User) authentication.getPrincipal();
         String nickname = user.getNickname();
