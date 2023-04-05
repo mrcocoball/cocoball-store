@@ -41,12 +41,12 @@ public class UserAdminController {
                               @RequestParam(required = false) String provider,
                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                               @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate targetDate,
-                              @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                              @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable,
                               ModelMap map) {
 
 
         Page<UserResponseDto> dtos = paginationService.listToPage(
-                userAdminService.getUserList(email, nickname, deleted, social, provider, startDate, targetDate), pageable);
+                userAdminService.getUserList(email, nickname, deleted, social, provider, startDate, targetDate, pageable), pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
@@ -59,12 +59,12 @@ public class UserAdminController {
                                      @RequestParam(required = false) String nickname,
                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
                                      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate targetDate,
-                                     @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+                                     @PageableDefault(size = 10, sort = "modifiedAt", direction = Sort.Direction.DESC) Pageable pageable,
                                      ModelMap map) {
 
 
         Page<UserResponseDto> dtos = paginationService.listToPage(
-                userAdminService.getDeletedUserList(email, nickname, startDate, targetDate), pageable);
+                userAdminService.getDeletedUserList(email, nickname, startDate, targetDate, pageable), pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
