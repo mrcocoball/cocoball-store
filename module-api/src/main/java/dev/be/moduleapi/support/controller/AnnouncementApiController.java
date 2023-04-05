@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class AnnouncementApiController {
                                                                      @RequestParam(required = false) Long categoryId,
                                                                      @Parameter(description = "검색 키워드, 기본값 null", required = false)
                                                                      @RequestParam(required = false) String keyword,
-                                                                     @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+                                                                     @ParameterObject @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         return responseService.getPageResult(announcementApiService.getAnnouncementListWithCondition(condition, categoryId, keyword, pageable));
 
