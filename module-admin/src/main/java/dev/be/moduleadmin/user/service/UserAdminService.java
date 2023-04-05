@@ -12,12 +12,15 @@ import dev.be.modulecore.repositories.support.UserAdminRepository;
 import dev.be.modulecore.repositories.support.UserPasswordRequestRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,11 +43,15 @@ public class UserAdminService {
                                              boolean social,
                                              String provider,
                                              LocalDate startDate,
-                                             LocalDate targetDate) {
+                                             LocalDate targetDate,
+                                             Pageable pageable) {
 
-        log.info("[UserAdminService getUserListByDQ] search condition : {}, {}, {}, {}, {}", deleted, social, provider, startDate, targetDate);
+        List<UserResponseDto> dtos = userAdminCustomRepository.userList(email, nickname, deleted, social, provider, startDate, targetDate).stream().collect(Collectors.toList());
 
-        return userAdminCustomRepository.userList(email, nickname, deleted, social, provider, startDate, targetDate).stream().collect(Collectors.toList());
+        if (pageable.getSort().equals(Sort.by(Sort.Direction.DESC, "modifiedAt"))) dtos.sort(Comparator.comparing(UserResponseDto::getModifiedAt).reversed());
+        if (pageable.getSort().equals(Sort.by(Sort.Direction.ASC, "modifiedAt"))) dtos.sort(Comparator.comparing(UserResponseDto::getModifiedAt));
+
+        return dtos;
 
     }
 
@@ -52,9 +59,15 @@ public class UserAdminService {
     public List<UserResponseDto> getDeletedUserList(String email,
                                                     String nickname,
                                                     LocalDate startDate,
-                                                    LocalDate targetDate) {
+                                                    LocalDate targetDate,
+                                                    Pageable pageable) {
 
-        return userAdminCustomRepository.deletedUserList(email, nickname,startDate, targetDate).stream().collect(Collectors.toList());
+        List<UserResponseDto> dtos = userAdminCustomRepository.deletedUserList(email, nickname, startDate, targetDate).stream().collect(Collectors.toList());
+
+        if (pageable.getSort().equals(Sort.by(Sort.Direction.DESC, "modifiedAt"))) dtos.sort(Comparator.comparing(UserResponseDto::getModifiedAt).reversed());
+        if (pageable.getSort().equals(Sort.by(Sort.Direction.ASC, "modifiedAt"))) dtos.sort(Comparator.comparing(UserResponseDto::getModifiedAt));
+
+        return dtos;
 
     }
 

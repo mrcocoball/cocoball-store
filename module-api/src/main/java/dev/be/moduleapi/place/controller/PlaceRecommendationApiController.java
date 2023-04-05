@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,7 @@ public class PlaceRecommendationApiController {
     public PageResult<PlaceRecommendationDto> getRecommendationV1(@Parameter(description = "시/도") @RequestParam(required = false) String region1,
                                                                   @Parameter(description = "군/구") @RequestParam(required = false) String region2,
                                                                   @Parameter(description = "동/읍/면") @RequestParam(required = false) String region3,
-                                                                  @ParameterObject @PageableDefault(size = 10, sort = "avgReviewScore") Pageable pageable) {
+                                                                  @ParameterObject @PageableDefault(size = 10, sort = "avgReviewScore", direction = Sort.Direction.DESC) Pageable pageable) {
 
         return responseService.getPageResult(placeRecommendationService.getPlaceRecommendation(region1, region2, region3, pageable));
     }

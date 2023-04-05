@@ -1,6 +1,8 @@
 package dev.be.modulecore.repositories.support;
 
 import dev.be.modulecore.domain.support.Announcement;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,7 +13,7 @@ public interface AnnouncementAdminRepository extends JpaRepository<Announcement,
 
     @EntityGraph(attributePaths = "announcementCategory")
     @Override
-    List<Announcement> findAll();
+    Page<Announcement> findAll(Pageable pageable);
 
     @EntityGraph(attributePaths = "announcementCategory")
     @Override

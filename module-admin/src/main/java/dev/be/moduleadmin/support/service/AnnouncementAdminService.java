@@ -8,11 +8,12 @@ import dev.be.modulecore.repositories.support.AnnouncementAdminRepository;
 import dev.be.modulecore.repositories.support.AnnouncementCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +32,9 @@ public class AnnouncementAdminService {
      */
 
     @Transactional(readOnly = true)
-    public List<AnnouncementDto> getAnnouncementList() {
+    public Page<AnnouncementDto> getAnnouncementList(Pageable pageable) {
 
-        return announcementAdminRepository.findAll().stream().map(AnnouncementDto::from)
-                        .sorted(Comparator.comparing(AnnouncementDto::getCreatedAt).reversed()).collect(Collectors.toList());
+        return announcementAdminRepository.findAll(pageable).map(announcement -> AnnouncementDto.from(announcement));
 
     }
 

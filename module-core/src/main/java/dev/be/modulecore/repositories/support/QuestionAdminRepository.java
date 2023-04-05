@@ -1,6 +1,8 @@
 package dev.be.modulecore.repositories.support;
 
 import dev.be.modulecore.domain.support.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,7 +17,7 @@ public interface QuestionAdminRepository extends JpaRepository<Question, Long> {
 
     @Override
     @EntityGraph(attributePaths = {"user", "questionCategory"})
-    List<Question> findAll();
+    Page<Question> findAll(Pageable pageable);
 
     void deleteById(Long id);
 

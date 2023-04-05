@@ -25,6 +25,7 @@ public enum ErrorCode {
     USER_ALREADY_EXISTS(6014, "이미 존재하는 회원입니다"),
     VALIDATION_ERROR(6015, "입력된 데이터에 오류가 존재합니다"),
     ANNOUNCEMENT_NOT_FOUND(6016, "공지사항을 찾을 수 없습니다"),
+    SORTTYPE_INVALID(6017, "유효하지 않은 정렬 기준입니다"),
 
     // DB 관련
     DATA_ACCESS_ERROR(7000, "잘못된 요청입니다"), // DataAccessException, 다양한 Data Access 관련 (JDBC, Hibernate, JPA 등) 스프링 예외

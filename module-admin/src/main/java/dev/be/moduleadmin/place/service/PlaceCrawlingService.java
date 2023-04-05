@@ -2,7 +2,6 @@ package dev.be.moduleadmin.place.service;
 
 import dev.be.moduleadmin.place.dto.PlaceCrawlingDto;
 import dev.be.modulecore.repositories.support.PlaceAdminRepository;
-import dev.be.modulecore.service.PaginationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -12,8 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -30,7 +27,6 @@ import java.util.StringJoiner;
 public class PlaceCrawlingService {
 
     private final PlaceAdminRepository placeAdminRepository;
-    private final PaginationService paginationService;
     private static final String BASE_URL = "https://place.map.kakao.com/";
     private static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
 

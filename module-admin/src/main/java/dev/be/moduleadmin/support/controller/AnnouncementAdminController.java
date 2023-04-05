@@ -39,7 +39,7 @@ public class AnnouncementAdminController {
     public String getAnnouncementList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                       ModelMap map) {
 
-        Page<AnnouncementDto> dtos = paginationService.listToPage(announcementAdminService.getAnnouncementList(), pageable);
+        Page<AnnouncementDto> dtos = announcementAdminService.getAnnouncementList(pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);

@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -115,7 +116,7 @@ public class QnaApiController {
     @GetMapping("/api/v1/questions")
     public PageResult<QuestionDto> getQuestionsByUserNicknameV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
-            @ParameterObject @PageableDefault(size = 10, sort = "createdAt") Pageable pageable) {
+            @ParameterObject @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable) {
 
         User user = (User) authentication.getPrincipal();
         String nickname = user.getNickname();

@@ -40,7 +40,7 @@ public class QnaAdminController {
     public String getQuestionList(@PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelMap map) {
 
-        Page<QuestionDto> dtos = paginationService.listToPage(qnaAdminService.getQuestionList(), pageable);
+        Page<QuestionDto> dtos = qnaAdminService.getQuestionList(pageable);
         List<Integer> pageBarNumbers = paginationService.getPaginationBarNumbers(pageable.getPageNumber(), dtos.getTotalPages());
         map.addAttribute("dtos", dtos);
         map.addAttribute("pageBarNumbers", pageBarNumbers);
