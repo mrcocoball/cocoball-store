@@ -56,13 +56,14 @@ class PlaceApiServiceTest {
 
         List<String> testCategoryList = new ArrayList<>();
         String testCategory = "CE7";
+        String sortType = "score";
         testCategoryList.add(testCategory);
 
         Pageable pageable = Pageable.ofSize(10);
         given(placeRepository.findByRegion1DepthNameAndRegion2DepthNameAndCategory(testRegion1, testRegion2List, testCategoryList)).willReturn(Collections.emptyList());
 
         // When
-        Page<PlaceDto> result = sut.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable);
+        Page<PlaceDto> result = sut.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable, sortType);
 
         // Then
         assertThat(result).isEmpty();

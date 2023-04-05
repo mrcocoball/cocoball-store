@@ -62,6 +62,7 @@ class PlaceApiControllerTest {
         testKakaoApiResponseDto.setDocumentList(testDocumentList);
         String address = "서울 관악구";
         String testRegion1 = testDocumentDto.getRegion1DepthName();
+        String sortType = "score";
 
         List<String> testRegion2List = new ArrayList<>();
         String testRegion2 = "관악구";
@@ -73,7 +74,7 @@ class PlaceApiControllerTest {
 
         Pageable pageable = Pageable.ofSize(10);
 
-        given(placeApiService.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable)).willReturn(Page.empty());
+        given(placeApiService.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable, sortType)).willReturn(Page.empty());
         //given(responseService.getPageResult(Page.empty())).willReturn(Page.empty());
 
         // When & Then
@@ -86,7 +87,7 @@ class PlaceApiControllerTest {
                 //.andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 //.andExpect(jsonPath("$.size()").value("0"))
                 .andDo(MockMvcResultHandlers.print());
-        then(placeApiService.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable));
+        then(placeApiService.getPlaces(testDocumentDto, testKakaoApiResponseDto, testRegion2List, testCategoryList, pageable, sortType));
         //then(responseService.getPageResult(Page.empty()));
 
     }

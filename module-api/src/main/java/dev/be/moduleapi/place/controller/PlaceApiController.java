@@ -1,6 +1,7 @@
 package dev.be.moduleapi.place.controller;
 
 import dev.be.moduleapi.advice.exception.CategoryInvalidException;
+import dev.be.moduleapi.advice.exception.SortTypeInvalidException;
 import dev.be.moduleapi.api.model.PageResult;
 import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,17 +43,21 @@ public class PlaceApiController {
     private final PlaceService placeService;
     private final ResponseService responseService;
     private static final String[] CATEGORIES = {"AT4", "CE7", "CT1", "FD6", "SW8"};
+    private static final String[] SORTTYPES = {"score", "distance"};
 
 
     @Operation(summary = "[GET] 주소, 카테고리로 장소 리스트 출력",
             description = "주소 (String) 과 카테고리 List<String>을 입력하여 요청하면 <br>" +
                     "입력 주소가 좌표로 변환되고 해당 좌표 기준으로 장소 리스트를 출력합니다. <br><br>" +
-                    "사용하는 데이터 : 전부 사용, 특정 장소를 조회하거나 북마크/리뷰/플랜 등 장소 ID(place_id) 가 필요한 곳에서는 place_id (String)을 사용합니다.")
+                    "사용하는 데이터 : 전부 사용, 특정 장소를 조회하거나 북마크/리뷰/플랜 등 장소 ID(place_id) 가 필요한 곳에서는 place_id (String)을 사용합니다. <br> +" +
+                    "정렬 기준은 score(리뷰 점수, 내림차순), distance(거리, 오름차순)가 있으며 아무것도 적지 않을 경우 score 기준으로 정렬됩니다.")
     @GetMapping("/api/v1/places")
     public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
                                             @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
                                             @RequestParam(value = "categories", required = false, defaultValue = "") List<String> categories,
-                                            @ParameterObject @PageableDefault(size = 10, sort = "avgReviewScore") Pageable pageable) {
+                                            @Parameter(description = "정렬 기준, score, distance")
+                                            @RequestParam(required = true, defaultValue = "score") String sortType,
+                                            @ParameterObject @PageableDefault(sort = "avgReviewScore", direction = Sort.Direction.DESC) Pageable pageable) {
 
         // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
         for (String category : categories) {
@@ -60,10 +66,14 @@ public class PlaceApiController {
             }
         }
 
+        if (!Arrays.stream(SORTTYPES).anyMatch(sortType::equals)) {
+            throw new SortTypeInvalidException();
+        }
+
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto = placeService.placeSearchByKakao(addressDto, categories);
         List<String> region2List = placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable));
+        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable, sortType));
     }
 
     

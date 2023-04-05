@@ -12,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +34,8 @@ public class PlaceApiService {
     private static final int MAX_LADIUS = 5; // km
 
 
-    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List, List<String> categories, Pageable pageable) {
+    public Page<PlaceDto> getPlaces(DocumentDto addressDto, KakaoApiResponseDto dto, List<String> region2List,
+                                    List<String> categories, Pageable pageable, String sortType) {
 
         // 거리가 가장 가까운 장소 가져오기 + 해당 장소의 1depth_name 가져오기
         DocumentDto documentDto = dto.getDocumentList().get(0);
@@ -68,12 +71,16 @@ public class PlaceApiService {
             log.info("id : {}, distance : {}", placeDto.getId(), distance);
 
             if(distance <= MAX_LADIUS) {
-                placeDto.setDistance(distance * 1000);
+                placeDto.setDistance(distance * 1000 * 1000);
                 result.add(placeDto);
             }
         }
 
         log.info("[PlaceApiService getPlaces] finally places {} found", result.size());
+
+        // 정렬 처리
+        if (sortType.equals("score")) result.sort(Comparator.comparing(PlaceDto::getAvgReviewScore).reversed());
+        if (sortType.equals("distance")) result.sort(Comparator.comparing(PlaceDto::getDistance));
 
         // 페이징 처리
         return paginationService.listToPage(result, pageable);
