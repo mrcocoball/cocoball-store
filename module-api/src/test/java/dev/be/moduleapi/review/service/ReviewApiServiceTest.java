@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 리뷰 화면 처리 서비스 - 리뷰 조회 테스트")
+@DisplayName("[단일] 리뷰 화면 처리 서비스 - 리뷰 조회 테스트")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class ReviewApiServiceTest {
@@ -39,14 +39,14 @@ class ReviewApiServiceTest {
         // Given
         String placeId = "1";
         Pageable pageable = Pageable.ofSize(10);
-        given(reviewRepository.findByKpid(placeId)).willReturn(Collections.emptyList());
+        given(reviewRepository.findByKpid(placeId, pageable)).willReturn(Page.empty());
 
         // When
         Page<ReviewDto> result = sut.getReviewListByPlaceId(placeId, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(reviewRepository).should().findByKpid(placeId);
+        then(reviewRepository).should().findByKpid(placeId, pageable);
 
     }
 
@@ -57,14 +57,14 @@ class ReviewApiServiceTest {
         // Given
         String nickname = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(reviewRepository.findByUser_Nickname(nickname)).willReturn(Collections.emptyList());
+        given(reviewRepository.findByUser_Nickname(nickname, pageable)).willReturn(Page.empty());
 
         // When
         Page<ReviewDto> result = sut.getReviewListByNickname(nickname, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(reviewRepository).should().findByUser_Nickname(nickname);
+        then(reviewRepository).should().findByUser_Nickname(nickname, pageable);
 
     }
 
