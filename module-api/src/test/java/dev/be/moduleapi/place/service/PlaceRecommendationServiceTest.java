@@ -31,7 +31,7 @@ class PlaceRecommendationServiceTest {
 
     @DisplayName("READ - 장소 추천 결과 조회")
     @Test
-    public void 장소_추천_결과_조회_성공() {
+    public void 장소_추천_결과_조회() {
 
         // Given
         String address1 = "서울";

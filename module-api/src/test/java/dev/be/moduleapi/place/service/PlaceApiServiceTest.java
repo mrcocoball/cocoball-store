@@ -1,6 +1,8 @@
 package dev.be.moduleapi.place.service;
 
 import dev.be.fixture.Fixture;
+import dev.be.moduleapi.advice.exception.PlaceNotFoundApiException;
+import dev.be.moduleapi.advice.exception.SearchResultNotFoundException;
 import dev.be.moduleapi.kakao.dto.DocumentDto;
 import dev.be.moduleapi.kakao.dto.KakaoApiResponseDto;
 import dev.be.moduleapi.place.dto.PlaceDetailDto;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -40,7 +43,7 @@ class PlaceApiServiceTest {
 
     @DisplayName("READ - 장소 리스트 조회")
     @Test
-    public void 장소_리스트_조회_성공() {
+    public void 장소_리스트_조회() {
 
         // Given
         KakaoApiResponseDto testKakaoApiResponseDto = new KakaoApiResponseDto();
@@ -71,7 +74,7 @@ class PlaceApiServiceTest {
 
     }
 
-    @DisplayName("READ - 장소 단건 조회")
+    @DisplayName("READ - 장소 단건 조회 - 성공")
     @Test
     public void 장소_단건_조회_성공() {
 
@@ -88,6 +91,23 @@ class PlaceApiServiceTest {
         assertThat(dto)
                 .hasFieldOrPropertyWithValue("id", place.getId())
                 .hasFieldOrPropertyWithValue("placeId", place.getPlaceId());
+        then(placeRepository).should().findByPlaceId(placeId);
+
+    }
+
+    @DisplayName("READ - 장소 단건 조회 - 실패(존재하지 않는 장소)")
+    @Test
+    public void 장소_단건_조회_실패() {
+
+        // Given
+        String nickname = "test";
+        String placeId = "INVALID";
+        given(placeRepository.findByPlaceId(placeId)).willReturn(Optional.empty());
+
+        // When & Then
+        assertThrows(PlaceNotFoundApiException.class, () -> {
+            sut.getPlace(placeId, nickname);
+        });
         then(placeRepository).should().findByPlaceId(placeId);
 
     }
