@@ -7,6 +7,7 @@ import dev.be.moduleapi.review.dto.ReviewRequestDto;
 import dev.be.modulecore.domain.bookmark.Bookmark;
 import dev.be.modulecore.domain.place.Category;
 import dev.be.modulecore.domain.place.Place;
+import dev.be.modulecore.domain.plan.DetailPlan;
 import dev.be.modulecore.domain.plan.Plan;
 import dev.be.modulecore.domain.review.Review;
 import dev.be.modulecore.domain.user.User;
@@ -95,6 +96,15 @@ public class Fixture {
                 "test",
                 false,
                 null
+        );
+    }
+
+    public static DetailPlan detailplan() {
+        return DetailPlan.of(
+                plan(),
+                place(),
+                "1",
+                1
         );
     }
 
