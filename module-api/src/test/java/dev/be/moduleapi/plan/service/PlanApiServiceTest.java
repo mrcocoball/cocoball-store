@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 플랜 화면 처리 서비스 - 플랜 조회 테스트")
+@DisplayName("[단일] 플랜 화면 처리 서비스 - 플랜 조회 테스트")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class PlanApiServiceTest {
@@ -40,14 +40,14 @@ class PlanApiServiceTest {
         // Given
         String nickname = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(planRepository.findByUser_Nickname(nickname)).willReturn(Collections.emptyList());
+        given(planRepository.findByUser_Nickname(nickname, pageable)).willReturn(Page.empty());
 
         // When
         Page<PlanDto> result = sut.getPlanListByNickname(nickname, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(planRepository).should().findByUser_Nickname(nickname);
+        then(planRepository).should().findByUser_Nickname(nickname, pageable);
 
     }
 

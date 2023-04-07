@@ -42,8 +42,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
 
@@ -64,7 +62,12 @@ dependencies {
     // jsonwebtoken
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-    implementation project(':module-core') // root 프로젝트의 sttings.gradle에 선언한 값과 동일해야 함
+    implementation project(':module-core') // root 프로젝트의 settings.gradle에 선언한 값과 동일해야 함
+
+    // test & testcontainers
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:mariadb:1.17.1'
 }
 
 tasks.named('test') {
@@ -72,8 +75,6 @@ tasks.named('test') {
 }
 
 // build 전 테스트 제외 (임시)
-test {
-    exclude '**/*'
-}
+test { exclude '**/*' }
 
 tasks.register("prepareKotlinBuildScriptModel") {}

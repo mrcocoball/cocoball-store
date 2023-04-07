@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 북마크 화면 처리 서비스 - 북마크 조회 테스트")
+@DisplayName("[단일] 북마크 화면 처리 서비스 - 북마크 조회 테스트")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class BookmarkApiServiceTest {
@@ -38,14 +38,14 @@ class BookmarkApiServiceTest {
         // Given
         String email = "test";
         Pageable pageable = Pageable.ofSize(10);
-        given(bookmarkRepository.findByUser_Email(email)).willReturn(Collections.emptyList());
+        given(bookmarkRepository.findByUser_Email(email, pageable)).willReturn(Page.empty());
 
         // When
         Page<BookmarkDto> result = sut.getBookmarkList(email, pageable);
 
         // Then
         assertThat(result).isEmpty();
-        then(bookmarkRepository).should().findByUser_Email(email);
+        then(bookmarkRepository).should().findByUser_Email(email, pageable);
 
     }
 

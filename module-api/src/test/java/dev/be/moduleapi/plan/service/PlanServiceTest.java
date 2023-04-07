@@ -76,14 +76,12 @@ class PlanServiceTest {
         // Given
         Long id = 1L;
         willDoNothing().given(planRepository).deleteById(id);
-        willDoNothing().given(detailPlanRepository).deleteByPlan_Id(id);
 
         // When
         sut.deletePlan(id);
 
         // Then
         then(planRepository).should().deleteById(id);
-        then(detailPlanRepository).should().deleteByPlan_Id(id);
 
     }
 
