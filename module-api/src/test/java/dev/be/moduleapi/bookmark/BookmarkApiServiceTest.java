@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[단일] 북마크 화면 처리 서비스 - 북마크 조회 테스트")
+@DisplayName("[통합] 북마크 화면 처리 서비스 - 북마크 조회 테스트")
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class BookmarkApiServiceTest {
@@ -33,7 +33,7 @@ class BookmarkApiServiceTest {
 
     @DisplayName("READ - 북마크 리스트 조회")
     @Test
-    public void 북마크_리스트_조회_성공() {
+    public void 북마크_리스트_조회() {
 
         // Given
         String email = "test";
