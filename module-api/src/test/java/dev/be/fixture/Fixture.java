@@ -253,6 +253,16 @@ public class Fixture {
                 .build();
     }
 
+    public static QuestionRequestDto questionUpdateRequestDto() {
+        return QuestionRequestDto.builder()
+                .id(1L)
+                .title("test-update")
+                .description("test-update")
+                .categoryId(1L)
+                .nickname("test")
+                .build();
+    }
+
     public static AnswerRequestDto answerRequestDto() {
         return AnswerRequestDto.builder()
                 .id(1L)
