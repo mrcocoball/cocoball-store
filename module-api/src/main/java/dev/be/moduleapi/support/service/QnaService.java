@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -46,7 +47,7 @@ public class QnaService {
 
         question.changeTitle(dto.getTitle());
         question.changeDescription(dto.getDescription());
-        if (!question.getQuestionCategory().getId().equals(dto.getCategoryId())) {
+        if (question.getQuestionCategory().getId() != null && !question.getQuestionCategory().getId().equals(dto.getCategoryId())) {
             question.changeCategory(questionCategoryRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new));
         }
 
