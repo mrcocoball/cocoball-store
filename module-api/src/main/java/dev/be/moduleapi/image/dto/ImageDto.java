@@ -21,11 +21,6 @@ public class ImageDto {
     @Schema(description = "이미지 순서")
     private int ord;
 
-
-    public static ImageDto of(String uuid, String fileName, int ord) {
-        return new ImageDto(uuid, fileName, ord);
-    }
-
     public static ImageDto from(Image entity) {
         return ImageDto.builder()
                 .uuid(entity.getUuid())

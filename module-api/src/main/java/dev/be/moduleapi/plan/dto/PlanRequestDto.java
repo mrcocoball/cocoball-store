@@ -3,10 +3,7 @@ package dev.be.moduleapi.plan.dto;
 import dev.be.modulecore.domain.plan.Plan;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotEmpty;
@@ -16,6 +13,8 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class PlanRequestDto {
 
     @Schema(description = "플랜 ID, 플랜 수정 시에만 사용")
@@ -31,16 +30,6 @@ public class PlanRequestDto {
 
     @Schema(description = "코멘트, 플랜이 '완료된 상태' 에서만 작성 / 수정할 수 있어야 함")
     private String comment;
-
-    private PlanRequestDto(Long id, String nickname, String title) {
-        this.id = id;
-        this.nickname = nickname;
-        this.title = title;
-    }
-
-    public static PlanRequestDto of(Long id, String nickname, String title) {
-        return new PlanRequestDto(id, nickname, title);
-    }
 
     public Plan toEntity(User user, String title) {
         return Plan.of(

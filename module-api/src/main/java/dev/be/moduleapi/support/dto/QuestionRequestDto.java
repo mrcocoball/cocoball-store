@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Slf4j(topic = "DTO")
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class QuestionRequestDto {

@@ -184,63 +184,63 @@ public class Fixture {
     }
 
     public static ReviewRequestDto reviewRequestDto() {
-        return ReviewRequestDto.of(
-                1L,
-                "test",
-                1L,
-                "1",
-                "test",
-                "test",
-                0L,
-                Collections.emptyList()
-        );
+        return ReviewRequestDto.builder()
+                .id(1L)
+                .nickname("test")
+                .pid(1L)
+                .placeId("1")
+                .title("test")
+                .description("test")
+                .reviewScore(0L)
+                .fileNames(Collections.emptyList())
+                .build();
     }
 
     public static ReviewRequestDto reviewUpdateRequestDto() {
-        return ReviewRequestDto.of(
-                1L,
-                "test",
-                1L,
-                "1",
-                "test-update",
-                "test-update",
-                5L,
-                Collections.emptyList()
-        );
+        return ReviewRequestDto.builder()
+                .id(1L)
+                .nickname("test")
+                .pid(1L)
+                .placeId("1")
+                .title("test-update")
+                .description("test-update")
+                .reviewScore(5L)
+                .fileNames(Collections.emptyList())
+                .build();
     }
 
     public static PlanRequestDto planRequestDto() {
-        return PlanRequestDto.of(
-                1L,
-                "test",
-                "test"
-        );
+        return PlanRequestDto.builder()
+                .id(1L)
+                .nickname("test")
+                .title("test")
+                .build();
     }
 
     public static PlanRequestDto planUpdateRequestDto() {
-        return PlanRequestDto.of(
-                1L,
-                "test",
-                "test-update"
-        );
+        return PlanRequestDto.builder()
+                .id(1L)
+                .nickname("test")
+                .title("test-update")
+                .build();
     }
 
     public static DetailPlanRequestDto detailPlanRequestDto() {
-        return DetailPlanRequestDto.of(
-                1L,
-                1,
-                1L,
-                "1"
-        );
+        return DetailPlanRequestDto.builder()
+                .id(1L)
+                .ord(1)
+                .pid(1L)
+                .kpid("1")
+                .build();
     }
 
     public static DetailPlanRequestDto detailPlanUpdateRequestDto() {
-        return DetailPlanRequestDto.of(
-                1L,
-                2,
-                2L,
-                "2"
-        );
+        return DetailPlanRequestDto.builder()
+                .id(1L)
+                .ord(2)
+                .pid(2L)
+                .kpid("2")
+                .build();
     }
 
     public static QuestionRequestDto questionRequestDto() {
