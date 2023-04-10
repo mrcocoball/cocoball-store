@@ -4,10 +4,7 @@ import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.domain.review.Review;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.Max;
@@ -20,6 +17,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class ReviewRequestDto {
 
     @Schema(description = "리뷰 ID, 리뷰 수정 시에만 사용")
@@ -66,10 +64,6 @@ public class ReviewRequestDto {
         this.fileNames = fileNames;
     }
 
-    public static ReviewRequestDto of(Long id, String nickname, Long pid, String placeId, String title, String description, Long reviewScore, List<String> fileNames) {
-        return new ReviewRequestDto(id, nickname, pid, placeId, title, description, reviewScore, fileNames);
-    }
-
     public static ReviewRequestDto from(Review entity) {
 
         // 리뷰 내의 파일명 가져오기
@@ -79,16 +73,16 @@ public class ReviewRequestDto {
                 .map(image -> image.getUuid() + "_" + image.getFileName())
                 .collect(Collectors.toList());
 
-        return new ReviewRequestDto(
-                entity.getId(),
-                entity.getUser().getNickname(),
-                entity.getPlace().getId(),
-                entity.getPlace().getPlaceId(),
-                entity.getTitle(),
-                entity.getDescription(),
-                entity.getReviewScore(),
-                fileNames
-        );
+        return ReviewRequestDto.builder()
+                .id(entity.getId())
+                .nickname(entity.getUser().getNickname())
+                .pid(entity.getPlace().getId())
+                .placeId(entity.getPlace().getPlaceId())
+                .title(entity.getTitle())
+                .description(entity.getDescription())
+                .reviewScore(entity.getReviewScore())
+                .fileNames(fileNames)
+                .build();
     }
 
     public Review toEntity(User user, Place place, String title, String description, Long reviewScore) {
