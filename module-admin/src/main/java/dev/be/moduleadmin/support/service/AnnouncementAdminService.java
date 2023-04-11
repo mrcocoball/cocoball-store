@@ -56,7 +56,7 @@ public class AnnouncementAdminService {
 
     public Long updateAnnouncement(AnnouncementModifyRequestDto dto) {
 
-        Announcement announcement = announcementAdminRepository.findById(dto.getId()).orElseThrow(EntityNotFoundException::new);
+        Announcement announcement = announcementAdminRepository.findById(dto.getId()).orElseThrow(AnnouncementNotFoundException::new);
 
         announcement.changeTitle(dto.getTitle());
         announcement.changeDescription(dto.getDescription());

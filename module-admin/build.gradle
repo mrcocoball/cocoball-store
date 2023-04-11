@@ -41,8 +41,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 
     // Spring Retry
     implementation 'org.springframework.retry:spring-retry'
@@ -62,6 +60,11 @@ dependencies {
 
     // selenium
     implementation 'org.seleniumhq.selenium:selenium-java:4.7.2'
+
+    // test & testcontainers
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:mariadb:1.17.1'
 
     implementation project(':module-core') // root 프로젝트의 sttings.gradle에 선언한 값과 동일해야 함
 
