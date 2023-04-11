@@ -5,6 +5,8 @@ import dev.be.moduleadmin.place.dto.PlaceCrawlingDto;
 import dev.be.moduleadmin.place.dto.PlaceModifyRequestDto;
 import dev.be.moduleadmin.place.dto.PlaceRequestDto;
 import dev.be.moduleadmin.support.dto.*;
+import dev.be.moduleadmin.user.dto.UserModifyRequestDto;
+import dev.be.moduleadmin.user.dto.UserRequestDto;
 import dev.be.modulecore.domain.place.Category;
 import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.domain.support.*;
@@ -240,12 +242,28 @@ public class Fixture {
                 .imageUrl("test")
                 .build();
     }
+
     public static List<PlaceCrawlingDto> placeCrawlingDtoList() {
         List<PlaceCrawlingDto> result = new ArrayList<>();
 
         result.add(placeCrawlingDto());
 
         return result;
+    }
+
+    public static UserRequestDto userRequestDto() {
+        return UserRequestDto.builder()
+                .email("test")
+                .nickname("test")
+                .password("test")
+                .build();
+    }
+
+    public static UserModifyRequestDto userModifyRequestDto() {
+        return UserModifyRequestDto.builder()
+                .uid(1L)
+                .nickname("test-update")
+                .build();
     }
 
 }

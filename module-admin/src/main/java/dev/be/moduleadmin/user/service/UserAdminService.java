@@ -1,5 +1,7 @@
 package dev.be.moduleadmin.user.service;
 
+import dev.be.moduleadmin.advice.exception.UserExistException;
+import dev.be.moduleadmin.advice.exception.UserNicknameDuplicateException;
 import dev.be.moduleadmin.advice.exception.UserNotFoundApiException;
 import dev.be.moduleadmin.user.dto.UserModifyRequestDto;
 import dev.be.moduleadmin.user.dto.UserPasswordRequestDto;
@@ -10,6 +12,7 @@ import dev.be.modulecore.domain.support.UserPasswordRequest;
 import dev.be.modulecore.domain.user.User;
 import dev.be.modulecore.repositories.support.UserAdminRepository;
 import dev.be.modulecore.repositories.support.UserPasswordRequestRepository;
+import dev.be.modulecore.repositories.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +35,7 @@ public class UserAdminService {
 
     private final UserAdminRepository userAdminRepository;
     private final UserAdminCustomRepository userAdminCustomRepository;
+    private final UserRepository userRepository;
     private final UserPasswordRequestRepository userPasswordRequestRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -79,6 +83,8 @@ public class UserAdminService {
     }
 
     public Long saveUser(UserRequestDto dto) {
+        if (userRepository.findByNickname(dto.getNickname()).isPresent()) throw new UserNicknameDuplicateException();
+        if (userRepository.findByEmail(dto.getEmail()).isPresent()) throw new UserExistException();
         User user = userAdminRepository.save(dto.toEntity(passwordEncoder));
         return user.getUid();
     }
