@@ -1,11 +1,17 @@
 package dev.be.fixture;
 
 import dev.be.moduleadmin.kakao.dto.DocumentDto;
+import dev.be.moduleadmin.place.dto.PlaceCrawlingDto;
+import dev.be.moduleadmin.place.dto.PlaceModifyRequestDto;
+import dev.be.moduleadmin.place.dto.PlaceRequestDto;
 import dev.be.moduleadmin.support.dto.*;
 import dev.be.modulecore.domain.place.Category;
 import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.domain.support.*;
 import dev.be.modulecore.domain.user.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Fixture {
 
@@ -102,12 +108,13 @@ public class Fixture {
      * DTO
      */
 
-    public static DocumentDto documentDto() {
-        return DocumentDto.builder()
+    public static PlaceModifyRequestDto placeModifyRequestDto() {
+        return PlaceModifyRequestDto.builder()
+                .id(1L)
                 .categoryGroupId("CE7")
-                .placeName("test")
+                .placeName("testplace-update")
                 .placeId("1")
-                .placeUrl("test")
+                .placeUrl("testurl-update")
                 .addressName("서울 관악구 봉천동")
                 .roadAddressName("서울 관악구 봉천동")
                 .region1DepthName("서울")
@@ -204,6 +211,28 @@ public class Fixture {
                 .qid(1L)
                 .description("test")
                 .build();
+    }
+
+    public static List<String> crawlingIds() {
+        List<String> result = new ArrayList<>();
+
+        result.add("1367638762");
+
+        return result;
+    }
+
+    public static PlaceCrawlingDto placeCrawlingDto() {
+        return PlaceCrawlingDto.builder()
+                .placeId("1367638762")
+                .imageUrl("test")
+                .build();
+    }
+    public static List<PlaceCrawlingDto> placeCrawlingDtoList() {
+        List<PlaceCrawlingDto> result = new ArrayList<>();
+
+        result.add(placeCrawlingDto());
+
+        return result;
     }
 
 }
