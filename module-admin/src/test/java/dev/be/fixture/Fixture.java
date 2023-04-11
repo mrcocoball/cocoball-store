@@ -185,6 +185,19 @@ public class Fixture {
                 .build();
     }
 
+    public static QuestionCategoryRequestDto questionCategoryRequestDto() {
+        return QuestionCategoryRequestDto.builder()
+                .categoryName("test")
+                .build();
+    }
+
+    public static QuestionCategoryModifyRequestDto questionCategoryModifyRequestDto() {
+        return QuestionCategoryModifyRequestDto.builder()
+                .id(1L)
+                .categoryName("test-update")
+                .build();
+    }
+
     public static QuestionRequestDto questionRequestDto() {
         return QuestionRequestDto.builder()
                 .title("test")

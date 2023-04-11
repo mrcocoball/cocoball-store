@@ -69,7 +69,7 @@ public class QnaAdminService {
         question.changeTitle(dto.getTitle());
         question.changeDescription(dto.getDescription());
 
-        if (dto.getCategoryId() != question.getQuestionCategory().getId()) {
+        if (question.getQuestionCategory().getId() != null && dto.getCategoryId() != question.getQuestionCategory().getId()) {
             QuestionCategory category = questionCategoryRepository.findById(dto.getCategoryId()).orElseThrow(EntityNotFoundException::new);
             question.changeCategory(category);
         }
