@@ -7,10 +7,9 @@ import dev.be.modulecore.repositories.support.QuestionRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,15 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] QNA 화면 처리 서비스 - QNA 조회 테스트")
+@DisplayName("[단일] QNA 화면 처리 서비스 - QNA 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class QnaApiServiceTest {
 
-    @Autowired
+    @InjectMocks
     private QnaApiService sut;
 
-    @MockBean
+    @Mock
     private QuestionRepository questionRepository;
 
     @DisplayName("READ - QNA 리스트 조회")
@@ -81,7 +79,7 @@ class QnaApiServiceTest {
 
         // When & Then
         assertThrows(EntityNotFoundException.class, () -> {
-           sut.getQuestion(id);
+            sut.getQuestion(id);
         });
         then(questionRepository).should().findById(id);
 

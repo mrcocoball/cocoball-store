@@ -9,29 +9,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 리뷰 화면 처리 서비스 - 리뷰 조회 테스트")
+@DisplayName("[단일] 리뷰 화면 처리 서비스 - 리뷰 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class ReviewApiServiceTest {
 
-    @Autowired
+    @InjectMocks
     private ReviewApiService sut;
 
-    @MockBean
+    @Mock
     private ReviewRepository reviewRepository;
 
     @DisplayName("READ - 장소 내 리뷰 리스트 조회")
