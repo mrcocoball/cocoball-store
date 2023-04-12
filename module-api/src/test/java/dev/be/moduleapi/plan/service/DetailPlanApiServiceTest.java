@@ -9,10 +9,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.access.AccessDeniedException;
 
 import java.util.Optional;
@@ -22,15 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 플랜 화면 처리 서비스 - 세부 플랜 조회 테스트")
+@DisplayName("[단일] 플랜 화면 처리 서비스 - 세부 플랜 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class DetailPlanApiServiceTest {
 
-    @Autowired
+    @InjectMocks
     private DetailPlanApiService sut;
 
-    @MockBean
+    @Mock
     private DetailPlanRepository detailPlanRepository;
 
 

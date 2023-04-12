@@ -7,14 +7,12 @@ import dev.be.modulecore.domain.support.FavoriteAnswer;
 import dev.be.modulecore.domain.support.FavoriteQuestionCategory;
 import dev.be.modulecore.repositories.support.FaqCategoryRepository;
 import dev.be.modulecore.repositories.support.FaqRepository;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,18 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] FAQ 화면 처리 서비스 - FAQ 조회 테스트")
+@DisplayName("[단일] FAQ 화면 처리 서비스 - FAQ 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class FaqApiServiceTest {
 
-    @Autowired
+    @InjectMocks
     private FaqApiService sut;
 
-    @MockBean
+    @Mock
     private FaqRepository faqRepository;
 
-    @MockBean
+    @Mock
     private FaqCategoryRepository faqCategoryRepository;
 
     @DisplayName("READ - FAQ 리스트 조회")
@@ -87,7 +84,7 @@ class FaqApiServiceTest {
 
         // When & Then
         assertThrows(EntityNotFoundException.class, () -> {
-           sut.getFaqCategory(id);
+            sut.getFaqCategory(id);
         });
         then(faqCategoryRepository).should().findById(id);
 
@@ -123,7 +120,7 @@ class FaqApiServiceTest {
 
         // When & Then
         assertThrows(EntityNotFoundException.class, () -> {
-           sut.getFaq(id);
+            sut.getFaq(id);
         });
         then(faqRepository).should().findById(id);
 

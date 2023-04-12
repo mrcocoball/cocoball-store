@@ -9,30 +9,27 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.AccessDeniedException;
 
-import java.util.Collections;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-@DisplayName("[통합] 플랜 화면 처리 서비스 - 플랜 조회 테스트")
+@DisplayName("[단일] 플랜 화면 처리 서비스 - 플랜 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 class PlanApiServiceTest {
 
-    @Autowired
+    @InjectMocks
     private PlanApiService sut;
 
-    @MockBean
+    @Mock
     private PlanRepository planRepository;
 
 
@@ -86,7 +83,7 @@ class PlanApiServiceTest {
 
         // When & Then
         Assertions.assertThrows(PlanNotFoundApiException.class, () -> {
-           sut.getPlan(id, nickname);
+            sut.getPlan(id, nickname);
         });
         then(planRepository).should().findById(id);
 
@@ -104,7 +101,7 @@ class PlanApiServiceTest {
 
         // When & Then
         Assertions.assertThrows(AccessDeniedException.class, () -> {
-           sut.getPlan(id, nickname);
+            sut.getPlan(id, nickname);
         });
         then(planRepository).should().findById(id);
 
