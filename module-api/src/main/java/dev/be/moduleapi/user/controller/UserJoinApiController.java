@@ -5,6 +5,7 @@ import dev.be.moduleapi.advice.exception.UserNotFoundApiException;
 import dev.be.moduleapi.api.model.CommonResult;
 import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
+import dev.be.moduleapi.security.dto.AccessTokenDto;
 import dev.be.moduleapi.security.dto.TokenDto;
 import dev.be.moduleapi.security.dto.TokenRequestDto;
 import dev.be.moduleapi.security.oauth.dto.OAuthAccessTokenDto;
@@ -23,9 +24,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
@@ -38,23 +44,6 @@ public class UserJoinApiController {
     private final ResponseService responseService;
     private final OAuthProviderService oAuthProviderService;
 
-
-    @Operation(summary = "[POST] 로그인 요청",
-            description = "이메일, 비밀번호를 입력하여 로그인 요청을 합니다. <br>" +
-                    "로그인이 완료되면 액세스 토큰, 리프레시 토큰이 발급이 됩니다. 본 API 문서에서 인증이 필요한 API를 테스트하기 위해서는 <br>" +
-                    "본 로그인 요청을 통해 전달 받은 액세스 토큰을 사용해야 합니다.")
-    @PostMapping("/api/v1/login")
-    public SingleResult<TokenDto> login(
-            @Parameter(description = "로그인 요청 정보",
-                    required = true,
-                    content = @Content(
-                            schema = @Schema(implementation = UserLoginRequestDto.class))) @RequestBody UserLoginRequestDto dto) {
-
-        TokenDto tokenDto = userJoinService.login(dto);
-
-        return responseService.getSingleResult(tokenDto);
-
-    }
 
     @Operation(summary = "[POST] 회원가입 요청",
             description = "이메일, 비밀번호, 닉네임을 입력하여 회원가입 요청을 합니다. <br>" +
@@ -72,17 +61,55 @@ public class UserJoinApiController {
 
     }
 
-    @Operation(summary = "[POST] 액세스, 리프레시 토큰 재발급 요청",
-            description = "액세스 토큰 만료 시 서버에 액세스, 리프레시 토큰 재발급을 요청합니다. <br>" +
-                    "서버에서는 요청 받은 토큰 정보를 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토큰 재발급을 진행합니다")
+    @Operation(summary = "[POST] 로그인 요청",
+            description = "이메일, 비밀번호를 입력하여 로그인 요청을 합니다. <br>" +
+                    "로그인이 완료되면 액세스 토큰, 리프레시 토큰이 발급이 됩니다. 본 API 문서에서 인증이 필요한 API를 테스트하기 위해서는 <br>" +
+                    "본 로그인 요청을 통해 전달 받은 액세스 토큰을 사용해야 합니다.")
+    @PostMapping("/api/v1/login")
+    public ResponseEntity<?> loginV1(
+            @Parameter(description = "로그인 요청 정보",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = UserLoginRequestDto.class))) @RequestBody UserLoginRequestDto dto, HttpServletResponse response) {
+
+        TokenDto tokenDto = userJoinService.login(dto);
+
+        // HttpOnly로 리프레시 토큰을 전달하기 위한 처리
+
+        String refreshToken = tokenDto.getRefreshToken();
+        tokenDto.setRefreshToken("httpOnly");
+
+        Cookie cookie = new Cookie("refresh_token", refreshToken);
+        cookie.setMaxAge(14 * 24 * 60 * 60); // 14일
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+
+    }
+
+    @Operation(summary = "[POST] 액세스 토큰 재발급 요청",
+            description = "브라우저 쿠키에 저장된 리프레시 토큰을 통해 액세스 토큰을 확인합니다. <br>" +
+                    "서버에서는 전달 받은 리프레시 토큰을 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토큰 재발급을 진행합니다")
     @PostMapping("/api/v1/refresh")
-    public SingleResult<TokenDto> refresh(
+    public ResponseEntity<?> refreshV1(
             @Parameter(description = "재발급 요청을 할 토큰 정보",
                     required = true,
                     content = @Content(
-                            schema = @Schema(implementation = TokenRequestDto.class))) @RequestBody TokenRequestDto dto) {
+                            schema = @Schema(implementation = TokenRequestDto.class))) HttpServletRequest request) {
 
-        return responseService.getSingleResult(userJoinService.refresh(dto));
+        // 서버 쪽으로 직접 전달되는 리프레시 토큰 처리
+
+        Cookie refreshTokenCookie = WebUtils.getCookie(request, "refresh_token");
+
+        if (refreshTokenCookie != null) {
+            String refreshToken = refreshTokenCookie.getValue();
+            AccessTokenDto dto = userJoinService.refreshAccessToken(refreshToken);
+            return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @Operation(summary = "[POST] 이메일 중복 여부 체크 요청",
