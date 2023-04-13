@@ -1,5 +1,8 @@
 server:
   port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 spring:
   profiles:
@@ -12,6 +15,25 @@ spring:
       dev:
         - common
     include: jwt
+
+management:
+  info:
+    java:
+      enabled: true
+    os:
+      enabled: true
+    git:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+  server:
+    port: 9000
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+        exclude: "env,beans"
 
 springdoc:
   swagger-ui:
@@ -89,6 +111,7 @@ com:
 
 url:
   base: http://localhost:8084
+
 ---
 spring:
   config:
