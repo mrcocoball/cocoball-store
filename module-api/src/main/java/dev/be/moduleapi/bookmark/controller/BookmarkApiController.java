@@ -10,8 +10,6 @@ import dev.be.moduleapi.bookmark.service.BookmarkService;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,13 +33,6 @@ public class BookmarkApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[POST] 북마크 목록에 저장, 사용자 로그인 되어 있어야 함",
             description = "지정한 장소를 북마크 목록에 저장합니다. 저장하려는 장소의 place_id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
                     "[POST] /api/v1/bookmarks?placeId={place_id} <br><br>" +
@@ -60,13 +51,6 @@ public class BookmarkApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 북마크 목록 출력, 사용자 로그인 되어 있어야 함",
             description = "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 저장해둔 북마크 리스트를 출력합니다. <br>" +
                     "이들 장소에 대한 상세 정보는 장소 단건 조회 API /api/v1/places/{place_id} 를 활용합니다.")
@@ -83,13 +67,6 @@ public class BookmarkApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[DELETE] 북마크 삭제, 사용자 로그인 되어 있어야 함",
             description = "지정한 북마크를 삭제합니다. 삭제하려는 북마크의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
                     "[DELETE] /api/v1/bookmarks/{id} <br><br>" +
