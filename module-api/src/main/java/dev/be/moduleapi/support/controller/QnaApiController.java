@@ -12,8 +12,6 @@ import dev.be.moduleapi.support.service.QnaService;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,13 +40,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[POST] 문의 작성 요청, 사용자 로그인 되어 있어야 함",
             description = "문의 작성을 요청합니다. <br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 문의를 작성하려는 유저를 체크합니다. <br><br>" +
@@ -71,13 +62,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[PUT] 문의 수정, 사용자 로그인 되어 있어야 함",
             description = "문의 ID (id)를 통해 특정 문의의 정보를 수정합니다. <br><br>" +
                     "해당 기능을 사용하기 전에 위의 [GET] /api/v1/questions/{id} 로 수정 전 정보를 가져와야 합니다. 이후 수정 완료 버튼 클릭 시 다음과 같이 요청해야 합니다. <br>" +
@@ -103,13 +87,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 사용자 작성 문의 리스트 출력, 로그인 되어 있어야 함",
             description = "사용자가 작성한 문의 리스트를 출력합니다. <br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 작성한 문의 리스트를 출력합니다.")
@@ -126,13 +103,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 문의 ID로 단일 문의 내용 조회",
             description = "문의 ID (id)를 통해 특정 문의의 정보를 가져옵니다. <br><br>" +
                     "사용하는 데이터 : 전부 사용하며 문의 수정 시 필요한 uid (작성자 ID), nickname (작성자 닉네임) 을 비롯한 수정 전 기존 정보를 해당 API로 가져옵니다.")
@@ -145,13 +115,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[DELETE] 문의 삭제, 사용자 로그인 되어 있어야 함",
             description = "지정한 문의를 삭제합니다. 삭제하려는 문의의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
                     "[DELETE] /api/v1/questions/{id} <br><br>" +
@@ -167,13 +130,6 @@ public class QnaApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[POST] 문의 내 답변 작성 요청, 사용자 로그인 되어 있어야 함",
             description = "문의 내 답변 작성을 요청합니다. <br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 문의를 작성하려는 유저를 체크합니다. <br><br>" +

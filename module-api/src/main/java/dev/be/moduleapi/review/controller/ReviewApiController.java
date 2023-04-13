@@ -12,8 +12,6 @@ import dev.be.moduleapi.review.service.ReviewService;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,13 +41,6 @@ public class ReviewApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[POST] 리뷰 작성 요청, 사용자 로그인 되어 있어야 함",
             description = "특정 장소에 리뷰 작성을 요청합니다. 이 때 특정 장소의 place_id를 사용해야 합니다. <br>" +
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 리뷰를 작성하려는 유저를 체크합니다. <br><br>" +
@@ -70,13 +61,6 @@ public class ReviewApiController {
         return responseService.getSingleResult(reviewService.saveReview(dto));
     }
 
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 장소 내의 리뷰 리스트 출력",
             description = "특정 장소에 작성된 리뷰 리스트를 출력합니다. 장소 상세 정보 조회 시 해당 API도 같이 호출되어야 합니다. <br>" +
                     "특정 장소의 장소 ID (place_id) 가 필요합니다.")
@@ -89,13 +73,6 @@ public class ReviewApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 사용자 작성 리뷰 리스트 출력, 로그인 되어 있어야 함",
             description = "마이페이지 내 내 리뷰 화면에서 사용자가 작성한 리뷰 리스트를 출력합니다. <br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 작성한 리뷰 리스트를 출력합니다. <br><br>" +
@@ -113,13 +90,6 @@ public class ReviewApiController {
         return responseService.getPageResult(reviewApiService.getReviewListByNickname(nickname, pageable));
     }
 
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 리뷰 ID로 단일 리뷰 조회",
             description = "리뷰 ID (id)를 통해 특정 리뷰의 정보를 가져옵니다. <br><br>" +
                     "사용하는 데이터 : 전부 사용하며 리뷰 수정 시 필요한 uid (작성자 ID), pid (장소 ID, PK) 를 비롯한 수정 전 기존 정보를 해당 API로 가져옵니다.")
@@ -131,13 +101,6 @@ public class ReviewApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[PUT] 리뷰 수정, 사용자 로그인 되어 있어야 함",
             description = "리뷰 ID (id)를 통해 특정 리뷰의 정보를 수정합니다. <br><br>" +
                     "해당 기능을 사용하기 전에 위의 [GET] /api/v1/reviews/{id} 로 수정 전 정보를 가져와야 합니다. 이후 수정 완료 버튼 클릭 시 다음과 같이 요청해야 합니다. <br>" +
@@ -162,13 +125,6 @@ public class ReviewApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[DELETE] 리뷰 삭제, 사용자 로그인 되어 있어야 함",
             description = "지정한 리뷰를 삭제합니다. 삭제하려는 리뷰의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
                     "[DELETE] /api/v1/reviews/{id} <br><br>" +

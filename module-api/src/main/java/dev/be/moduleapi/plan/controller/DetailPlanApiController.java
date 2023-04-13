@@ -10,8 +10,6 @@ import dev.be.moduleapi.plan.service.DetailPlanService;
 import dev.be.modulecore.domain.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,13 +34,6 @@ public class DetailPlanApiController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[POST] 세부 플랜(목적지) 설정 요청, 사용자 로그인이 되어야 함",
             description = "특정 플랜 내부에 세부 플랜(목적지) 설정을 요청합니다. 이 때 특정 플랜의 ID (pid)를 사용해야 하며, 다음과 같이 요청해야 합니다. <br>" +
                     "[POST] /api/v1/detailPlans?planId={pid} <br><br>" +
@@ -65,13 +56,6 @@ public class DetailPlanApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[GET] 세부 플랜(목적지) ID로 단건 조회, 사용자 로그인이 되어야 하며 플랜 ID 필요, 플랜 작성자일 경우에만 조회 가능",
             description = "세부 플랜(목적지) ID (id)를 통해 특정 세부 플랜의 정보를 가져옵니다. <br>" +
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 접근 권한을 체크합니다. <br><br>" +
@@ -88,13 +72,6 @@ public class DetailPlanApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[PUT] 세부 플랜(목적지) 수정, 사용자 로그인이 되어야 하며 세부 플랜 ID 필요",
             description = "세부 플랜(목적지) ID (id)를 통해 특정 세부 플랜의 정보를 수정합니다. <br><br>" +
                     "해당 기능을 사용하기 전에 위의 [GET] /api/v1/detailPlans/{id} 로 수정 전 정보를 가져와야 합니다. 이후 수정 완료 버튼 클릭 시 다음과 같이 요청해야 합니다. <br>" +
@@ -114,13 +91,6 @@ public class DetailPlanApiController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @Parameters({
-            @Parameter(
-                    name = "X-AUTH-TOKEN",
-                    description = "로그인 성공 후 AccessToken",
-                    required = true, in = ParameterIn.HEADER
-            )
-    })
     @Operation(summary = "[DELETE] 세부 플랜(목적지) 삭제, 사용자 로그인이 되어야 하며 세부 플랜 ID 필요",
             description = "지정한 세부 플랜(목적지)를 삭제합니다. 삭제하려는 세부 플랜의 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
                     "[DELETE] /api/v1/detailPlans/{id} <br><br>" +

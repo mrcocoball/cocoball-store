@@ -1,6 +1,7 @@
 package dev.be.moduleapi.security.jwt;
 
 import dev.be.moduleapi.advice.exception.CustomAuthenticationEntrypointException;
+import dev.be.moduleapi.security.dto.AccessTokenDto;
 import dev.be.moduleapi.security.dto.TokenDto;
 import dev.be.moduleapi.security.service.CustomUserDetailsService;
 import io.jsonwebtoken.*;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -88,6 +90,33 @@ public class JwtProvider {
     }
 
     /**
+     * JWT 생성
+     */
+    public AccessTokenDto refreshAccessToken(String email, List<String> roles) {
+
+        // user 구분용, Claims에 email 추가
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put(ROLES, roles);
+
+        // 생성 날짜, 만료 날짜를 위한 Date
+        Date now = new Date();
+
+        String accessToken = Jwts.builder()
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + ACCESS_TOKEN_VALID_MILLISECOND)) // 발급 시간부터 1시간까지 유효
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+
+        return AccessTokenDto.builder()
+                .grantType("bearer")
+                .accessToken(accessToken)
+                .accessTokenExpireDate(ACCESS_TOKEN_VALID_MILLISECOND) // 발급 시간부터 1시간까지 유효
+                .build();
+    }
+
+    /**
      * JWT로 인증 정보 조회
      */
     public Authentication getAuthentication(String token) {
@@ -116,10 +145,15 @@ public class JwtProvider {
     }
 
     /**
-     * HTTP Request의 Header 에서 Token을 파싱 -> "X-AUTH-TOKEN: JWT"
+     * HTTP Request의 Header 에서 Token을 파싱 -> "Authorization"
      */
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+
+        String headerAuth = request.getHeader("Authorization");
+        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+            return headerAuth.substring(7, headerAuth.length());
+        }
+        return null;
     }
 
     /**

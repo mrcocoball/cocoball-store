@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenDto {
+public class AccessTokenDto {
 
     @Schema(description = "토큰 타입, Bearer 사용")
     private String grantType;
@@ -20,11 +20,6 @@ public class TokenDto {
     @JsonProperty("Authorization")
     private String accessToken;
 
-    @Schema(description = "리프레시 토큰")
-    @JsonProperty("refresh_token")
-    private String refreshToken;
-
     @Schema(description = "액세스 토큰 만료일")
     private Long accessTokenExpireDate;
-
 }

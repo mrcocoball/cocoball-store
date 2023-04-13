@@ -1,8 +1,8 @@
 package dev.be.moduleapi.user.service;
 
 import dev.be.moduleapi.advice.exception.*;
+import dev.be.moduleapi.security.dto.AccessTokenDto;
 import dev.be.moduleapi.security.dto.TokenDto;
-import dev.be.moduleapi.security.dto.TokenRequestDto;
 import dev.be.moduleapi.security.jwt.JwtProvider;
 import dev.be.moduleapi.security.oauth.dto.OAuthAccessTokenDto;
 import dev.be.moduleapi.security.oauth.dto.ProfileDto;
@@ -79,7 +79,8 @@ public class UserJoinService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
+        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent())
+            refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
         log.info("refresh token persist complete");
 
@@ -145,40 +146,34 @@ public class UserJoinService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
+        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent())
+            refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
         log.info("refresh token persist complete");
 
         return tokenDto;
     }
 
-
-    public TokenDto refresh(TokenRequestDto dto) {
+    public AccessTokenDto refreshAccessToken(String refreshToken) {
 
         // 만료된 리프레시 토큰 확인
-        if (!jwtProvider.validationToken(dto.getRefreshToken())) {
+        if (!jwtProvider.validationToken(refreshToken)) {
             throw new CustomRefreshTokenException();
         }
 
-        // 액세스 토큰에서 username (uid) 가져오기
-        String accessToken = dto.getAccessToken();
-        Authentication authentication = jwtProvider.getAuthentication(accessToken);
+        // 리프레시 토큰에서 username, 권한 조회
+        Authentication authentication = jwtProvider.getAuthentication(refreshToken);
 
         // username (email) 로 유저 검색, 리프레시 토큰 여부 확인
         User user = userRepository.findByEmail(authentication.getName()).orElseThrow(UserNotFoundApiException::new);
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
+        RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
 
         // 리프레시 토큰 불일치 여부 확인
-        if (!refreshToken.getToken().equals(dto.getRefreshToken()))
+        if (!validRefreshToken.getToken().equals(refreshToken))
             throw new CustomRefreshTokenException();
 
-        // 액세스 토큰, 리프레시 토큰 재발급 및 리프레시 토큰 저장
-        TokenDto newCreatedToken = jwtProvider.createToken(user.getEmail(), user.getRoleSet());
-        RefreshToken updateRefreshToken = refreshToken.updateToken(newCreatedToken.getRefreshToken());
-
-        refreshTokenRepository.save(updateRefreshToken);
-
-        return newCreatedToken;
+        // 액세스 토큰 재발급
+        return jwtProvider.refreshAccessToken(user.getEmail(), user.getRoleSet());
 
     }
 
