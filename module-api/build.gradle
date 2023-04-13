@@ -43,6 +43,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // Swagger-Ui
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
 
     // Spring Retry
@@ -62,12 +63,16 @@ dependencies {
     // jsonwebtoken
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
-    implementation project(':module-core') // root 프로젝트의 settings.gradle에 선언한 값과 동일해야 함
-
     // test & testcontainers
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.testcontainers:mariadb:1.17.1'
+
+    // micrometer
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    implementation project(':module-core') // root 프로젝트의 settings.gradle에 선언한 값과 동일해야 함
+
 }
 
 tasks.named('test') {
