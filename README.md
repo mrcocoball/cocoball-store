@@ -15,6 +15,7 @@
 * Spring Security
 * Spring Retry
 * Swagger-UI (springdoc)
+* Selenium-java & chromedriver
 
 ### Monitoring Tool
 * Spring Actuator
