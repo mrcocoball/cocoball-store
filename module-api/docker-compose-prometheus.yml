@@ -1,0 +1,21 @@
+version: "2" # 원래 3.8이었으나 리눅스 환경에서 build 하기 위해 2.0으로 변경
+
+services:
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config/:/etc/prometheus/
+      - ./prometheus/volume:/prometheus
+    ports:
+      - "91:9090"
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    restart: always
+    networks:
+      - promnet
+
+networks:
+  promnet:
+    driver: bridge

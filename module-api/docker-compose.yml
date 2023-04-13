@@ -31,6 +31,7 @@ services:
       - VIRTUAL_HOST = devnetwork.backend-app
     ports:
       - "81:8084" # 기본 포트
+      - "90:9000" # actuator 포트
     networks:
       - devnetwork
     volumes:
