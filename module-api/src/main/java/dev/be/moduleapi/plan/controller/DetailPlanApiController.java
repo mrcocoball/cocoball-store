@@ -8,6 +8,7 @@ import dev.be.moduleapi.plan.dto.DetailPlanRequestDto;
 import dev.be.moduleapi.plan.service.DetailPlanApiService;
 import dev.be.moduleapi.plan.service.DetailPlanService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +25,7 @@ import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "6. [마이 페이지 - 플랜 목록 - 플랜 세부 정보] DetailPlanApiController - 세부 플랜 기능 API")
+@Timed("business.controller.detail_plan")
 @RequiredArgsConstructor
 @RestController
 public class DetailPlanApiController {

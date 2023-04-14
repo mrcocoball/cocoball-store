@@ -17,6 +17,7 @@ import dev.be.moduleapi.user.dto.UserSocialJoinRequestDto;
 import dev.be.moduleapi.user.dto.UserSocialLoginRequestDto;
 import dev.be.moduleapi.user.service.UserJoinService;
 import dev.be.modulecore.enums.ErrorCode;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,6 +37,7 @@ import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "0. [로그인, 회원가입 화면] UserJoinApiController - 회원가입, 로그인, 토큰 발급 API")
+@Timed("business.controller.join")
 @RequiredArgsConstructor
 @RestController
 public class UserJoinApiController {

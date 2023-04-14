@@ -8,6 +8,7 @@ import dev.be.moduleapi.bookmark.dto.BookmarkDto;
 import dev.be.moduleapi.bookmark.service.BookmarkApiService;
 import dev.be.moduleapi.bookmark.service.BookmarkService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "4. [마이 페이지 - 북마크 목록] BookmarkApiController - 북마크 기능 API")
+@Timed("business.controller.bookmark")
 @RequiredArgsConstructor
 @RestController
 public class BookmarkApiController {

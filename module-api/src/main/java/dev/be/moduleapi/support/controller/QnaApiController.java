@@ -10,6 +10,7 @@ import dev.be.moduleapi.support.dto.QuestionRequestDto;
 import dev.be.moduleapi.support.service.QnaApiService;
 import dev.be.moduleapi.support.service.QnaService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +31,7 @@ import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "8. [고객센터 화면 - 문의사항 - 문의사항 리스트, 상세] QnaApiController - QNA 기능 API")
+@Timed("business.controller.qna")
 @RequiredArgsConstructor
 @RestController
 public class QnaApiController {

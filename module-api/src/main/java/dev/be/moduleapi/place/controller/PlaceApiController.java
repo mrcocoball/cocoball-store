@@ -12,6 +12,7 @@ import dev.be.moduleapi.place.dto.PlaceDto;
 import dev.be.moduleapi.place.service.PlaceApiService;
 import dev.be.moduleapi.place.service.PlaceService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +33,7 @@ import java.util.List;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "1. [장소 검색 화면, 장소 상세 정보] PlaceApiController - 장소 검색 API")
+@Timed("business.controller.place_search")
 @RequiredArgsConstructor
 @RestController
 public class PlaceApiController {

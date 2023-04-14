@@ -4,6 +4,7 @@ import dev.be.moduleapi.api.model.PageResult;
 import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.place.dto.PlaceRecommendationDto;
 import dev.be.moduleapi.place.service.PlaceRecommendationService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "3. [장소 추천 화면] PlaceRecommendationApiController - 장소 추천 API")
+@Timed("business.controller.place_recommendation")
 @RequiredArgsConstructor
 @RestController
 public class PlaceRecommendationApiController {

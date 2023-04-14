@@ -10,6 +10,7 @@ import dev.be.moduleapi.review.dto.ReviewRequestDto;
 import dev.be.moduleapi.review.service.ReviewApiService;
 import dev.be.moduleapi.review.service.ReviewService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,6 +31,7 @@ import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "2. [장소 검색 화면 - 장소 상세 정보 - 리뷰 리스트, 리뷰 상세] ReviewApiController - 리뷰 기능 API")
+@Timed("business.controller.review")
 @RequiredArgsConstructor
 @RestController
 public class ReviewApiController {
