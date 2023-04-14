@@ -2,6 +2,7 @@ package dev.be.moduleapi.plan.service;
 
 import dev.be.moduleapi.advice.exception.PlanNotFoundApiException;
 import dev.be.moduleapi.advice.exception.UserNotFoundApiException;
+import dev.be.moduleapi.plan.dto.PlanDto;
 import dev.be.moduleapi.plan.dto.PlanRequestDto;
 import dev.be.modulecore.domain.plan.Plan;
 import dev.be.modulecore.domain.user.User;
@@ -22,7 +23,7 @@ public class PlanService {
     private final UserRepository userRepository;
 
 
-    public Long savePlan(PlanRequestDto dto) {
+    public PlanDto savePlan(PlanRequestDto dto) {
 
         User user = userRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundApiException::new);
 
@@ -32,17 +33,17 @@ public class PlanService {
 
         log.info("[PlanService savePlan] save plan complete");
 
-        return plan.getId();
+        return PlanDto.from(plan);
     }
 
-    public Long updatePlan(PlanRequestDto dto) {
+    public PlanDto updatePlan(PlanRequestDto dto) {
 
         Plan plan = planRepository.findById(dto.getId()).orElseThrow(PlanNotFoundApiException::new);
 
         plan.changeTitle(dto.getTitle());
         plan.changeComment(dto.getComment());
 
-        return plan.getId();
+        return PlanDto.from(plan);
     }
 
     public void deletePlan(Long id) {

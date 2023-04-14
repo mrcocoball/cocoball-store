@@ -3,6 +3,7 @@ package dev.be.moduleapi.plan.service;
 import dev.be.moduleapi.advice.exception.DetailPlanNotFoundApiException;
 import dev.be.moduleapi.advice.exception.PlaceNotFoundApiException;
 import dev.be.moduleapi.advice.exception.PlanNotFoundApiException;
+import dev.be.moduleapi.plan.dto.DetailPlanDto;
 import dev.be.moduleapi.plan.dto.DetailPlanRequestDto;
 import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.domain.plan.DetailPlan;
@@ -26,7 +27,7 @@ public class DetailPlanService {
     private final PlaceRepository placeRepository;
 
 
-    public Long saveDetailPlan(DetailPlanRequestDto dto) {
+    public DetailPlanDto saveDetailPlan(DetailPlanRequestDto dto) {
 
         log.info("[DetailPlanService saveDetailPlan] find plan...");
 
@@ -43,10 +44,10 @@ public class DetailPlanService {
 
         log.info("[DetailPlanService saveDetailPlan] save detail plan complete");
 
-        return detailPlan.getId();
+        return DetailPlanDto.from(detailPlan);
     }
 
-    public Long updateDetailPlan(DetailPlanRequestDto dto) {
+    public DetailPlanDto updateDetailPlan(DetailPlanRequestDto dto) {
 
         DetailPlan detailPlan = detailPlanRepository.findById(dto.getId()).orElseThrow(DetailPlanNotFoundApiException::new);
 
@@ -61,7 +62,7 @@ public class DetailPlanService {
             detailPlan.changeOrd(dto.getOrd());
         }
 
-        return detailPlan.getId();
+        return DetailPlanDto.from(detailPlan);
     }
 
     public void deleteDetailPlan(Long id) {

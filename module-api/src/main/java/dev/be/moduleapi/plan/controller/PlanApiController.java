@@ -45,7 +45,7 @@ public class PlanApiController {
                     "해당 인증 정보를 토대로 플랜을 작성하려는 유저를 체크합니다. <br><br>" +
                     "플랜 작성에 필요한 정보는 제목(title) 입니다.")
     @PostMapping(value = "/api/v1/plans", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> savePlansV1(
+    public SingleResult<PlanDto> savePlansV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "플랜 작성 정보", required = true) @Valid @RequestBody PlanRequestDto dto) {
 
@@ -98,7 +98,7 @@ public class PlanApiController {
                     "(예시 : 플랜 정보 조회로 세부 플랜(id = 1, id = 2) 2개가 같이 나오고, 이 중에서 id = 1인 세부 플랜 클릭 시 [GET] api/v1/detailPlans/{1}...<br>" +
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 플랜을 수정하려는 유저를 체크합니다.")
     @PutMapping(value = "/api/v1/plans/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> updatePlanV1(
+    public SingleResult<PlanDto> updatePlanV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "플랜 ID", required = true) @PathVariable("id") Long id,
             @Parameter(description = "플랜 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/plans/{id}로 수정 전 정보를 가져와야 합니다.",

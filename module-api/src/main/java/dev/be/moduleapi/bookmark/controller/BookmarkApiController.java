@@ -40,7 +40,7 @@ public class BookmarkApiController {
                     "[POST] /api/v1/bookmarks?placeId={place_id} <br><br>" +
                     "요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 북마크를 저장하려는 유저를 체크합니다.")
     @PostMapping("/api/v1/bookmarks")
-    public SingleResult<Long> saveBookmarkV1(
+    public SingleResult<BookmarkDto> saveBookmarkV1(
             @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "장소 정보의 place_id (String)", required = true) @RequestParam String placeId) {
 
