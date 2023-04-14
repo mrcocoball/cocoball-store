@@ -56,7 +56,7 @@ public class JwtProvider {
     /**
      * JWT 생성
      */
-    public TokenDto createToken(String email, List<String> roles) {
+    public TokenDto createToken(String email, Long uid, List<String> roles) {
 
         // user 구분용, Claims에 email 추가
         Claims claims = Jwts.claims().setSubject(email);
@@ -82,6 +82,8 @@ public class JwtProvider {
                 .compact();
 
         return TokenDto.builder()
+                .email(email)
+                .uid(uid)
                 .grantType("bearer")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
@@ -92,7 +94,7 @@ public class JwtProvider {
     /**
      * JWT 생성
      */
-    public AccessTokenDto refreshAccessToken(String email, List<String> roles) {
+    public AccessTokenDto refreshAccessToken(String email, Long uid, List<String> roles) {
 
         // user 구분용, Claims에 email 추가
         Claims claims = Jwts.claims().setSubject(email);
@@ -111,6 +113,8 @@ public class JwtProvider {
 
         return AccessTokenDto.builder()
                 .grantType("bearer")
+                .uid(uid)
+                .email(email)
                 .accessToken(accessToken)
                 .accessTokenExpireDate(ACCESS_TOKEN_VALID_MILLISECOND) // 발급 시간부터 1시간까지 유효
                 .build();

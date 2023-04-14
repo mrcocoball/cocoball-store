@@ -22,4 +22,10 @@ public class AccessTokenDto {
 
     @Schema(description = "액세스 토큰 만료일")
     private Long accessTokenExpireDate;
+
+    @Schema(description = "유저 ID")
+    private Long uid;
+
+    @Schema(description = "이메일")
+    private String email;
 }
