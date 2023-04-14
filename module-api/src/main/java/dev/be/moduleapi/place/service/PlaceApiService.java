@@ -8,6 +8,7 @@ import dev.be.moduleapi.place.dto.PlaceDetailDto;
 import dev.be.moduleapi.place.dto.PlaceDto;
 import dev.be.modulecore.repositories.place.PlaceRepository;
 import dev.be.modulecore.service.PaginationService;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.place_search")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
