@@ -4,6 +4,7 @@ import dev.be.moduleapi.api.model.CommonResult;
 import dev.be.moduleapi.api.model.PageResult;
 import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
+import dev.be.moduleapi.support.dto.AnswerDto;
 import dev.be.moduleapi.support.dto.AnswerRequestDto;
 import dev.be.moduleapi.support.dto.QuestionDto;
 import dev.be.moduleapi.support.dto.QuestionRequestDto;
@@ -48,7 +49,7 @@ public class QnaApiController {
                     "문의 작성에 필요한 정보는 title, description, categoryId 입니다. <br>" +
                     "여기서 categoryId는 select option으로 받아야 합니다.")
     @PostMapping(value = "/api/v1/questions", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> saveQuestionV1(
+    public SingleResult<QuestionDto> saveQuestionV1(
             @Parameter(description = "요청한 유저의 인증 정보") Authentication authentication,
             @Parameter(description = "문의 작성 정보",
                     required = true,
@@ -71,7 +72,7 @@ public class QnaApiController {
                     "수정되는 정보는 title, description, categoryId 입니다. <br>" +
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 문의를 수정하려는 유저를 체크합니다.")
     @PutMapping(value = "/api/v1/questions/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> updateQuestionV1(
+    public SingleResult<QuestionDto> updateQuestionV1(
             @Parameter(description = "사용자 정보", required = true) Authentication authentication,
             @Parameter(description = "문의 ID, 문의 리스트 내 문의의 id를 사용합니다", required = true) @PathVariable("id") Long id,
             @Parameter(description = "문의 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/questions/{id}로 수정 전 정보를 가져와야 합니다.",
@@ -138,7 +139,7 @@ public class QnaApiController {
                     "리뷰 작성에 필요한 정보는 문의 ID(qid), description 입니다. <br>" +
                     "여기서 문의 ID는 프론트엔드에서 요청 시 해당 답변이 작성될 문의 ID(qid)를 넣어줘야 합니다. (문의 화면 내에서 답변 작성)")
     @PostMapping(value = "/api/v1/answers", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> saveAnswerV1(
+    public SingleResult<AnswerDto> saveAnswerV1(
             @Parameter(description = "요청한 유저의 인증 정보") Authentication authentication,
             @Parameter(description = "답변 작성 정보",
                     required = true,

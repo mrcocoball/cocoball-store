@@ -68,7 +68,7 @@ public class UserJoinService {
 
         // 액세스 토큰, 리프레시 토큰 발급
         log.info("create token start");
-        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getRoleSet());
+        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet());
         log.info("create token complete");
 
         // 리프레시 토큰 저장
@@ -136,7 +136,7 @@ public class UserJoinService {
 
         User user = userRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(UserNotFoundApiException::new);
 
-        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getRoleSet());
+        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet());
 
         // 리프레시 토큰 저장
         log.info("refresh token persist start");
@@ -173,7 +173,7 @@ public class UserJoinService {
             throw new CustomRefreshTokenException();
 
         // 액세스 토큰 재발급
-        return jwtProvider.refreshAccessToken(user.getEmail(), user.getRoleSet());
+        return jwtProvider.refreshAccessToken(user.getEmail(), user.getUid(), user.getRoleSet());
 
     }
 

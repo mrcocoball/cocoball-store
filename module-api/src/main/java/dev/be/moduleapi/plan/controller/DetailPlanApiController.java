@@ -44,7 +44,7 @@ public class DetailPlanApiController {
                     "1. 사용자가 장소 검색 기능을 활용하여 최종적으로 선택한 장소에서 place_id를 가져오기<br>" +
                     "2. 사용자가 북마크에 저장된 장소들을 확인하여 최종적으로 선택한 장소에서 place_id를 가져오기")
     @PostMapping(value = "/api/v1/detailPlans", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> saveDetailPlansV1(
+    public SingleResult<DetailPlanDto> saveDetailPlansV1(
             @Parameter(description = "플랜 ID, 세부 플랜(목적지)를 설정하려는 플랜의 플랜 ID(pid)는 프론트엔드에서 가져와서 요청 시 넣어줘야 합니다.",
                     required = true) @RequestParam Long planId,
             @Parameter(description = "세부 플랜 작성 정보, 목적지 장소의 place_id는 위에서 설명한 방식으로 프론트엔드에서 가져와서 요청 시 넣어줘야 합니다.",
@@ -80,7 +80,7 @@ public class DetailPlanApiController {
                     "[PUT] /api/v1/detailPlans/{id} <br><br>" +
                     "수정되는 정보는 place_id, ord 입니다.")
     @PutMapping(value = "/api/v1/detailPlans/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> updateDetailPlanV1(
+    public SingleResult<DetailPlanDto> updateDetailPlanV1(
             @Parameter(description = "세부 플랜(목적지) ID", required = true) @PathVariable("id") Long id,
             @Parameter(description = "세부 플랜(목적지) 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/detailPlans{id}로 수정 전 정보를 가져와야 합니다.",
                     required = true,

@@ -3,6 +3,7 @@ package dev.be.moduleapi.review.service;
 import dev.be.moduleapi.advice.exception.PlaceNotFoundApiException;
 import dev.be.moduleapi.advice.exception.ReviewNotFoundApiException;
 import dev.be.moduleapi.advice.exception.UserNotFoundApiException;
+import dev.be.moduleapi.review.dto.ReviewDto;
 import dev.be.moduleapi.review.dto.ReviewRequestDto;
 import dev.be.modulecore.domain.place.Place;
 import dev.be.modulecore.domain.review.Review;
@@ -26,7 +27,7 @@ public class ReviewService {
     private final PlaceRepository placeRepository;
 
 
-    public Long saveReview(ReviewRequestDto dto) {
+    public ReviewDto saveReview(ReviewRequestDto dto) {
 
         /**
          * PlaceId를 현재 보고 있는 장소 Dto의 placeId로 주입이 가능할 경우
@@ -39,10 +40,10 @@ public class ReviewService {
         Review review = reviewRepository.save(dto.toEntity(user, place, dto.getTitle(), dto.getDescription(), dto.getReviewScore()));
         place.addScoreAndCount(dto.getReviewScore()); // 리뷰 점수 반영
 
-        return review.getId();
+        return ReviewDto.from(review);
     }
 
-    public Long updateReview(ReviewRequestDto dto) {
+    public ReviewDto updateReview(ReviewRequestDto dto) {
 
         Review review = reviewRepository.findById(dto.getId()).orElseThrow(ReviewNotFoundApiException::new);
         Place place = review.getPlace();
@@ -64,7 +65,7 @@ public class ReviewService {
             }
         }
 
-        return review.getId();
+        return ReviewDto.from(review);
     }
 
     public void deleteReview(Long id) {

@@ -49,7 +49,7 @@ public class ReviewApiController {
                     "리뷰 작성에 필요한 정보는 place_id, title, description, review_score, List <String> filenames 입니다. <br>" +
                     "여기서 List<String>filenames의 경우 첨부 이미지의 주소이며, 여기에는 이미지 업로드 API를 통해 변환된 것을 넣어야 합니다.")
     @PostMapping(value = "/api/v1/reviews", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> saveReviewV1(
+    public SingleResult<ReviewDto> saveReviewV1(
             @Parameter(description = "요청한 유저의 인증 정보") Authentication authentication,
             @Parameter(description = "리뷰 작성 정보, 리뷰를 작성하려는 장소의 장소 ID(place_id)는 프론트엔드에서 가져와서 요청 시 넣어줘야 합니다.",
                     required = true,
@@ -110,7 +110,7 @@ public class ReviewApiController {
                     "수정되는 정보는 title, description, review_score, List<String>filenames 입니다. <br>" +
                     "또한 요청 시점에서 요청을 한 유저의 인증 정보를 확인하며, 해당 인증 정보를 토대로 리뷰를 수정하려는 유저를 체크합니다.")
     @PutMapping(value = "/api/v1/reviews/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public SingleResult<Long> updateReviewV1(
+    public SingleResult<ReviewDto> updateReviewV1(
             @Parameter(description = "사용자 정보", required = true) Authentication authentication,
             @Parameter(description = "리뷰 ID, 리뷰 리스트 내 리뷰의 id를 사용합니다", required = true) @PathVariable("id") Long id,
             @Parameter(description = "리뷰 수정 정보, 수정 버튼 클릭 시 [GET] /api/v1/reviews/{id}로 수정 전 정보를 가져와야 합니다.",
