@@ -5,6 +5,7 @@ import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.support.dto.AnnouncementDto;
 import dev.be.moduleapi.support.service.AnnouncementApiService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "8. [고객센터 화면 - 공지사항 - 공지사항 리스트, 상세] AnnouncementApiController - 공지사항 기능 API")
+@Timed("business.controller.announcement")
 @RequiredArgsConstructor
 @RestController
 public class AnnouncementApiController {

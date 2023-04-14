@@ -5,6 +5,7 @@ import dev.be.moduleapi.support.dto.AnnouncementDto;
 import dev.be.moduleapi.support.repository.AnnouncementCustomRepository;
 import dev.be.modulecore.repositories.support.AnnouncementRepository;
 import dev.be.modulecore.service.PaginationService;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.announcement")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service

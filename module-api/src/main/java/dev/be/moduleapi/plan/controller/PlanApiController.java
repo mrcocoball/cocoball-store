@@ -9,6 +9,7 @@ import dev.be.moduleapi.plan.dto.PlanRequestDto;
 import dev.be.moduleapi.plan.service.PlanApiService;
 import dev.be.moduleapi.plan.service.PlanService;
 import dev.be.modulecore.domain.user.User;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "5. [마이 페이지 - 플랜 목록] PlanApiController - 플랜 기능 API")
+@Timed("business.controller.plan")
 @RequiredArgsConstructor
 @RestController
 public class PlanApiController {

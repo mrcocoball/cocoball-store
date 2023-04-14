@@ -4,6 +4,7 @@ import dev.be.moduleapi.advice.exception.PlanNotFoundApiException;
 import dev.be.moduleapi.plan.dto.PlanDto;
 import dev.be.modulecore.domain.plan.Plan;
 import dev.be.modulecore.repositories.plan.PlanRepository;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.plan")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service

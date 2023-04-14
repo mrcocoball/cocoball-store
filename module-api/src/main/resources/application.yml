@@ -10,6 +10,8 @@ spring:
     group:
       local:
         - common
+      local2:
+        - common
       prod:
         - common
       dev:

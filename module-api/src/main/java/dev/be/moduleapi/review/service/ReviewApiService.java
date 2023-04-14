@@ -3,6 +3,7 @@ package dev.be.moduleapi.review.service;
 import dev.be.moduleapi.advice.exception.ReviewNotFoundApiException;
 import dev.be.moduleapi.review.dto.ReviewDto;
 import dev.be.modulecore.repositories.review.ReviewRepository;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.review")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service

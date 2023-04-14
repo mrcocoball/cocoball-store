@@ -4,6 +4,7 @@ import dev.be.moduleapi.support.dto.FaqCategoryDto;
 import dev.be.moduleapi.support.dto.FaqDto;
 import dev.be.modulecore.repositories.support.FaqCategoryRepository;
 import dev.be.modulecore.repositories.support.FaqRepository;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.faq")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service

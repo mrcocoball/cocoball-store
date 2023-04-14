@@ -6,6 +6,7 @@ import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.support.dto.FaqCategoryDto;
 import dev.be.moduleapi.support.dto.FaqDto;
 import dev.be.moduleapi.support.service.FaqApiService;
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j(topic = "CONTROLLER")
 @Tag(name = "8. [고객센터 화면 - FAQ - FAQ 리스트, 상세] FaqApiController - FAQ 기능 API")
+@Timed("business.controller.faq")
 @RequiredArgsConstructor
 @RestController
 public class FaqApiController {

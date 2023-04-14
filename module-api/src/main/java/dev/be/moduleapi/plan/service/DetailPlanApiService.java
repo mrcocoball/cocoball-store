@@ -4,6 +4,7 @@ import dev.be.moduleapi.advice.exception.DetailPlanNotFoundApiException;
 import dev.be.moduleapi.plan.dto.DetailPlanDto;
 import dev.be.modulecore.domain.plan.DetailPlan;
 import dev.be.modulecore.repositories.plan.DetailPlanRepository;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j(topic = "SERVICE")
+@Timed("business.service.detail_plan")
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
