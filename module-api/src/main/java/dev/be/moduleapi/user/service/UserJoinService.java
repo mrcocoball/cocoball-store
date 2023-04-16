@@ -87,6 +87,29 @@ public class UserJoinService {
         return tokenDto;
     }
 
+    public void logout(String refreshToken) {
+
+        // 만료된 리프레시 토큰 확인
+        if (!jwtProvider.validationToken(refreshToken)) {
+            throw new CustomRefreshTokenException();
+        }
+
+        // 리프레시 토큰에서 username, 권한 조회
+        Authentication authentication = jwtProvider.getAuthentication(refreshToken);
+
+        // username (email) 로 유저 검색, 리프레시 토큰 여부 확인
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(UserNotFoundApiException::new);
+        RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
+
+        // 리프레시 토큰 불일치 여부 확인
+        if (!validRefreshToken.getToken().equals(refreshToken))
+            throw new CustomRefreshTokenException();
+
+        // 리프레시 토큰 삭제
+        refreshTokenRepository.deleteByKey(user.getEmail());
+
+    }
+
 
     public String joinBySocial(UserJoinRequestDto dto) {
 
