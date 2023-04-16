@@ -96,11 +96,7 @@ public class UserJoinApiController {
             description = "브라우저 쿠키에 저장된 리프레시 토큰을 통해 액세스 토큰을 확인합니다. <br>" +
                     "서버에서는 전달 받은 리프레시 토큰을 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토큰 재발급을 진행합니다")
     @PostMapping("/api/v1/refresh")
-    public ResponseEntity<?> refreshV1(
-            @Parameter(description = "재발급 요청을 할 토큰 정보",
-                    required = true,
-                    content = @Content(
-                            schema = @Schema(implementation = TokenRequestDto.class))) HttpServletRequest request) {
+    public ResponseEntity<?> refreshV1(HttpServletRequest request) {
 
         // 서버 쪽으로 직접 전달되는 리프레시 토큰 처리
 
@@ -110,6 +106,23 @@ public class UserJoinApiController {
             String refreshToken = refreshTokenCookie.getValue();
             AccessTokenDto dto = userJoinService.refreshAccessToken(refreshToken);
             return new ResponseEntity<>(dto, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Operation(summary = "[POST] 로그아웃 요청",
+            description = "브라우저 쿠키에 저장된 리프레시 토큰을 통해 로그아웃 요청을 합니다. <br>" +
+                    "서버에서는 전달 받은 리프레시 토큰을 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 서버에 저장된 리프레시 토큰을 삭제합니다.")
+    @DeleteMapping("/api/v1/logout")
+    public ResponseEntity<?> logoutV1(HttpServletRequest request) {
+
+        // 서버 쪽으로 직접 전달되는 리프레시 토큰 처리
+
+        Cookie refreshTokenCookie = WebUtils.getCookie(request, "refresh_token");
+
+        if (refreshTokenCookie != null) {
+            userJoinService.logout(refreshTokenCookie.getValue());
+            return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
