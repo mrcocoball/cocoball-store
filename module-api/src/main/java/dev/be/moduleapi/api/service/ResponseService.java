@@ -54,6 +54,19 @@ public class ResponseService {
     }
 
     /**
+     * 장소 검색 결과 페이지 처리 메소드
+     */
+    public <T> PlacePageResult<T> getPlacePageResult(Page<T> page, double x, double y) {
+
+        PlacePageResult<T> result = new PlacePageResult<>();
+        result.setData(page);
+        result.setX(x);
+        result.setY(y);
+        setSuccessResult(result);
+        return result;
+    }
+
+    /**
      * 성공 결과만 처리 (단순히 성공 / 실패 여부 응답용)
      */
     public CommonResult getSuccessResult() {
