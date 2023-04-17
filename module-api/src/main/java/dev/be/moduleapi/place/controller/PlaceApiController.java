@@ -3,6 +3,7 @@ package dev.be.moduleapi.place.controller;
 import dev.be.moduleapi.advice.exception.CategoryInvalidException;
 import dev.be.moduleapi.advice.exception.SortTypeInvalidException;
 import dev.be.moduleapi.api.model.PageResult;
+import dev.be.moduleapi.api.model.PlacePageResult;
 import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.kakao.dto.DocumentDto;
@@ -52,12 +53,12 @@ public class PlaceApiController {
                     "사용하는 데이터 : 전부 사용, 특정 장소를 조회하거나 북마크/리뷰/플랜 등 장소 ID(place_id) 가 필요한 곳에서는 place_id (String)을 사용합니다. <br> +" +
                     "정렬 기준은 score(리뷰 점수, 내림차순), distance(거리, 오름차순)가 있으며 아무것도 적지 않을 경우 score 기준으로 정렬됩니다.")
     @GetMapping("/api/v1/places")
-    public PageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
-                                            @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
-                                            @RequestParam(value = "categories", required = false, defaultValue = "") List<String> categories,
-                                            @Parameter(description = "정렬 기준, score, distance")
-                                            @RequestParam(required = true, defaultValue = "score") String sortType,
-                                            @ParameterObject @PageableDefault(sort = "avgReviewScore", direction = Sort.Direction.DESC) Pageable pageable) {
+    public PlacePageResult<PlaceDto> getPlacesV1(@Parameter(description = "입력 주소") String address,
+                                                 @Parameter(description = "카테고리 코드, AT4 관광명소, CE7 카페, " + "CT1 문화시설, FD6 음식점, SW8 지하철")
+                                                 @RequestParam(value = "categories", required = false, defaultValue = "") List<String> categories,
+                                                 @Parameter(description = "정렬 기준, score, distance")
+                                                 @RequestParam(required = true, defaultValue = "score") String sortType,
+                                                 @ParameterObject @PageableDefault(sort = "avgReviewScore", direction = Sort.Direction.DESC) Pageable pageable) {
 
         // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
         for (String category : categories) {
@@ -73,7 +74,8 @@ public class PlaceApiController {
         DocumentDto addressDto = placeService.getPlaceLongitudeAndLatitude(address);
         KakaoApiResponseDto dto = placeService.placeSearchByKakao(addressDto, categories);
         List<String> region2List = placeService.placePersist(dto);
-        return responseService.getPageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable, sortType));
+        return responseService.getPlacePageResult(placeApiService.getPlaces(addressDto, dto, region2List, categories, pageable, sortType),
+                addressDto.getLongitude(), addressDto.getLatitude());
     }
 
     @Operation(summary = "[GET] 장소 ID로 단일 장소 정보 조회",
