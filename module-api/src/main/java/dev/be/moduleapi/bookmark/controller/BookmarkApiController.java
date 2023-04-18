@@ -51,7 +51,6 @@ public class BookmarkApiController {
         return responseService.getSingleResult(bookmarkService.saveBookmark(nickname, placeId));
     }
 
-
     @PreAuthorize("isAuthenticated()")
     @Operation(summary = "[GET] 북마크 목록 출력, 사용자 로그인 되어 있어야 함",
             description = "요청 시점에서 요청을 한 유저의 인증 정보를 확인하여 해당 유저가 저장해둔 북마크 리스트를 출력합니다. <br>" +
@@ -77,14 +76,21 @@ public class BookmarkApiController {
     public CommonResult deleteBookmarkV1(
             @Parameter(description = "북마크 정보의 id (Long)", required = true) @PathVariable("id") Long id) {
 
-        /**
-         * 프론트엔드에서 삭제 버튼을 인증 상태에 따라 표시하고
-         * 그 과정에서 북마크 Dto의 uid와 현재 사용자 인증 정보의 uid 비교 가능하다면 그대로 진행해도 되나
-         * 그러지 않을 경우엔 principal을 파라미터로 받고
-         * 사용자 정보 uid를 토대로 DB에서 삭제하려는 북마크의 uid와 비교를 한 후 삭제 처리를 해야할 것으로 보임
-         */
-
         bookmarkService.deleteBookmark(id);
+
+        return responseService.getSuccessResult();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @Operation(summary = "[DELETE] 북마크 삭제(장소 ID 활용), 사용자 로그인 되어 있어야 함",
+            description = "지정한 북마크를 삭제합니다. 삭제하려는 북마크의 장소 id를 가져와서 다음과 같이 요청해야 합니다. <br>" +
+                    "[DELETE] /api/v1/bookmarks/{place_id} <br><br>" +
+                    "사용자가 북마크의 id를 알 가능성은 낮으나, 만약 북마크 id를 알아서 다른 북마크를 삭제하려 할 가능성이 있다면 로직이 바뀔 수 있습니다.")
+    @DeleteMapping("/api/v1/bookmarks/place/{place_id}")
+    public CommonResult deleteBookmarkByPlaceIdV1(
+            @Parameter(description = "북마크 정보 내의 장소 id (String)", required = true) @PathVariable("place_id") String placeId) {
+
+        bookmarkService.deleteBookmarkByPlaceId(placeId);
 
         return responseService.getSuccessResult();
     }

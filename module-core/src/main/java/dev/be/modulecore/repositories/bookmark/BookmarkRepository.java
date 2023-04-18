@@ -23,6 +23,9 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     void deleteById(Long id);
 
     @EntityGraph(attributePaths = {"user", "place"})
+    void deleteByPlace_PlaceId(String placeId);
+
+    @EntityGraph(attributePaths = {"user", "place"})
     @Query("select b" +
             " from Bookmark b" +
             " join fetch b.user u" +
