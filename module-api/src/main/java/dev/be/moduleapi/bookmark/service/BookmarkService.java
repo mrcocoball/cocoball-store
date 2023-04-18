@@ -47,6 +47,10 @@ public class BookmarkService {
         bookmarkRepository.deleteById(id);
     }
 
+    public void deleteBookmarkByPlaceId(String placeId) {
+        bookmarkRepository.deleteByPlace_PlaceId(placeId);
+    }
+
     public boolean isExist(String placeId, String nickname) {
         log.info("[BookmarkService isExist] checking...");
         return bookmarkRepository.isBookmarked(placeId, nickname).size() >= 1;
