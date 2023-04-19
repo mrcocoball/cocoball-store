@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -42,7 +43,10 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
     @Bean
+    @Profile({"local", "local2"})
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        log.info("[local SecurityFilterChain Injected]");
 
         // AuthenticationManager 설정
         AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -74,15 +78,56 @@ public class SecurityConfig {
         });
 
         return http
-                // 어노테이션 형식으로 변경하였음
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-//                        .antMatchers("/", "/v3/api-docs", "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui.html",
-//                                "/webjars/**", "/swagger/**", "/swagger-ui/**").permitAll()
-//                        .antMatchers("/api/*/login", "/api/*/join").permitAll()
-//                        .antMatchers(HttpMethod.GET, "/exception/**").permitAll()
-//                        .anyRequest().authenticated())
                 // 사용자 정의 EntryPoint 추가
+                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                .and()
+                // 사용자 정의 AccessDeniedHandler 추가
+                .exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler())
+                .and()
+                // JWT 인증 필터를 UsernamePasswordAuthenticationFilter 전에 넣음
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                //.formLogin().and()
+                .build();
+    }
+
+    @Bean
+    @Profile("dev")
+    public SecurityFilterChain securityFilterChainDev(HttpSecurity http) throws Exception {
+
+        log.info("[dev SecurityFilterChain Injected]");
+
+        // AuthenticationManager 설정
+        AuthenticationManagerBuilder authenticationManagerBuilder =
+                http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authenticationManagerBuilder
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder());
+
+        // GET AuthenticationManager
+        AuthenticationManager authenticationManager =
+                authenticationManagerBuilder.build();
+
+        // 반드시 필요
+        http.authenticationManager(authenticationManager);
+
+        // CustomLoginSuccessHandler
+        CustomLoginSuccessHandler successHandler = new CustomLoginSuccessHandler();
+
+        http.httpBasic().disable();
+
+        http.csrf().disable();
+
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        // CORS
+        http.cors(httpSecurityCorsConfigurer -> {
+            httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource());
+        });
+
+        return http
+                // 사용자 정의 EntryPoint 추가
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 // 사용자 정의 AccessDeniedHandler 추가

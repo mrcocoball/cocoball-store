@@ -25,7 +25,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
@@ -45,6 +48,8 @@ public class UserJoinApiController {
     private final UserJoinService userJoinService;
     private final ResponseService responseService;
     private final OAuthProviderService oAuthProviderService;
+    @Value("${spring.profiles.active}")
+    private String profile;
 
 
     @Operation(summary = "[POST] 회원가입 요청",
@@ -81,11 +86,25 @@ public class UserJoinApiController {
         String refreshToken = tokenDto.getRefreshToken();
         tokenDto.setRefreshToken("httpOnly");
 
+        // 개발, 운영환경일 경우
+        if (profile.equals("dev") || profile.equals("prod")) {
+            ResponseCookie responseCookie = ResponseCookie.from("refresh_token", refreshToken)
+                    .maxAge(14 * 24 * 60 * 60)
+                    .httpOnly(true)
+                    .secure(true)
+                    .sameSite("None")
+                    .path("/")
+                    .build();
+
+            response.addHeader("Set-Cookie", responseCookie.toString());
+
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+        }
+
         Cookie cookie = new Cookie("refresh_token", refreshToken);
         cookie.setMaxAge(14 * 24 * 60 * 60); // 14일
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-
         response.addCookie(cookie);
 
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);

@@ -1,9 +1,3 @@
-server:
-  port: 8084
-  tomcat:
-    mbeanregistry:
-      enabled: true
-
 spring:
   profiles:
     active: local
@@ -114,6 +108,12 @@ com:
 url:
   base: http://localhost:8084
 
+server:
+  port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
 ---
 spring:
   config:
@@ -153,6 +153,12 @@ com:
 
 url:
   base: http://localhost:8084
+
+server:
+  port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
 
 ---
 spring:
@@ -194,5 +200,18 @@ com:
       path: /usr/src/chrome/chromedriver
 
 url:
-  base: http://dateplanner.ykstyle.info:81/
+  base: https://dateplanner.ykstyle.info:81/
+
+server:
+  port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
+  ssl:
+    enabled: true
+    key-store: /home/mrcocoball/date_planner_api/keystore.p12
+    key-store-password: ${KEY_STORE_PASSWORD}
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+
 ---
