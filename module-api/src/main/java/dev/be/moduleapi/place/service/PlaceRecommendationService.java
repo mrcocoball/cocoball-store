@@ -26,9 +26,9 @@ public class PlaceRecommendationService {
     private final PaginationService paginationService;
 
 
-    public Page<PlaceRecommendationDto> getPlaceRecommendation(String region1, String region2, String region3, Pageable pageable) {
+    public Page<PlaceRecommendationDto> getPlaceRecommendation(String region1, String region2, Pageable pageable) {
 
-        List<PlaceRecommendationDto> result = placeRecommendationRepository.placeRecommendation(region1, region2, region3);
+        List<PlaceRecommendationDto> result = placeRecommendationRepository.placeRecommendation(region1, region2);
 
         if (Objects.isNull(result) || result.isEmpty()) {
             log.error("[PlaceRecommendationService getPlaceRecommendation] recommendation result is null");

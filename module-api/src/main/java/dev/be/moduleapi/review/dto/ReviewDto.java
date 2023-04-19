@@ -20,6 +20,9 @@ public class ReviewDto {
     @Schema(description = "리뷰 ID")
     private Long id;
 
+    @Schema(description = "리뷰 작성자 ID(PK)")
+    private Long uid;
+
     @Schema(description = "리뷰 작성자 닉네임")
     private String nickname;
 
@@ -66,6 +69,7 @@ public class ReviewDto {
 
         return ReviewDto.builder()
                 .id(entity.getId())
+                .uid(entity.getUser().getUid())
                 .nickname(entity.getUser().getNickname())
                 .pid(entity.getPlace().getId())
                 .placeId(entity.getPlace().getPlaceId())

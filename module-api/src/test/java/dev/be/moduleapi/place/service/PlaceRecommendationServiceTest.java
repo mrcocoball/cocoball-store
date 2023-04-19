@@ -36,16 +36,15 @@ class PlaceRecommendationServiceTest {
         // Given
         String address1 = "서울";
         String address2 = "관악구";
-        String address3 = "봉천동";
 
         Pageable pageable = Pageable.ofSize(10);
-        given(placeRecommendationRepository.placeRecommendation(address1, address2, address3)).willReturn(Collections.emptyList());
+        given(placeRecommendationRepository.placeRecommendation(address1, address2)).willReturn(Collections.emptyList());
 
         // When & Then
         assertThrows(SearchResultNotFoundException.class, () -> {
-            sut.getPlaceRecommendation(address1, address2, address3, pageable);
+            sut.getPlaceRecommendation(address1, address2, pageable);
         });
-        then(placeRecommendationRepository).should().placeRecommendation(address1, address2, address3);
+        then(placeRecommendationRepository).should().placeRecommendation(address1, address2);
 
     }
 

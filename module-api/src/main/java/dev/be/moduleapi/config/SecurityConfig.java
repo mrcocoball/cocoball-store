@@ -113,6 +113,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOriginPatterns(Arrays.asList("*"));
         configuration.addAllowedOrigin("http://localhost:5173");
+        configuration.addAllowedOrigin("https://mrcocoball.github.io");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.setAllowCredentials(true);
