@@ -29,11 +29,6 @@ public class ReviewService {
 
     public ReviewDto saveReview(ReviewRequestDto dto) {
 
-        /**
-         * PlaceId를 현재 보고 있는 장소 Dto의 placeId로 주입이 가능할 경우
-         * 이렇게 처리하고, 그게 아니라면 수정이 필요할 것으로 보임
-         */
-
         User user = userRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundApiException::new);
         Place place = placeRepository.findByPlaceId(dto.getPlaceId()).orElseThrow(PlaceNotFoundApiException::new);
 
