@@ -1,10 +1,12 @@
 package dev.be.moduleapi.plan.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.be.modulecore.domain.plan.Plan;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +36,14 @@ public class PlanDto {
     @Schema(description = "코멘트")
     private String comment;
 
+    @Schema(description = "플랜 작성 시간")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime createdAt;
+
+    @Schema(description = "플랜 수정 시간")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime modifiedAt;
+
     public static PlanDto from(Plan entity) {
         return PlanDto.builder()
                 .id(entity.getId())
@@ -46,6 +56,8 @@ public class PlanDto {
                         .collect(Collectors.toList()))
                 .finished(entity.isFinished())
                 .comment(entity.getComment())
+                .createdAt(entity.getCreatedAt())
+                .modifiedAt(entity.getModifiedAt())
                 .build();
     }
 }
