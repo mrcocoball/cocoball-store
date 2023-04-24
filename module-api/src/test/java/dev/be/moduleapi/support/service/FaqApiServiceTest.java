@@ -2,8 +2,6 @@ package dev.be.moduleapi.support.service;
 
 import dev.be.fixture.Fixture;
 import dev.be.moduleapi.support.dto.FaqCategoryDto;
-import dev.be.moduleapi.support.dto.FaqDto;
-import dev.be.modulecore.domain.support.FavoriteAnswer;
 import dev.be.modulecore.domain.support.FavoriteQuestionCategory;
 import dev.be.modulecore.repositories.support.FaqCategoryRepository;
 import dev.be.modulecore.repositories.support.FaqRepository;
@@ -87,42 +85,6 @@ class FaqApiServiceTest {
             sut.getFaqCategory(id);
         });
         then(faqCategoryRepository).should().findById(id);
-
-    }
-
-    @DisplayName("READ - FAQ 답변 단건 조회")
-    @Test
-    public void FAQ_답변_단건_조회_성공() {
-
-        // Given
-        Long id = 1L;
-        FavoriteAnswer favoriteAnswer = Fixture.favoriteAnswer();
-        given(faqRepository.findById(id)).willReturn(Optional.of(favoriteAnswer));
-
-        // When
-        FaqDto dto = sut.getFaq(id);
-
-        // Then
-        assertThat(dto)
-                .hasFieldOrPropertyWithValue("title", favoriteAnswer.getTitle())
-                .hasFieldOrPropertyWithValue("description", favoriteAnswer.getDescription());
-        then(faqRepository).should().findById(id);
-
-    }
-
-    @DisplayName("READ - FAQ 답변 단건 조회 - 실패(존재하지 않는 답변)")
-    @Test
-    public void FAQ_답변_단건_조회_실패() {
-
-        // Given
-        Long id = 0L;
-        given(faqRepository.findById(id)).willReturn(Optional.empty());
-
-        // When & Then
-        assertThrows(EntityNotFoundException.class, () -> {
-            sut.getFaq(id);
-        });
-        then(faqRepository).should().findById(id);
 
     }
 

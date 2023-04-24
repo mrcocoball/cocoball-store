@@ -4,7 +4,6 @@ import dev.be.moduleapi.api.model.PageResult;
 import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.support.dto.FaqCategoryDto;
-import dev.be.moduleapi.support.dto.FaqDto;
 import dev.be.moduleapi.support.service.FaqApiService;
 import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,15 +44,6 @@ public class FaqApiController {
     public SingleResult<FaqCategoryDto> getFaqCategoryV1(@Parameter(description = "FAQ 질문 카테고리 ID") @PathVariable("id") Long id) {
 
         return responseService.getSingleResult(faqApiService.getFaqCategory(id));
-
-    }
-
-    @Operation(summary = "[GET] FAQ 질문 출력",
-            description = "FAQ 질문을 출력합니다.")
-    @GetMapping("/api/v1/faqs/answers/{id}")
-    public SingleResult<FaqDto> getFaqV1(@Parameter(description = "FAQ 질문  ID") @PathVariable("id") Long id) {
-
-        return responseService.getSingleResult(faqApiService.getFaq(id));
 
     }
 
