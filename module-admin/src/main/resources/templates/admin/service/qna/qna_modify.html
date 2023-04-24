@@ -42,7 +42,7 @@
         <li class="list-group-item">
           <div>
             <h6>내용</h6>
-            <input type="text" class="form-control" name="description" id="description" placeholder="내용" th:value="${dto.description}" required>
+            <textarea class="form-control" name="description" id="description" placeholder="내용" required>[[${dto.description}]]</textarea>
           </div>
         </li>
       </ul>
