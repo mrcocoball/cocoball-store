@@ -1,9 +1,7 @@
 package dev.be.moduleapi.support.service;
 
 import dev.be.moduleapi.support.dto.FaqCategoryDto;
-import dev.be.moduleapi.support.dto.FaqDto;
 import dev.be.modulecore.repositories.support.FaqCategoryRepository;
-import dev.be.modulecore.repositories.support.FaqRepository;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +19,6 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class FaqApiService {
 
-    private final FaqRepository faqRepository;
     private final FaqCategoryRepository faqCategoryRepository;
 
 
@@ -34,12 +31,6 @@ public class FaqApiService {
     public FaqCategoryDto getFaqCategory(Long id) {
 
         return faqCategoryRepository.findById(id).map(FaqCategoryDto::from).orElseThrow(EntityNotFoundException::new);
-
-    }
-
-    public FaqDto getFaq(Long id) {
-
-        return faqRepository.findById(id).map(FaqDto::from).orElseThrow(EntityNotFoundException::new);
 
     }
 
