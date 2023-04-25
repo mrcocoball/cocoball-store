@@ -49,7 +49,7 @@ public class Review extends BaseTimeEntity {
             cascade = {CascadeType.ALL},
             fetch = FetchType.LAZY,
             orphanRemoval = true)
-    @BatchSize(size = 20)
+    @BatchSize(size = 100)
     private Set<Image> images = new HashSet<>();
 
 

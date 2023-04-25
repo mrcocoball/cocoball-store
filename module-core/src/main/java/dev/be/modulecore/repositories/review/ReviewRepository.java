@@ -11,21 +11,13 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    /* 테스트 수정 후 삭제 필요*/
-    @EntityGraph(attributePaths = {"user", "place", "images"})
-    List<Review> findByKpid(String placeId);
-
-    @EntityGraph(attributePaths = {"user", "place", "images"})
+    @EntityGraph(attributePaths = {"user", "place"})
     Page<Review> findByKpid(String placeId, Pageable pageable);
 
-    /* 테스트 수정 후 삭제 필요*/
-    @EntityGraph(attributePaths = {"user", "place", "images"})
-    List<Review> findByUser_Nickname(String nickname);
-
-    @EntityGraph(attributePaths = {"user", "place", "images"})
+    @EntityGraph(attributePaths = {"user", "place"})
     Page<Review> findByUser_Nickname(String nickname, Pageable pageable);
 
     @Override
-    @EntityGraph(attributePaths = {"user", "place", "images"})
+    @EntityGraph(attributePaths = {"user", "place"})
     Optional<Review> findById(Long id);
 }
