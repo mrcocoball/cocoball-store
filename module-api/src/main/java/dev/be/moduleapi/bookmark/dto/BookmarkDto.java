@@ -2,6 +2,7 @@ package dev.be.moduleapi.bookmark.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.be.modulecore.domain.bookmark.Bookmark;
+import dev.be.modulecore.domain.place.Category;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,10 @@ public class BookmarkDto {
 
     @Schema(description = "북마크 작성자 닉네임")
     private String nickname;
+
+    // TODO : 프론트엔드에서 카테고리 코드명 -> 카테고리명 변경
+    @Schema(description = "북마크가 작성된 장소의 카테고리 코드명")
+    private String categoryCode;
 
     @Schema(description = "북마크가 작성된 장소의 place_id")
     private String placeId;
@@ -47,6 +52,7 @@ public class BookmarkDto {
         return BookmarkDto.builder()
                 .id(entity.getId())
                 .nickname(entity.getUser().getNickname())
+                .categoryCode(entity.getPlace().getCategoryCode())
                 .placeId(entity.getPlace().getPlaceId())
                 .placeName(entity.getPlace().getPlaceName())
                 .addressName(entity.getPlace().getAddressName())
@@ -55,5 +61,4 @@ public class BookmarkDto {
                 .createdAt(entity.getCreatedAt())
                 .build();
     }
-
 }
