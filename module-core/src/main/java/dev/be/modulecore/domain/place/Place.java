@@ -26,6 +26,9 @@ public class Place extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    // TODO : JOIN이 많아지는 경우에서 카테고리를 조회해야 할 경우를 위해 반정규화를 하였음
+    private String categoryCode;
+
     private String placeName;
 
     private String placeId;
@@ -59,11 +62,12 @@ public class Place extends BaseTimeEntity {
 
     private String description;
 
-    private Place(Category category, String placeName, String placeId, String placeUrl, String addressName,
+    private Place(Category category, String categoryCode, String placeName, String placeId, String placeUrl, String addressName,
                   String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
                   double longitude, double latitude, Long reviewScore, Long reviewCount, String imageUrl, String description) {
 
         this.category = category;
+        this.categoryCode = categoryCode;
         this.placeName = placeName;
         this.placeId = placeId;
         this.placeUrl = placeUrl;
@@ -81,11 +85,12 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    private Place(Category category, String placeName, String placeId, String placeUrl, String addressName,
+    private Place(Category category, String categoryCode, String placeName, String placeId, String placeUrl, String addressName,
                   String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
                   double longitude, double latitude, Long reviewScore, Long reviewCount) {
 
         this.category = category;
+        this.categoryCode = categoryCode;
         this.placeName = placeName;
         this.placeId = placeId;
         this.placeUrl = placeUrl;
@@ -101,19 +106,19 @@ public class Place extends BaseTimeEntity {
 
     }
 
-    public static Place of(Category category, String placeName, String placeId, String placeUrl, String addressName,
+    public static Place of(Category category, String categoryCode, String placeName, String placeId, String placeUrl, String addressName,
                            String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
                            double longitude, double latitude, Long reviewScore, Long reviewCount, String imageUrl, String description) {
 
-        return new Place(category, placeName, placeId, placeUrl, addressName, roadAddressName,
+        return new Place(category, categoryCode, placeName, placeId, placeUrl, addressName, roadAddressName,
                 region1DepthName, region2DepthName, region3DepthName, longitude, latitude, reviewScore, reviewCount, imageUrl, description);
     }
 
-    public static Place of(Category category, String placeName, String placeId, String placeUrl, String addressName,
+    public static Place of(Category category, String categoryCode, String placeName, String placeId, String placeUrl, String addressName,
                            String roadAddressName, String region1DepthName, String region2DepthName, String region3DepthName,
                            double longitude, double latitude, Long reviewScore, Long reviewCount) {
 
-        return new Place(category, placeName, placeId, placeUrl, addressName, roadAddressName,
+        return new Place(category, categoryCode, placeName, placeId, placeUrl, addressName, roadAddressName,
                 region1DepthName, region2DepthName, region3DepthName, longitude, latitude, reviewScore, reviewCount);
     }
 

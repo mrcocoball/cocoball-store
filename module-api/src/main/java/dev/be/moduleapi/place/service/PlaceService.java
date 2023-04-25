@@ -101,6 +101,7 @@ public class PlaceService {
             if (!placeIds.contains(result.getPlaceId())) {
                 placeRepository.save(Place.of(
                         Category.of(result.getCategoryGroupId()),
+                        result.getCategoryGroupId(),
                         result.getPlaceName(),
                         result.getPlaceId(),
                         result.getPlaceUrl(),
