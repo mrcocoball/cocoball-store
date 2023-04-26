@@ -19,7 +19,7 @@ import static org.mockito.BDDMockito.then;
 
 @DisplayName("[통합] 장소 추천 서비스 - 장소 추천 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active:local")
 class PlaceRecommendationServiceTest {
 
     @Autowired

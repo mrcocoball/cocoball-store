@@ -26,7 +26,7 @@ import static org.mockito.BDDMockito.then;
 
 @DisplayName("[통합] 공지사항 화면 처리 서비스 - 공지사항 조회 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active:local")
 class AnnouncementApiServiceTest {
 
     @Autowired

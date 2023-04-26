@@ -39,6 +39,7 @@ public class Fixture {
     public static Place place() {
         return Place.of(
                 category(),
+                category().getId(),
                 "testplace",
                 "1",
                 "testurl",
