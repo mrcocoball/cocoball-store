@@ -51,7 +51,7 @@ public class AnnouncementCustomRepository {
     }
 
     private BooleanExpression descriptionCont(String description) {
-        return hasText(description) ? announcement.description.startsWith(description) : null;
+        return hasText(description) ? announcement.description.contains(description) : null;
     }
 
     private BooleanExpression categoryCont(Long categoryId) {
