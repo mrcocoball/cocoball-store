@@ -47,7 +47,7 @@ public class AnnouncementCustomRepository {
     }
 
     private BooleanExpression titleCont(String title) {
-        return hasText(title) ? announcement.title.startsWith(title) : null;
+        return hasText(title) ? announcement.title.contains(title) : null;
     }
 
     private BooleanExpression descriptionCont(String description) {
