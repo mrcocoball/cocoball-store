@@ -45,6 +45,7 @@ public class PlaceRequestDto {
                           double longitude, double latitude, String imageUrl, String description) {
         return Place.of(
                 Category.of(categoryGroupId),
+                categoryGroupId,
                 placeName,
                 placeId,
                 placeUrl,
