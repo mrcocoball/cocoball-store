@@ -41,6 +41,7 @@ public class Fixture {
     public static Place place() {
         return Place.of(
                 category(),
+                category().getId(),
                 "testplace",
                 "1",
                 "testurl",
@@ -59,6 +60,7 @@ public class Fixture {
     public static Place newPlace() {
         return Place.of(
                 category(),
+                category().getId(),
                 "testplace2",
                 "2",
                 "testurl2",
