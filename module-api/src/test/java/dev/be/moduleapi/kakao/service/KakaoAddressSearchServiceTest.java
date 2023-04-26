@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("[통합] 카카오 API - 카카오 주소 - 위치 변환 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active:local")
 class KakaoAddressSearchServiceTest {
 
     @Autowired

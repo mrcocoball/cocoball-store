@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("[통합] 카카오 API - 카카오 카테고리 장소 검색 테스트")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = "spring.profiles.active:local")
 class KakaoCategorySearchServiceTest {
 
     @Autowired
