@@ -79,8 +79,7 @@ public class UserJoinService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent())
-            refreshTokenRepository.deleteByKey(user.getEmail());
+        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
         log.info("refresh token persist complete");
 
@@ -149,11 +148,8 @@ public class UserJoinService {
          * 프론트엔드에서 소셜 로그인 화면에서 한번 더 카카오 측에 인가 코드를 요청해서 받아야 함
          */
 
-        // 인가 코드와 인증 제공자를 토대로 인증 제공자에게 액세스 토큰 요청, 받음
-        OAuthAccessTokenDto accessToken = oAuthProviderService.getAcessToken(dto.getCode(), provider);
-
         // 액세스 토큰으로부터 인증 프로필 전달 받음
-        ProfileDto profile = oAuthProviderService.getProfile(accessToken.getAccess_token(), provider);
+        ProfileDto profile = oAuthProviderService.getProfile(dto.getAccess_token(), provider);
 
         if (profile == null) throw new UserNotFoundApiException();
 
@@ -169,8 +165,7 @@ public class UserJoinService {
                 .token(tokenDto.getRefreshToken())
                 .build();
 
-        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent())
-            refreshTokenRepository.deleteByKey(user.getEmail());
+        if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
         log.info("refresh token persist complete");
 
@@ -198,6 +193,13 @@ public class UserJoinService {
         // 액세스 토큰 재발급
         return jwtProvider.refreshAccessToken(user.getEmail(), user.getUid(), user.getRoleSet());
 
+    }
+
+    public boolean isRegister(String accessToken) {
+        // 액세스 토큰으로부터 인증 프로필 전달 받음
+        ProfileDto profile = oAuthProviderService.getProfile(accessToken, "kakao");
+        User user = userRepository.findByEmailAndProvider(profile.getEmail(), "kakao").orElseThrow(UserNotFoundApiException::new);
+        return true;
     }
 
 }

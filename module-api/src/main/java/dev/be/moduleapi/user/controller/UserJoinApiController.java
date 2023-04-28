@@ -180,8 +180,8 @@ public class UserJoinApiController {
 
     @Operation(summary = "[POST] 소셜 로그인 연동 회원가입 요청",
             description = "소셜 로그인과 연동하여 회원가입을 요청합니다. 필요한 정보는 인가 코드, 닉네임입니다. <br>" +
-                    "프론트엔드에서 소셜 로그인 연동 요청을 하여 인가 코드를 받아야 합니다. <br>" +
-                    "연동에 성공하여 인가 코드를 받았다면, 회원가입 정보 폼에 인가 코드를 기입 해야 합니다. <br>" +
+                    "프론트엔드에서 소셜 로그인 연동 요청을 하여 인가 코드와 엑세스 토큰을 받아야 합니다. <br>" +
+                    "연동에 성공하여 인가 코드를 받았다면, 인가 코드로 엑세스 토큰을 발급 받아 회원가입 정보 폼에 엑세스 코드를 기입 해야 합니다. <br>" +
                     "소셜 로그인을 제공하는 인증 제공자는 provider로 구분합니다. <br><br>" +
                     "예외 상황 <br>" +
                     "소셜 로그인 연동 및 인가 코드를 받았다고 하더라도 소셜 로그인에 사용하는 이메일이 이미 서버 DB에 저장되어 있거나 <br>" +
@@ -196,18 +196,15 @@ public class UserJoinApiController {
             @Parameter(description = "인증 제공자, 카카오(kakao) / 네이버(naver) / 구글(google). 현재 카카오만 구현되어있습니다.")
             @PathVariable("provider") String provider) {
 
-        // 인증 제공자 측으로 인가 코드를 통해 액세스 토큰 발급 요청
-        OAuthAccessTokenDto accessToken = oAuthProviderService.getAcessToken(dto.getCode(), provider);
-
         // 액세스 토큰으로부터 프로필 정보 가져오기
-        ProfileDto profile = oAuthProviderService.getProfile(accessToken.getAccess_token(), provider);
+        ProfileDto profile = oAuthProviderService.getProfile(dto.getAccess_token(), provider);
 
         // 프로필 정보를 가져오지 못하였으므로
         if (profile == null) throw new UserNotFoundApiException();
 
         // 프로필은 가져왔으나 이메일 동의를 얻지 못하였으므로
         if (profile.getEmail() == null) {
-            if (provider.equals("kakao")) oAuthProviderService.kakaoUnlink(accessToken.getAccess_token());
+            if (provider.equals("kakao")) oAuthProviderService.kakaoUnlink(dto.getAccess_token());
             throw new OAuthAgreementException();
         }
 
@@ -216,7 +213,7 @@ public class UserJoinApiController {
                         .email(profile.getEmail())
                         .nickname(dto.getNickname())
                         .provider(provider)
-                        .accessToken(accessToken.getAccess_token())
+                        .accessToken(dto.getAccess_token())
                         .build()
         );
 
@@ -230,7 +227,7 @@ public class UserJoinApiController {
                     "연동에 성공하여 인가 코드를 받았다면, 로그인 요청 폼에 인가 코드를 기입 해야 합니다. <br>" +
                     "소셜 로그인을 제공하는 인증 제공자는 provider로 구분합니다.")
     @PostMapping("/api/v1/oauth/login/{provider}")
-    public SingleResult<TokenDto> loginBySocial(
+    public ResponseEntity<?> loginBySocial(
             @Parameter(description = "로그인 요청 정보, 인가 코드(code)는 프론트엔드에서 주입하여야 합니다." +
                     "로그인이 완료되면 액세스 토큰, 리프레시 토큰이 발급이 됩니다. 본 API 문서에서 인증이 필요한 API를 테스트하기 위해서는 <br>" +
                     "본 로그인 요청을 통해 전달 받은 액세스 토큰을 사용해야 합니다.",
@@ -238,11 +235,35 @@ public class UserJoinApiController {
                     content = @Content(
                             schema = @Schema(implementation = UserSocialLoginRequestDto.class))) @RequestBody UserSocialLoginRequestDto dto,
             @Parameter(description = "인증 제공자, 카카오(kakao) / 네이버(naver) / 구글(google). 현재 카카오만 구현되어있습니다.")
-            @PathVariable("provider") String provider) {
+            @PathVariable("provider") String provider, HttpServletResponse response) {
 
         TokenDto tokenDto = userJoinService.loginBySocial(dto, provider);
 
-        return responseService.getSingleResult(tokenDto);
+        String refreshToken = tokenDto.getRefreshToken();
+        tokenDto.setRefreshToken("httpOnly");
+
+        // 개발, 운영환경일 경우
+        if (profile.equals("dev") || profile.equals("prod")) {
+            ResponseCookie responseCookie = ResponseCookie.from("refresh_token", refreshToken)
+                    .maxAge(14 * 24 * 60 * 60)
+                    .httpOnly(true)
+                    .secure(true)
+                    .sameSite("None")
+                    .path("/")
+                    .build();
+
+            response.addHeader("Set-Cookie", responseCookie.toString());
+
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+        }
+
+        Cookie cookie = new Cookie("refresh_token", refreshToken);
+        cookie.setMaxAge(14 * 24 * 60 * 60); // 14일
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
 
     }
 
@@ -259,6 +280,17 @@ public class UserJoinApiController {
         if (provider.equals("kakao")) oAuthProviderService.kakaoUnlink(accessToken.getAccess_token());
 
         return responseService.getSuccessResult();
+
+    }
+
+    @PostMapping("/api/v1/oauth/check")
+    public ResponseEntity<?> socialRegisterCheck(@RequestParam(required = false) String accessToken) {
+
+        if (accessToken != null) {
+            if (userJoinService.isRegister(accessToken)) return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
     }
 }
