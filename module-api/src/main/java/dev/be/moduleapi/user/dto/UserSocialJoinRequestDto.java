@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSocialJoinRequestDto {
 
-    @Schema(description = "인가 코드")
-    private String code;
+    @Schema(description = "액세스 토큰")
+    private String access_token;
 
     @Schema(description = "인증 제공자")
     private String provider;
