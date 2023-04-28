@@ -69,11 +69,11 @@ public class PlaceApiService {
 
         for (PlaceDto placeDto : placeDtos) {
             double distance = calculateDistance(latitude, longitude,
-                                placeDto.getLatitude(), placeDto.getLongitude()) * 0.001;
+                                placeDto.getLatitude(), placeDto.getLongitude());
             log.info("id : {}, distance : {}", placeDto.getId(), distance);
 
             if(distance <= MAX_LADIUS) {
-                placeDto.setDistance(distance * 1000 * 1000);
+                placeDto.setDistance(distance * 1000);
                 result.add(placeDto);
             }
         }
