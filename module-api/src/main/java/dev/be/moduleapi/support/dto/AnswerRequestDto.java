@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Slf4j(topic = "DTO")
 @Getter
@@ -29,7 +30,8 @@ public class AnswerRequestDto {
 
     @NotNull(message = "내용이 입력되어야 합니다")
     @NotEmpty(message = "내용이 입력되어야 합니다")
-    @Schema(description = "답변 내용")
+    @Schema(description = "답변 내용, 최대 300자")
+    @Size(max=300)
     private String description;
 
     public Answer toEntity(User user, Question question, String description) {
