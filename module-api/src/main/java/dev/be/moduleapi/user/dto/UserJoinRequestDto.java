@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collections;
 
 @Slf4j(topic = "DTO")
@@ -18,17 +19,20 @@ import java.util.Collections;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserJoinRequestDto {
 
-    @Schema(description = "회원 이메일")
+    @Schema(description = "회원 이메일, 최대 50자")
     @NotNull(message = "이메일이 입력되어야 합니다")
     @NotEmpty(message = "이메일이 입력되어야 합니다")
+    @Size(max=50)
     private String email;
 
-    @Schema(description = "비밀번호")
+    @Schema(description = "비밀번호, 8자 이상")
+    @Size(min=8)
     private String password;
 
-    @Schema(description = "닉네임")
+    @Schema(description = "닉네임, 최대 12자")
     @NotNull(message = "닉네임이 입력되어야 합니다")
     @NotEmpty(message = "닉네임이 입력되어야 합니다")
+    @Size(max=12)
     private String nickname;
 
     @Schema(description = "인증 제공자, 일반 회원가입 시에는 사용하지 않습니다")
