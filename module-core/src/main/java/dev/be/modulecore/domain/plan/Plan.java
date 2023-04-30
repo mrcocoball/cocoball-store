@@ -21,10 +21,12 @@ public class Plan extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 20)
     private String title;
 
     private boolean finished;
 
+    @Column(length = 300)
     private String comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
