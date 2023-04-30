@@ -39,8 +39,10 @@ public class Review extends BaseTimeEntity {
     @Column(name = "kpid")
     private String kpid;
 
+    @Column(length = 20)
     private String title;
 
+    @Column(length = 500)
     private String description;
 
     private Long reviewScore;
