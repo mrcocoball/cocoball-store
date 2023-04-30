@@ -28,9 +28,10 @@ public class Question extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 20)
     private String title;
 
-    @Column(length = 2000)
+    @Column(length = 500)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

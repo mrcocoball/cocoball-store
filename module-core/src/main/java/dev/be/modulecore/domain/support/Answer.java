@@ -34,7 +34,7 @@ public class Answer extends BaseTimeEntity {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @Column(length = 500)
+    @Column(length = 300)
     private String description;
 
     private Answer(User user, Question question, String description) {

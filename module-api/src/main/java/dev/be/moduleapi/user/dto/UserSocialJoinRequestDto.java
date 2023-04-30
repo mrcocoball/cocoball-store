@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.validation.constraints.Size;
+
 @Slf4j(topic = "DTO")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,7 +19,8 @@ public class UserSocialJoinRequestDto {
     @Schema(description = "인증 제공자")
     private String provider;
 
-    @Schema(description = "사용자 닉네임")
+    @Schema(description = "사용자 닉네임, 최대 12자")
+    @Size(max=12)
     private String nickname;
 
 }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,14 +33,16 @@ public class ReviewRequestDto {
     @Schema(description = "리뷰 대상 장소의 place_id (String)")
     private String placeId;
 
-    @Schema(description = "리뷰 제목, 무조건 기입되어야 함")
+    @Schema(description = "리뷰 제목, 무조건 기입되어야 함, 최대 20자")
     @NotEmpty(message = "제목이 입력되어야 합니다")
     @NotNull(message = "제목이 입력되어야 합니다")
+    @Size(max=20)
     private String title;
 
-    @Schema(description = "리뷰 내용, 무조건 기입되어야 함")
+    @Schema(description = "리뷰 내용, 무조건 기입되어야 함, 최대 500자")
     @NotEmpty(message = "내용이 입력되어야 합니다")
     @NotNull(message = "내용이 입력되어야 합니다")
+    @Size(max=500)
     private String description;
 
     @Schema(description = "장소에 대한 평점 (리뷰 평점), 0~5까지만")
