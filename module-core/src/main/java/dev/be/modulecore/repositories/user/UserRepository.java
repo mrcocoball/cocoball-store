@@ -18,14 +18,19 @@ public interface UserRepository extends JpaRepository<User, String> {
     List<User> findAll();
 
     @EntityGraph(attributePaths = "roleSet")
-    @Query("select u from User u where u.email = :email")
+    @Query("select u from User u where u.email = :email and u.deleted = false")
     Optional<User> getWithRolesByEmail(@Param("email") String email);
 
     @EntityGraph(attributePaths = "roleSet")
-    Optional<User> findByEmail(String email);
+    @Query("select u from User u where u.email = :email and u.deleted = false")
+    Optional<User> findByEmail(@Param("email") String email);
 
     @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByNickname(String nickname);
+
+    @EntityGraph(attributePaths = "roleSet")
+    @Query("select u from User u where u.email = :email and u.provider = :provider and u.deleted = false")
+    Optional<User> getEmailAndProvider(@Param("email") String email, @Param("provider") String provider);
 
     @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByEmailAndProvider(String email, String provider);
@@ -34,6 +39,11 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Transactional
     @Query("update User u set u.password = :password where u.uid = :uid")
     void updatePassword(@Param("password") String password, @Param("uid") Long uid);
+
+    @Modifying
+    @Transactional
+    @Query("update User u set u.deleted = true where u.uid = :uid")
+    void deleteSetTrue(@Param("uid") Long uid);
 
     @EntityGraph(attributePaths = "roleSet")
     Optional<User> findByUid(Long uid);
