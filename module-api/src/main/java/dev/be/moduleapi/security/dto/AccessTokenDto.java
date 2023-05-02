@@ -28,4 +28,7 @@ public class AccessTokenDto {
 
     @Schema(description = "이메일")
     private String email;
+
+    @Schema(description = "소셜 계정 유무")
+    private boolean isSocial;
 }

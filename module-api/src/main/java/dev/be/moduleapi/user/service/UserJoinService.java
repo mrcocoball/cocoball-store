@@ -4,7 +4,6 @@ import dev.be.moduleapi.advice.exception.*;
 import dev.be.moduleapi.security.dto.AccessTokenDto;
 import dev.be.moduleapi.security.dto.TokenDto;
 import dev.be.moduleapi.security.jwt.JwtProvider;
-import dev.be.moduleapi.security.oauth.dto.OAuthAccessTokenDto;
 import dev.be.moduleapi.security.oauth.dto.ProfileDto;
 import dev.be.moduleapi.security.oauth.service.OAuthProviderService;
 import dev.be.moduleapi.user.dto.UserJoinRequestDto;
@@ -38,11 +37,11 @@ public class UserJoinService {
 
     public String join(@Valid UserJoinRequestDto dto) {
 
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
             throw new EmailDuplicateException();
         }
 
-        if (userRepository.findByNickname(dto.getNickname()).isPresent()) {
+        if (userRepository.existsByNickname(dto.getNickname())) {
             throw new UserNicknameDuplicateException();
         }
 
@@ -68,7 +67,7 @@ public class UserJoinService {
 
         // 액세스 토큰, 리프레시 토큰 발급
         log.info("create token start");
-        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet());
+        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());
         log.info("create token complete");
 
         // 리프레시 토큰 저장
@@ -109,6 +108,37 @@ public class UserJoinService {
 
     }
 
+    public void withdraw(String refreshToken, String accessToken) {
+
+        // 만료된 리프레시 토큰 확인
+        if (!jwtProvider.validationToken(refreshToken)) {
+            throw new CustomRefreshTokenException();
+        }
+
+        // 리프레시 토큰에서 username, 권한 조회
+        Authentication authentication = jwtProvider.getAuthentication(refreshToken);
+
+        // username (email) 로 유저 검색, 리프레시 토큰 여부 확인
+        User user = userRepository.findByEmail(authentication.getName()).orElseThrow(UserNotFoundApiException::new);
+        RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
+
+        // 리프레시 토큰 불일치 여부 확인
+        if (!validRefreshToken.getToken().equals(refreshToken))
+            throw new CustomRefreshTokenException();
+
+        // 소셜 로그인 계정이라 프론트엔드에서 액세스 토큰을 따로 보낸 경우
+        if (accessToken != null && user.isSocial() && user.getProvider().equals("kakao")) {
+            oAuthProviderService.kakaoUnlink(accessToken);
+        }
+
+        // 회원 탈퇴 처리
+        userRepository.deleteSetTrue(user.getUid());
+
+        // 리프레시 토큰 삭제
+        refreshTokenRepository.deleteByKey(user.getEmail());
+
+    }
+
 
     public String joinBySocial(UserJoinRequestDto dto) {
 
@@ -120,7 +150,7 @@ public class UserJoinService {
 
         log.info("[UserJoinService joinBySocial] email duplicate checking");
 
-        if (userRepository.findByEmail(dto.getEmail()).isPresent()) {
+        if (userRepository.existsByEmail(dto.getEmail())) {
             if (dto.getProvider().equals("kakao")) oAuthProviderService.kakaoUnlink(dto.getAccessToken());
             throw new EmailDuplicateException();
         }
@@ -133,7 +163,7 @@ public class UserJoinService {
 
         log.info("[UserJoinService joinBySocial] nickname duplicate checking");
 
-        if (userRepository.findByNickname(dto.getNickname()).isPresent()) {
+        if (userRepository.existsByNickname(dto.getNickname())) {
             if (dto.getProvider().equals("kakao")) oAuthProviderService.kakaoUnlink(dto.getAccessToken());
             throw new UserNicknameDuplicateException();
         }
@@ -153,9 +183,9 @@ public class UserJoinService {
 
         if (profile == null) throw new UserNotFoundApiException();
 
-        User user = userRepository.findByEmailAndProvider(profile.getEmail(), provider).orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.getEmailAndProvider(profile.getEmail(), provider).orElseThrow(UserNotFoundApiException::new);
 
-        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet());
+        TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());
 
         // 리프레시 토큰 저장
         log.info("refresh token persist start");
@@ -191,14 +221,14 @@ public class UserJoinService {
             throw new CustomRefreshTokenException();
 
         // 액세스 토큰 재발급
-        return jwtProvider.refreshAccessToken(user.getEmail(), user.getUid(), user.getRoleSet());
+        return jwtProvider.refreshAccessToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());
 
     }
 
-    public boolean isRegister(String accessToken) {
+    public boolean isRegistered(String accessToken) {
         // 액세스 토큰으로부터 인증 프로필 전달 받음
         ProfileDto profile = oAuthProviderService.getProfile(accessToken, "kakao");
-        User user = userRepository.findByEmailAndProvider(profile.getEmail(), "kakao").orElseThrow(UserNotFoundApiException::new);
+        User user = userRepository.getEmailAndProvider(profile.getEmail(), "kakao").orElseThrow(UserNotFoundApiException::new);
         return true;
     }
 
