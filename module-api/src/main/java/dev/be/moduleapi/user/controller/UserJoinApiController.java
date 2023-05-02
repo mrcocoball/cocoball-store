@@ -7,14 +7,10 @@ import dev.be.moduleapi.api.model.SingleResult;
 import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.moduleapi.security.dto.AccessTokenDto;
 import dev.be.moduleapi.security.dto.TokenDto;
-import dev.be.moduleapi.security.dto.TokenRequestDto;
 import dev.be.moduleapi.security.oauth.dto.OAuthAccessTokenDto;
 import dev.be.moduleapi.security.oauth.dto.ProfileDto;
 import dev.be.moduleapi.security.oauth.service.OAuthProviderService;
-import dev.be.moduleapi.user.dto.UserJoinRequestDto;
-import dev.be.moduleapi.user.dto.UserLoginRequestDto;
-import dev.be.moduleapi.user.dto.UserSocialJoinRequestDto;
-import dev.be.moduleapi.user.dto.UserSocialLoginRequestDto;
+import dev.be.moduleapi.user.dto.*;
 import dev.be.moduleapi.user.service.UserJoinService;
 import dev.be.modulecore.enums.ErrorCode;
 import io.micrometer.core.annotation.Timed;
@@ -26,7 +22,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -112,7 +107,7 @@ public class UserJoinApiController {
     }
 
     @Operation(summary = "[POST] 액세스 토큰 재발급 요청",
-            description = "브라우저 쿠키에 저장된 리프레시 토큰을 통해 액세스 토큰을 확인합니다. <br>" +
+            description = "HTTPS 요청(로컬에선 쿠키)에 저장된 리프레시 토큰을 통해 액세스 토큰을 확인합니다. <br>" +
                     "서버에서는 전달 받은 리프레시 토큰을 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 액세스 / 리프레시 토큰 재발급을 진행합니다")
     @PostMapping("/api/v1/refresh")
     public ResponseEntity<?> refreshV1(HttpServletRequest request) {
@@ -130,17 +125,34 @@ public class UserJoinApiController {
     }
 
     @Operation(summary = "[POST] 로그아웃 요청",
-            description = "브라우저 쿠키에 저장된 리프레시 토큰을 통해 로그아웃 요청을 합니다. <br>" +
+            description = "HTTPS 요청(로컬에선 쿠키)에 저장된 리프레시 토큰을 통해 로그아웃 요청을 합니다. <br>" +
                     "서버에서는 전달 받은 리프레시 토큰을 토대로 회원 검증 및 리프레쉬 토큰 검증한 후 서버에 저장된 리프레시 토큰을 삭제합니다.")
     @DeleteMapping("/api/v1/logout")
     public ResponseEntity<?> logoutV1(HttpServletRequest request) {
 
         // 서버 쪽으로 직접 전달되는 리프레시 토큰 처리
-
         Cookie refreshTokenCookie = WebUtils.getCookie(request, "refresh_token");
 
         if (refreshTokenCookie != null) {
             userJoinService.logout(refreshTokenCookie.getValue());
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @Operation(summary = "[POST] 회원 탈퇴 요청",
+            description = "HTTPS 요청(로컬에선 쿠키)에 저장된 리프레시 토큰을 통해 회원 탈퇴 요청을 합니다. <br>" +
+                    "추가로, 프론트엔드에서 탈퇴 요청한 유저가 소셜 로그인 계정일 경우 카카오 액세스 토큰도 같이 전달합니다. <br>" +
+                    "서버에서는 전달된 리프레시 토큰을 통해 회원 정보를 확인하고 탈퇴 처리를 합니다. <br>" +
+                    "카카오 액세스 토큰도 전달되었다면 카카오 로그인 연결 해제를 진행합니다.")
+    @DeleteMapping("/api/v1/withdraw")
+    public ResponseEntity<?> withdrawV1(@RequestBody UserWithdrawRequestDto dto, HttpServletRequest request) {
+
+        // 서버 쪽으로 직접 전달되는 리프레시 토큰 처리
+        Cookie refreshTokenCookie = WebUtils.getCookie(request, "refresh_token");
+
+        if (refreshTokenCookie != null) {
+            userJoinService.withdraw(refreshTokenCookie.getValue(), dto.getAccess_token());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -283,11 +295,13 @@ public class UserJoinApiController {
 
     }
 
+    @Operation(summary = "[POST] 카카오 소셜 회원가입 여부 체크",
+            description = "프론트엔드로부터 인가 코드를 통해 확인된 액세스 토큰을 전달받아 해당 토큰에 담긴 프로필을 확인하여 회원가입된 유저인지 체크합니다")
     @PostMapping("/api/v1/oauth/check")
     public ResponseEntity<?> socialRegisterCheck(@RequestParam(required = false) String accessToken) {
 
         if (accessToken != null) {
-            if (userJoinService.isRegister(accessToken)) return new ResponseEntity<>(HttpStatus.OK);
+            if (userJoinService.isRegistered(accessToken)) return new ResponseEntity<>(HttpStatus.OK);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
