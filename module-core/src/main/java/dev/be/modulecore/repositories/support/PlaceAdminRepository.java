@@ -18,10 +18,15 @@ public interface PlaceAdminRepository extends JpaRepository<Place, Long> {
     List<String> findPlaceIdByImageUrlIsNull();
 
     @Modifying(clearAutomatically = true)
-    @Query("update Place p set p.imageUrl = :imageUrl, p.description = :description where p.placeId = :placeId")
-    void updateImageUrlAndDescription(@Param("placeId") String placeId,
-                                      @Param("imageUrl") String imageUrl,
-                                      @Param("description") String description);
+    @Query("update Place p " +
+            "set p.imageUrl = :imageUrl, p.description = :description, " +
+            "p.reviewScore = p.reviewScore + :reviewScore, p.reviewCount = p.reviewCount + :reviewCount " +
+            "where p.placeId = :placeId")
+    void updateImageUrlAndDescriptionAndReviews(@Param("placeId") String placeId,
+                                                @Param("imageUrl") String imageUrl,
+                                                @Param("description") String description,
+                                                @Param("reviewScore") Long reviewScore,
+                                                @Param("reviewCount") Long reviewCount);
 
     void deleteById(Long id);
 
