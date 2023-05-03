@@ -18,6 +18,10 @@ public class PlaceCrawlingDto {
 
     private String imageUrl = "NOT EXISTS";
 
+    private double reviewScore;
+
+    private long reviewCount;
+
     private List<String> tags = new ArrayList<>();
 
     public void addTag(String tag) {

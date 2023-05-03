@@ -98,6 +98,24 @@ public class PlaceCrawlingService {
                 }
             }
 
+            // 평점 저장
+            log.info("[PlaceCrawlingService crawling] review crawling}");
+            if (webDriver.findElement(By.className("color_b")) != null) {
+                String reviewScoreOrigin = webDriver.findElement(By.className("color_b")).getText();
+                dto.setReviewScore(Double.valueOf(reviewScoreOrigin).doubleValue());
+                log.info("[PlaceCrawlingService crawling] reviewScore : {}", dto.getReviewScore());
+            }
+            if (webDriver.findElement(By.cssSelector("div.location_evaluation > a.link_evaluation > span.color_g")) != null) {
+                String reviewCountOrigin = webDriver.findElement(By.cssSelector("div.location_evaluation > a.link_evaluation > span.color_g")).getText();
+                dto.setReviewCount(Long.valueOf(reviewCountOrigin.substring(1, reviewCountOrigin.length()-1)).longValue());
+                log.info("[PlaceCrawlingService crawling] reviewCount : {}", dto.getReviewCount());
+            }
+
+            if (dto.getReviewScore() != 0d && dto.getReviewCount() != 0) {
+                double totalReviewScore = dto.getReviewScore() * dto.getReviewCount();
+                dto.setReviewScore(Math.round(totalReviewScore));
+            }
+
             // 이미지 저장
             log.info("[PlaceCrawlingService crawling] image crawling}");
             if (webDriver.findElement(By.className("size_l")) != null) {
@@ -149,7 +167,7 @@ public class PlaceCrawlingService {
             }
             String description = String.valueOf(stringJoiner);
             if (description.equals("")) {description = null;}
-            placeAdminRepository.updateImageUrlAndDescription(dto.getPlaceId(), dto.getImageUrl(), description);
+            placeAdminRepository.updateImageUrlAndDescriptionAndReviews(dto.getPlaceId(), dto.getImageUrl(), description, (long) dto.getReviewScore(), dto.getReviewCount());
             count += 1L;
             log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, dtos.size());
         }
