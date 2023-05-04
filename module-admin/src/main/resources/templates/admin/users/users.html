@@ -9,7 +9,7 @@
   <div class="search_navigation">
     <form id="dynamic-query-parameter-form" th:method="get" th:action="@{/admin/users}">
       <label class="users_label">
-        <h6>유저 검색 조건</h6>
+        <h6>회원 검색 조건</h6>
       </label>
       <div class="user_search_condition">
         <input type="text" class="form-control" id="email" name="email" autocomplete="off" placeholder="이메일"
@@ -19,15 +19,15 @@
         <input type="date" class="form-control" id="start_date" name="startDate" min="2020-01-01"
                th:value="${param.startDate}"/>
         <input type="date" class="form-control" id="target_date" name="targetDate" th:value="${param.targetDate}"/>
-        <select name="deleted" id="deleted" form="dynamic-query-parameter-form">
+        <select name="deleted" id="deleted" form="dynamic-query-parameter-form" class="form-control" style="width: auto">
           <option th:value="false" th:text="활동" th:selected="${param.deleted == false}"></option>
           <option th:value="true" th:text="탈퇴" th:selected="${param.deleted == true}"></option>
         </select>
-        <select name="social" id="social" form="dynamic-query-parameter-form">
+        <select name="social" id="social" form="dynamic-query-parameter-form" class="form-control" style="width: auto">
           <option th:value="false" th:selected="${param.social == false}">소셜 로그인 미연동</option>
           <option th:value="true" th:selected="${param.social == true}">소셜 로그인 연동</option>
         </select>
-        <select name="provider" id="provider" form="dynamic-query-parameter-form">
+        <select name="provider" id="provider" form="dynamic-query-parameter-form" class="form-control" style="width: auto">
           <option th:name="null" th:value="null">인증 제공</option>
           <option th:name="'kakao'" th:value="'kakao'" th:text="카카오"
                   th:selected="${param.provider eq 'kakao'}"></option>

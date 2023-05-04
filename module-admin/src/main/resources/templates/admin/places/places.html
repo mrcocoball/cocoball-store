@@ -23,7 +23,7 @@
         <h6>장소 검색 조건</h6>
       </label>
       <div class="place_search_condition">
-        <select name="categoryId" id="categoryId" form="dynamic-query-parameter-form">
+        <select class="form-control" name="categoryId" id="categoryId" form="dynamic-query-parameter-form" style="width: auto">
           <option th:name="null" th:value="null">카테고리</option>
           <option th:name="'CE7'" th:value="'CE7'" th:text="카페" th:selected="${param.categoryId eq 'CE7'}"></option>
           <option th:name="'SW8'" th:value="'SW8'" th:text="지하철역" th:selected="${param.categoryId eq 'SW8'}"></option>

@@ -259,6 +259,10 @@ li.list-group-item > div > p {
     margin-top: 10px;
 }
 
+.bottom-button {
+    margin-top: 15px;
+}
+
 
 /* 페이징 관련 */
 

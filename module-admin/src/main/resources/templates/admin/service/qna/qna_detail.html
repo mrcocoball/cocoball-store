@@ -64,17 +64,17 @@
         <form class="answer-form" th:action="'/admin/service/qna/answers/write'" th:method="post">
           <input type="hidden" class="qid" id="qid" name="qid" th:value="${dto.id}" required>
           <textarea class="form-control" id="answer-description" name="description" placeholder="답변 달기" rows="5" required></textarea>
-          <li class="input_item">
+          <div class="reverse-align">
             <button type="submit" class="btn btn-create">저장</button>
-          </li>
+          </div>
         </form>
 
-        <ul id="answers">
-          <li class="input_item">
-            <div th:each="answer : ${dto.answers}">
-              <p class="answer_id" th:text="${answer.id}"></p>
-              <p class="answer_username" th:text="${answer.username}"></p>
-              <p class="answer_description" th:text="${answer.description}"></p>
+        <ul class="list-group">
+          <li class="list-group-item" th:each="answer : ${dto.answers}">
+            <div>
+              <p class="answer_id" th:text="'답변 번호 : ' + ${answer.id}"></p>
+              <p class="answer_username" th:text="'작성자 : ' + ${answer.username}"></p>
+              <pre class="answer_description" th:text="${answer.description}"></pre>
             </div>
           </li>
         </ul>
