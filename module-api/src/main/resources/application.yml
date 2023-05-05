@@ -25,6 +25,8 @@ management:
       show-details: always
   server:
     port: 9000
+    ssl:
+      enabled: false
   endpoints:
     web:
       exposure:
