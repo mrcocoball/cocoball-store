@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net" modified="2023-05-07T12:42:31.126Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="rBS3mjUcJE5hh9YDdDNV" version="21.2.9" type="device">
+  <diagram name="Page-1" id="13e1069c-82ec-6db2-03f1-153e76fe0fe0">
+    <mxGraphModel dx="1509" dy="804" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7baba1c4bc27f4b0-2" value="시스템" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="380" y="109" width="100" height="771" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-21" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;8. 장소 정보 제공&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" parent="7baba1c4bc27f4b0-2" edge="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="50.5" y="340" as="sourcePoint" />
+            <mxPoint x="-250" y="340" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-3" value="DB" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="710" y="109" width="100" height="771" as="geometry" />
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-4" value="KAKAO_API" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="895" y="109" width="100" height="771" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-19" value="6. 가져온 장소 정보 저장 (장소 ID 중복 체크)" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" parent="7baba1c4bc27f4b0-4" edge="1">
+          <mxGeometry x="-0.9984" relative="1" as="geometry">
+            <mxPoint x="-465" y="265" as="sourcePoint" />
+            <mxPoint x="-135.5" y="265" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-8" value="유저" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="80" y="109" width="100" height="771" as="geometry" />
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-11" value="&lt;font face=&quot;Helvetica&quot;&gt;1. 장소 검색 ([GET] /api/v1/places)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" parent="1" edge="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="215" as="sourcePoint" />
+            <mxPoint x="430" y="215" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-8" value="&lt;font face=&quot;Helvetica&quot;&gt;2. 요청으로 들어온 주소 좌표 변환 요청&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" parent="1" edge="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="430" y="224.51999999999998" as="sourcePoint" />
+            <mxPoint x="944.5" y="225" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-12" value="&lt;font face=&quot;Helvetica&quot;&gt;3. 변환된 좌표 전달&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" parent="1" source="7baba1c4bc27f4b0-4" edge="1">
+          <mxGeometry x="-0.9825" y="-3" relative="1" as="geometry">
+            <mxPoint x="940" y="263" as="sourcePoint" />
+            <mxPoint x="430" y="263" as="targetPoint" />
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-28" value="유저" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="80" y="880" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-29" value="시스템" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="380" y="880" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-30" value="DB" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="710" y="880" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-31" value="KAKAO_API" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="895" y="880" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-33" value="&lt;span style=&quot;font-size: 25px;&quot;&gt;&lt;b&gt;장소 검색 / 추천 / 단건 조회 관련 API&lt;/b&gt;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="297.5" y="40" width="485" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-1" value="&lt;font face=&quot;Helvetica&quot;&gt;4. 해당 좌표 기반으로 요청으로 들어온 장소 카테고리로 장소 정보 요청&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="430" y="300" as="sourcePoint" />
+            <mxPoint x="944.5" y="300.48" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-2" value="&lt;font face=&quot;Helvetica&quot;&gt;7. 카카오 제공 장소 + DB 내부에 저장된 장소&lt;br&gt;자체 로직으로 페이징 (시/도, 군/구 기준 5km 내)&lt;br&gt;&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="760" y="427" as="sourcePoint" />
+            <mxPoint x="429.5" y="427" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-3" value="&lt;font face=&quot;Helvetica&quot;&gt;5. 장소 정보 전달&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9825" y="-3" relative="1" as="geometry">
+            <mxPoint x="945" y="340" as="sourcePoint" />
+            <mxPoint x="430" y="340" as="targetPoint" />
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-4" value="장소 검색 (api/v1/places)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=170;height=20;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="920" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-9" value="&lt;font face=&quot;Helvetica&quot;&gt;9. 추천 장소 검색 ([GET] /api/v1/recommendation)&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="545" as="sourcePoint" />
+            <mxPoint x="430" y="545" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-10" value="추천 장소 검색 (api/v1/recommendation)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=240;height=20;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="500" width="920" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-12" value="10. 시/도, 군/구를 통한 동적 검색" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9984" relative="1" as="geometry">
+            <mxPoint x="430" y="560.17" as="sourcePoint" />
+            <mxPoint x="759.5" y="560.17" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-13" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;12. 장소 정보 제공&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="621.13" as="sourcePoint" />
+            <mxPoint x="130" y="621.13" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-14" value="&lt;font face=&quot;Helvetica&quot;&gt;11. 장소 정보 페이징 처리&lt;br&gt;&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="760" y="599.13" as="sourcePoint" />
+            <mxPoint x="429.5" y="599.13" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-17" value="&lt;div style=&quot;&quot;&gt;&lt;font face=&quot;Helvetica&quot; color=&quot;#ff0000&quot;&gt;2-2. 주소, 카테고리 null 체크 후 예외 처리&lt;/font&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="243" as="sourcePoint" />
+            <mxPoint x="130" y="243" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-18" value="&lt;div style=&quot;&quot;&gt;&lt;font face=&quot;Helvetica&quot; color=&quot;#ff0000&quot;&gt;5-2. 결과가 없을 경우 예외 처리&lt;/font&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="358" as="sourcePoint" />
+            <mxPoint x="130" y="358" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-19" value="&lt;div style=&quot;&quot;&gt;&lt;font face=&quot;Helvetica&quot; color=&quot;#ff0000&quot;&gt;10-2. 시/도 null 체크 후 예외 처리&lt;/font&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="571.5699999999999" as="sourcePoint" />
+            <mxPoint x="130" y="571.5699999999999" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-20" value="&lt;font face=&quot;Helvetica&quot;&gt;13. 장소 단건 조회 ([GET] /api/v1/places/{place_id}&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="715" as="sourcePoint" />
+            <mxPoint x="430" y="715" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-21" value="장소 단건 조회 (api/v1/places/{place_id}" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=240;height=20;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="670" width="920" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-22" value="14. place_id를 통한 장소 검색" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9984" relative="1" as="geometry">
+            <mxPoint x="430" y="730.17" as="sourcePoint" />
+            <mxPoint x="759.5" y="730.17" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-23" value="&lt;div style=&quot;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;font face=&quot;Helvetica&quot;&gt;17. 장소 정보 제공&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="801.13" as="sourcePoint" />
+            <mxPoint x="130" y="801.13" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-24" value="&lt;font face=&quot;Helvetica&quot;&gt;16. 장소 정보 전달&lt;br&gt;&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="760" y="781.13" as="sourcePoint" />
+            <mxPoint x="429.5" y="781.13" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-25" value="&lt;div style=&quot;&quot;&gt;&lt;font face=&quot;Helvetica&quot; color=&quot;#ff0000&quot;&gt;14-2. 장소 정보 조회 안 될 시 예외 처리&lt;/font&gt;&lt;/div&gt;" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Verdana;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" y="-2" relative="1" as="geometry">
+            <mxPoint x="430.5" y="741.92" as="sourcePoint" />
+            <mxPoint x="130" y="741.92" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XTyQyYrYn9rvqkkp8Cmc-26" value="15. 로그인한 사용자일 경우, 북마크 여부 체크" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;exitX=0.5;exitY=0.193;exitDx=0;exitDy=0;exitPerimeter=0;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9984" relative="1" as="geometry">
+            <mxPoint x="430" y="755.24" as="sourcePoint" />
+            <mxPoint x="759.5" y="755.24" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
