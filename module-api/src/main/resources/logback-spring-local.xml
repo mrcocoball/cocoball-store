@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+<included>
 
     <!-- 기본 설정 -->
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <property name="LOG_PATTERN" value="[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%thread] [%logger{0}:%line] - %msg%n" />
 
     <!-- 서비스에 사용 -->
-    <appender name="SERVICE" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="LOG-SERVICE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -18,7 +17,7 @@
    	</appender>
 
     <!-- 컨트롤러에 사용 -->
-    <appender name="CONTROLLER" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="LOG-CONTROLLER" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -30,7 +29,7 @@
    	</appender>
 
     <!-- 엔티티에 사용 -->
-    <appender name="ENTITY" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="LOG-ENTITY" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -42,7 +41,7 @@
    	</appender>
 
     <!-- DTO에 사용 -->
-    <appender name="DTO" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="LOG-DTO" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -54,7 +53,7 @@
    	</appender>
 
     <!-- 보안에 사용 -->
-    <appender name="SECURITY" class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="LOG-SECURITY" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
         </filter>
@@ -65,33 +64,23 @@
         </layout>
    	</appender>
 
-
-    <logger name="SERVICE_LOG" level="INFO" additivitty="false">
-        <appender-ref ref="SERVICE" />
-    </logger>
-
-    <logger name="CONTROLLER_LOG" level="INFO" additivitty="false">
-        <appender-ref ref="CONTROLLER" />
-    </logger>
-
-    <logger name="ENTITY_LOG" level="INFO" additivitty="false">
-        <appender-ref ref="ENTITY" />
-    </logger>
-
-    <logger name="DTO_LOG" level="INFO" additivitty="false">
-        <appender-ref ref="DTO" />
-    </logger>
-
-    <logger name="SECURITY_LOG" level="INFO" additivitty="false">
-        <appender-ref ref="SECURITY" />
-    </logger>
-
+    <!-- 경고 로그 -->
+    <appender name="WARN" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <layout>
+            <pattern>
+                [WARN] ${LOG_PATTERN}
+            </pattern>
+        </layout>
+   	</appender>
 
 <!--
-DEBUG < ... < INFO < WARN < ERROR
+DEBUG < INFO < WARN < ERROR
 -->
-    <root level="INFO">
+    <root level="info">
         <appender-ref ref="CONSOLE"/> <!-- console-appender 기본 설정 -->
     </root>
 
-</configuration>
+</included>
