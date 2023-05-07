@@ -197,9 +197,13 @@ spring:
 com:
   dateplanner:
     upload:
-      path: /home/mrcocoball/date_planner/image
+      path: /home/mrcocoball/date_planner_api/image
     webdriver:
       path: /usr/src/chrome/chromedriver
+
+logging:
+  file:
+    path: /home/mrcocoball/date_planner_api/logs
 
 url:
   base: https://dateplanner.ykstyle.info:81/
