@@ -31,7 +31,7 @@ public class PlaceRecommendationService {
         List<PlaceRecommendationDto> result = placeRecommendationRepository.placeRecommendation(region1, region2);
 
         if (Objects.isNull(result) || result.isEmpty()) {
-            log.error("[PlaceRecommendationService getPlaceRecommendation] recommendation result is null");
+            log.warn("[PlaceRecommendationService getPlaceRecommendation] recommendation result is null");
             throw new SearchResultNotFoundException();
         }
 

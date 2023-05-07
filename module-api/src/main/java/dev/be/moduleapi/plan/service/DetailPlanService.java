@@ -29,20 +29,10 @@ public class DetailPlanService {
 
     public DetailPlanDto saveDetailPlan(DetailPlanRequestDto dto) {
 
-        log.info("[DetailPlanService saveDetailPlan] find plan...");
-
         Plan plan = planRepository.findById(dto.getPid()).orElseThrow(PlanNotFoundApiException::new);
-
-        log.info("[DetailPlanService saveDetailPlan] find place...");
-
         Place place = placeRepository.findByPlaceId(dto.getKpid()).orElseThrow(PlaceNotFoundApiException::new);
-
-        log.info("[DetailPlanService saveDetailPlan] save detail plan...");
-
         DetailPlan detailPlan = detailPlanRepository.save(dto.toEntity(plan, place, dto.getKpid(), dto.getOrd()));
         plan.addDetailPlans(detailPlan);
-
-        log.info("[DetailPlanService saveDetailPlan] save detail plan complete");
 
         return DetailPlanDto.from(detailPlan);
     }

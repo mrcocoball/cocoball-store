@@ -35,9 +35,6 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
         // 토큰 쿼리값의 value를 통해 토큰을 가져옴
         String token = jwtProvider.resolveToken((HttpServletRequest) request);
 
-        log.info("[JwtAuthenticationFilter doFilter] verifying token");
-        log.info(((HttpServletRequest) request).getRequestURL().toString());
-
         if (token != null && jwtProvider.validationToken(token)) {
             Authentication authentication = jwtProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);

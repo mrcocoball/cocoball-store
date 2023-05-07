@@ -31,7 +31,6 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("query", address);
 
         URI uri = uriBuilder.build().encode().toUri();
-        log.info("[KakaoUriBuilderService buildUriForAddressSearch] address {}, uri: {}", address, uri);
 
         return uri;
 
@@ -57,7 +56,6 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("page", page);
 
         URI uri = uriBuilder.build().encode().toUri(); // UTF-8로 인코딩해줌
-        log.info("[KakaoUriBuilderService buildUriForCategorySearch] uri: {}", uri);
 
         return uri;
 
