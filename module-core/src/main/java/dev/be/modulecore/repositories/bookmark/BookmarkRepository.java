@@ -23,7 +23,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     void deleteById(Long id);
 
     @EntityGraph(attributePaths = {"user", "place"})
-    void deleteByPlace_PlaceId(String placeId);
+    void deleteByUser_EmailAndPlace_PlaceId(String email, String placeId);
 
     @EntityGraph(attributePaths = {"user", "place"})
     @Query("select b" +
