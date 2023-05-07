@@ -44,7 +44,7 @@ public enum ErrorCode {
     TOKEN_EXPIRED(9002, "만료된 토큰입니다"),
 
     // 서버 내부 오류
-    INTERNAL_SERVER_ERROR(10000, "알 수 없는 오류입니다");
+    INTERNAL_SERVER_ERROR(10000, "잘못된 요청입니다.");
 
     private int code;
     private String description;

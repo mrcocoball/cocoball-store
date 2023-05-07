@@ -7,6 +7,7 @@ import dev.be.moduleapi.api.service.ResponseService;
 import dev.be.modulecore.enums.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class CustomAdvice {
@@ -47,6 +49,9 @@ public class CustomAdvice {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult accessDeniedException(HttpServletRequest request, AccessDeniedException e) {
+
+        log.error("access is denied");
+
         return responseService.getFailResult
                 (ErrorCode.ACCESS_DENIED.getCode(), ErrorCode.ACCESS_DENIED.getDescription());
     }
@@ -54,6 +59,9 @@ public class CustomAdvice {
     @ExceptionHandler(ExpiredJwtException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult expiredJwtException(HttpServletRequest request, ExpiredJwtException e) {
+
+        log.error("JWT token is expired");
+
         return responseService.getFailResult
                 (ErrorCode.TOKEN_EXPIRED.getCode(), ErrorCode.TOKEN_EXPIRED.getDescription());
     }
@@ -61,6 +69,9 @@ public class CustomAdvice {
     @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult usernameNotFoundException(HttpServletRequest request, UsernameNotFoundException e) {
+
+        log.error("username is not found");
+
         return responseService.getFailResult
                 (ErrorCode.USER_NOT_FOUND.getCode(), ErrorCode.USER_NOT_FOUND.getDescription());
     }
@@ -68,6 +79,9 @@ public class CustomAdvice {
     @ExceptionHandler(UserNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult userNotFoundApiException(HttpServletRequest request, UserNotFoundApiException e) {
+
+        log.error("user is not found");
+
         return responseService.getFailResult
                 (ErrorCode.USER_NOT_FOUND.getCode(), ErrorCode.USER_NOT_FOUND.getDescription());
     }
@@ -75,6 +89,9 @@ public class CustomAdvice {
     @ExceptionHandler(UserNicknameDuplicateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult userNicknameDuplicateException(HttpServletRequest request, UserNicknameDuplicateException e) {
+
+        log.warn("input nickname is duplicated");
+
         return responseService.getFailResult
                 (ErrorCode.USER_NICKNAME_DUPLICATED.getCode(), ErrorCode.USER_NICKNAME_DUPLICATED.getDescription());
     }
@@ -82,6 +99,9 @@ public class CustomAdvice {
     @ExceptionHandler(EmailDuplicateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult emailDuplicateException(HttpServletRequest request, EmailDuplicateException e) {
+
+        log.warn("input email is duplicated");
+
         return responseService.getFailResult
                 (ErrorCode.EMAIL_DUPLICATED.getCode(), ErrorCode.EMAIL_DUPLICATED.getDescription());
     }
@@ -89,6 +109,9 @@ public class CustomAdvice {
     @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult passwordMismatchException(HttpServletRequest request, PasswordMismatchException e) {
+
+        log.warn("input password is mismatched");
+
         return responseService.getFailResult
                 (ErrorCode.PASSWORD_MISMATCH.getCode(), ErrorCode.PASSWORD_MISMATCH.getDescription());
     }
@@ -96,6 +119,9 @@ public class CustomAdvice {
     @ExceptionHandler(CustomRefreshTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     protected CommonResult customRefreshTokenException(HttpServletRequest request, CustomRefreshTokenException e) {
+
+        log.error("refresh token is invalid");
+
         return responseService.getFailResult
                 (ErrorCode.REFRESH_TOKEN_INVALID.getCode(), ErrorCode.REFRESH_TOKEN_INVALID.getDescription());
     }
@@ -103,6 +129,9 @@ public class CustomAdvice {
     @ExceptionHandler(OAuthRequestFailedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult oAuthRequestFailedException(HttpServletRequest request, OAuthRequestFailedException e) {
+
+        log.error("OAuth request is failed");
+
         return responseService.getFailResult
                 (ErrorCode.OAUTH_FAILED.getCode(), ErrorCode.OAUTH_FAILED.getDescription());
     }
@@ -110,6 +139,9 @@ public class CustomAdvice {
     @ExceptionHandler(OAuthAgreementException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult oAuthAgreementException(HttpServletRequest request, OAuthAgreementException e) {
+
+        log.error("OAuth agreement is failed");
+
         return responseService.getFailResult
                 (ErrorCode.OAUTH_NOT_AGREED.getCode(), ErrorCode.OAUTH_NOT_AGREED.getDescription());
     }
@@ -117,6 +149,9 @@ public class CustomAdvice {
     @ExceptionHandler(UserExistException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult userExistException(HttpServletRequest request, UserExistException e) {
+
+        log.error("user is already exists");
+
         return responseService.getFailResult
                 (ErrorCode.USER_ALREADY_EXISTS.getCode(), ErrorCode.USER_ALREADY_EXISTS.getDescription());
     }
@@ -138,6 +173,7 @@ public class CustomAdvice {
 
             bindingResult.getFieldErrors().forEach(fieldError -> {
                 errorMap.put(fieldError.getField(), fieldError.getDefaultMessage());
+                log.warn("invalid data : {},{}", fieldError.getField(), fieldError.getDefaultMessage());
             });
         }
 
@@ -148,6 +184,9 @@ public class CustomAdvice {
     @ExceptionHandler(PlaceNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult placeNotFoundApiException(HttpServletRequest request, PlaceNotFoundApiException e) {
+
+        log.error("place is not found");
+
         return responseService.getFailResult
                 (ErrorCode.PLACE_NOT_FOUND.getCode(), ErrorCode.PLACE_NOT_FOUND.getDescription());
     }
@@ -155,6 +194,9 @@ public class CustomAdvice {
     @ExceptionHandler(BookmarkNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult bookmarkNotFoundApiException(HttpServletRequest request, BookmarkNotFoundApiException e) {
+
+        log.error("bookmark is not found");
+
         return responseService.getFailResult
                 (ErrorCode.BOOKMARK_NOT_FOUND.getCode(), ErrorCode.BOOKMARK_NOT_FOUND.getDescription());
     }
@@ -162,6 +204,9 @@ public class CustomAdvice {
     @ExceptionHandler(BookmarkDuplicateException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult bookmarkDuplicateException(HttpServletRequest request, BookmarkDuplicateException e) {
+
+        log.error("bookmark is already registered");
+
         return responseService.getFailResult
                 (ErrorCode.BOOKMARK_DUPLICATED.getCode(), ErrorCode.BOOKMARK_DUPLICATED.getDescription());
     }
@@ -169,6 +214,9 @@ public class CustomAdvice {
     @ExceptionHandler(ReviewNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult reviewNotFoundApiException(HttpServletRequest request, ReviewNotFoundApiException e) {
+
+        log.error("review is not found");
+
         return responseService.getFailResult
                 (ErrorCode.REVIEW_NOT_FOUND.getCode(), ErrorCode.REVIEW_NOT_FOUND.getDescription());
     }
@@ -176,6 +224,9 @@ public class CustomAdvice {
     @ExceptionHandler(PlanNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult planFoundApiException(HttpServletRequest request, PlanNotFoundApiException e) {
+
+        log.error("plan is not found");
+
         return responseService.getFailResult
                 (ErrorCode.PLAN_NOT_FOUND.getCode(), ErrorCode.PLAN_NOT_FOUND.getDescription());
     }
@@ -183,6 +234,9 @@ public class CustomAdvice {
     @ExceptionHandler(DetailPlanNotFoundApiException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult detailPlanFoundApiException(HttpServletRequest request, DetailPlanNotFoundApiException e) {
+
+        log.error("detailPlan is not found");
+
         return responseService.getFailResult
                 (ErrorCode.DETAIL_PLAN_NOT_FOUND.getCode(), ErrorCode.DETAIL_PLAN_NOT_FOUND.getDescription());
     }
@@ -190,6 +244,9 @@ public class CustomAdvice {
     @ExceptionHandler(CustomRetryException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult customRetryException(HttpServletRequest request, CustomRetryException e) {
+
+        log.warn("retry is failed");
+
         return responseService.getFailResult
                 (ErrorCode.REQUEST_FAILED.getCode(), ErrorCode.REQUEST_FAILED.getDescription());
     }
@@ -218,6 +275,9 @@ public class CustomAdvice {
     @ExceptionHandler(AnnouncementNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected CommonResult announcementNotFoundException(HttpServletRequest request, AnnouncementNotFoundException e) {
+
+        log.error("announcement is not found");
+
         return responseService.getFailResult
                 (ErrorCode.ANNOUNCEMENT_NOT_FOUND.getCode(), ErrorCode.ANNOUNCEMENT_NOT_FOUND.getDescription());
     }
@@ -237,6 +297,9 @@ public class CustomAdvice {
     @ExceptionHandler(BadSqlGrammarException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult badSqlGrammarException(HttpServletRequest request, BadSqlGrammarException e) {
+
+        log.error("BadSqlGrammarException is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.SQL_GRAMMAR_ERROR.getCode(), ErrorCode.SQL_GRAMMAR_ERROR.getDescription());
     }
@@ -244,6 +307,9 @@ public class CustomAdvice {
     @ExceptionHandler(DataAccessResourceFailureException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult dataAccessResourceFailureException(HttpServletRequest request, DataAccessResourceFailureException e) {
+
+        log.error("DataAccessResourceFailureException is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.DB_CONNECTION_OUT.getCode(), ErrorCode.DB_CONNECTION_OUT.getDescription());
     }
@@ -251,6 +317,9 @@ public class CustomAdvice {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult dataIntegrityViolationException(HttpServletRequest request, DataIntegrityViolationException e) {
+
+        log.error("DataIntegrityViolationException is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.DATA_INTEGRITY_VIOLATION.getCode(), ErrorCode.DATA_INTEGRITY_VIOLATION.getDescription());
     }
@@ -258,6 +327,9 @@ public class CustomAdvice {
     @ExceptionHandler(DuplicateKeyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult duplicateKeyException(HttpServletRequest request, DuplicateKeyException e) {
+
+        log.error("DuplicateKeyException is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.DB_KEY_DUPLICATE.getCode(), ErrorCode.DB_KEY_DUPLICATE.getDescription());
     }
@@ -265,6 +337,9 @@ public class CustomAdvice {
     @ExceptionHandler(DataAccessException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected CommonResult dataAccessException(HttpServletRequest request, DataAccessException e) {
+
+        log.error("DataAccessException is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.DATA_ACCESS_ERROR.getCode(), ErrorCode.DATA_ACCESS_ERROR.getDescription());
     }
@@ -281,13 +356,14 @@ public class CustomAdvice {
      * 기타 예외 관련 (일단 개발 중이므로 잠시 주석 처리)
      */
 
-    /*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected CommonResult Exception(HttpServletRequest request, Exception e) {
+
+        log.error("Exception is occurred {}", e);
+
         return responseService.getFailResult
                 (ErrorCode.INTERNAL_SERVER_ERROR.getCode(), ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
     }
-     */
 
 }
