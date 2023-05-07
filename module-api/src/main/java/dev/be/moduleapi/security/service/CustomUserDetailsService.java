@@ -20,7 +20,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        log.info("[CustomUserDetailsService loadUserByUsername] principal checking");
         return userRepository.getWithRolesByEmail(email).orElseThrow(UserNotFoundApiException::new);
 
     }

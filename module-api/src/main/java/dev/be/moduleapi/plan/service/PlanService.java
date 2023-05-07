@@ -26,12 +26,7 @@ public class PlanService {
     public PlanDto savePlan(PlanRequestDto dto) {
 
         User user = userRepository.findByNickname(dto.getNickname()).orElseThrow(UserNotFoundApiException::new);
-
-        log.info("[PlanService savePlan] save plan...");
-
         Plan plan = planRepository.save(dto.toEntity(user, dto.getTitle()));
-
-        log.info("[PlanService savePlan] save plan complete");
 
         return PlanDto.from(plan);
     }

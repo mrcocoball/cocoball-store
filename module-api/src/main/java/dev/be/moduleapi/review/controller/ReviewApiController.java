@@ -87,7 +87,6 @@ public class ReviewApiController {
 
         User user = (User) authentication.getPrincipal();
         String nickname = user.getNickname();
-        log.info("authentication, nickname : {}", nickname);
 
         return responseService.getPageResult(reviewApiService.getReviewListByNickname(nickname, pageable));
     }

@@ -63,11 +63,13 @@ public class PlaceApiController {
         // TODO : Stream() 활용해서 코드 가독성 깔끔하게 처리해볼 것
         for (String category : categories) {
             if (!Arrays.stream(CATEGORIES).anyMatch(category::equals)) {
+                log.warn("[PlaceApiController getPlaces] category is mismatched");
                 throw new CategoryInvalidException();
             }
         }
 
         if (!Arrays.stream(SORTTYPES).anyMatch(sortType::equals)) {
+            log.warn("[PlaceApiController getPlaces] sortType is mismatched");
             throw new SortTypeInvalidException();
         }
 

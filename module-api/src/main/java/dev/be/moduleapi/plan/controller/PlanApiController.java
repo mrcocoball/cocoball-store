@@ -69,8 +69,6 @@ public class PlanApiController {
         User user = (User) authentication.getPrincipal();
         String nickname = user.getNickname();
 
-        log.info("authentication, nickname : {}", nickname);
-
         return responseService.getPageResult(planApiService.getPlanListByNickname(nickname, pageable));
     }
 

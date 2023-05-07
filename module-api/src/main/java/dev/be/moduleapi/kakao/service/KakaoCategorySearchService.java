@@ -54,7 +54,6 @@ public class KakaoCategorySearchService {
 
                 // URI 호출
                 URI uri = kakaoUriBuilderService.buildUriForCategorySearch(latitude, longitude, radius, category, i);
-                log.info("[KakaoCategorySearchService requestCategorySearch] URI converting complete, {}", uri);
 
                 // 요청 헤더 세팅
                 HttpHeaders headers = new HttpHeaders();
@@ -77,7 +76,7 @@ public class KakaoCategorySearchService {
 
     @Recover
     public KakaoApiResponseDto recover(CustomRetryException e) {
-        log.error("[KakaoCategorySearchService requestCategorySearch] request failed, {}", e.getMessage());
+        log.warn("[KakaoCategorySearchService requestCategorySearch] request failed, {}", e.getMessage());
         return null;
     }
 

@@ -28,11 +28,7 @@ public class BookmarkService {
     public BookmarkDto saveBookmark(String nickname, String placeId) {
 
         // 중복 체크
-        log.info("[BookmarkService saveBookmark] bookmark duplication checking");
-
-        if (isExist(placeId, nickname)) { throw new BookmarkDuplicateException(); }
-
-        log.info("[BookmarkService saveBookmark] bookmark duplication check complete");
+        if (isExist(placeId, nickname)) throw new BookmarkDuplicateException();
 
         User user = userRepository.findByNickname(nickname).orElseThrow(UserNotFoundApiException::new);
         Place place = placeRepository.findByPlaceId(placeId).orElseThrow(PlaceNotFoundApiException::new);
@@ -52,7 +48,7 @@ public class BookmarkService {
     }
 
     public boolean isExist(String placeId, String nickname) {
-        log.info("[BookmarkService isExist] checking...");
+
         return bookmarkRepository.isBookmarked(placeId, nickname).size() >= 1;
     }
 

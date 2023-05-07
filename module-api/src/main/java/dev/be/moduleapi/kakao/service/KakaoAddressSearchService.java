@@ -44,13 +44,12 @@ public class KakaoAddressSearchService {
 
         // validation
         if (ObjectUtils.isEmpty(address)) {
-            log.info("[KakaoAddressSearchService requestAddressSearch] address is null");
+            log.warn("[KakaoAddressSearchService requestAddressSearch] address is null");
             throw new AddressInvalidException();
         }
 
         // URI 호출
         URI uri = kakaoUriBuilderService.buildUriForAddressSearch(address);
-        log.info("[KakaoAddressSearchService requestAddressSearch] URI converting complete, {}", uri);
 
         // 요청 헤더 세팅
         HttpHeaders headers = new HttpHeaders();
@@ -63,7 +62,7 @@ public class KakaoAddressSearchService {
 
     @Recover
     public KakaoApiResponseDto recover(CustomRetryException e) {
-        log.error("[KakaoAddressSearchService requestAddressSearch] request failed, {}", e.getMessage());
+        log.warn("[KakaoAddressSearchService requestAddressSearch] request failed, {}", e.getMessage());
         return null;
     }
 

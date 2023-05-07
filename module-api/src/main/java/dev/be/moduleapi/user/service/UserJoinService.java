@@ -37,13 +37,10 @@ public class UserJoinService {
 
     public String join(@Valid UserJoinRequestDto dto) {
 
-        if (userRepository.existsByEmail(dto.getEmail())) {
-            throw new EmailDuplicateException();
-        }
+        if (userRepository.existsByEmail(dto.getEmail())) throw new EmailDuplicateException();
 
-        if (userRepository.existsByNickname(dto.getNickname())) {
-            throw new UserNicknameDuplicateException();
-        }
+
+        if (userRepository.existsByNickname(dto.getNickname())) throw new UserNicknameDuplicateException();
 
         return userRepository.save(dto.toEntity(passwordEncoder)).getEmail();
     }
@@ -66,13 +63,9 @@ public class UserJoinService {
             throw new PasswordMismatchException();
 
         // 액세스 토큰, 리프레시 토큰 발급
-        log.info("create token start");
         TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());
-        log.info("create token complete");
 
         // 리프레시 토큰 저장
-        log.info("refresh token persist start");
-        log.info("key : {}, token : {}", user.getEmail(), tokenDto.getRefreshToken());
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(user.getEmail())
                 .token(tokenDto.getRefreshToken())
@@ -80,7 +73,6 @@ public class UserJoinService {
 
         if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
-        log.info("refresh token persist complete");
 
         return tokenDto;
     }
@@ -88,9 +80,7 @@ public class UserJoinService {
     public void logout(String refreshToken) {
 
         // 만료된 리프레시 토큰 확인
-        if (!jwtProvider.validationToken(refreshToken)) {
-            throw new CustomRefreshTokenException();
-        }
+        if (!jwtProvider.validationToken(refreshToken)) throw new CustomRefreshTokenException();
 
         // 리프레시 토큰에서 username, 권한 조회
         Authentication authentication = jwtProvider.getAuthentication(refreshToken);
@@ -100,8 +90,7 @@ public class UserJoinService {
         RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
 
         // 리프레시 토큰 불일치 여부 확인
-        if (!validRefreshToken.getToken().equals(refreshToken))
-            throw new CustomRefreshTokenException();
+        if (!validRefreshToken.getToken().equals(refreshToken)) throw new CustomRefreshTokenException();
 
         // 리프레시 토큰 삭제
         refreshTokenRepository.deleteByKey(user.getEmail());
@@ -111,9 +100,7 @@ public class UserJoinService {
     public void withdraw(String refreshToken, String accessToken) {
 
         // 만료된 리프레시 토큰 확인
-        if (!jwtProvider.validationToken(refreshToken)) {
-            throw new CustomRefreshTokenException();
-        }
+        if (!jwtProvider.validationToken(refreshToken)) throw new CustomRefreshTokenException();
 
         // 리프레시 토큰에서 username, 권한 조회
         Authentication authentication = jwtProvider.getAuthentication(refreshToken);
@@ -123,13 +110,10 @@ public class UserJoinService {
         RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
 
         // 리프레시 토큰 불일치 여부 확인
-        if (!validRefreshToken.getToken().equals(refreshToken))
-            throw new CustomRefreshTokenException();
+        if (!validRefreshToken.getToken().equals(refreshToken)) throw new CustomRefreshTokenException();
 
         // 소셜 로그인 계정이라 프론트엔드에서 액세스 토큰을 따로 보낸 경우
-        if (accessToken != null && user.isSocial() && user.getProvider().equals("kakao")) {
-            oAuthProviderService.kakaoUnlink(accessToken);
-        }
+        if (accessToken != null && user.isSocial() && user.getProvider().equals("kakao")) oAuthProviderService.kakaoUnlink(accessToken);
 
         // 회원 탈퇴 처리
         userRepository.deleteSetTrue(user.getUid());
@@ -148,20 +132,14 @@ public class UserJoinService {
          * 중복 이메일, 이미 소셜 회원가입 되어 있는 이메일은 재가입 불가 처리
          */
 
-        log.info("[UserJoinService joinBySocial] email duplicate checking");
-
         if (userRepository.existsByEmail(dto.getEmail())) {
             if (dto.getProvider().equals("kakao")) oAuthProviderService.kakaoUnlink(dto.getAccessToken());
             throw new EmailDuplicateException();
         }
 
-        log.info("[UserJoinService joinBySocial] email and provider duplicate checking");
-
         if (userRepository.findByEmailAndProvider(dto.getEmail(), dto.getProvider()).isPresent()) {
             throw new UserExistException();
         }
-
-        log.info("[UserJoinService joinBySocial] nickname duplicate checking");
 
         if (userRepository.existsByNickname(dto.getNickname())) {
             if (dto.getProvider().equals("kakao")) oAuthProviderService.kakaoUnlink(dto.getAccessToken());
@@ -188,8 +166,6 @@ public class UserJoinService {
         TokenDto tokenDto = jwtProvider.createToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());
 
         // 리프레시 토큰 저장
-        log.info("refresh token persist start");
-        log.info("key : {}, token : {}", user.getEmail(), tokenDto.getRefreshToken());
         RefreshToken refreshToken = RefreshToken.builder()
                 .key(user.getEmail())
                 .token(tokenDto.getRefreshToken())
@@ -197,7 +173,6 @@ public class UserJoinService {
 
         if (refreshTokenRepository.findByKey(user.getEmail()).isPresent()) refreshTokenRepository.deleteByKey(user.getEmail());
         refreshTokenRepository.save(refreshToken);
-        log.info("refresh token persist complete");
 
         return tokenDto;
     }
@@ -205,9 +180,7 @@ public class UserJoinService {
     public AccessTokenDto refreshAccessToken(String refreshToken) {
 
         // 만료된 리프레시 토큰 확인
-        if (!jwtProvider.validationToken(refreshToken)) {
-            throw new CustomRefreshTokenException();
-        }
+        if (!jwtProvider.validationToken(refreshToken)) throw new CustomRefreshTokenException();
 
         // 리프레시 토큰에서 username, 권한 조회
         Authentication authentication = jwtProvider.getAuthentication(refreshToken);
@@ -217,8 +190,7 @@ public class UserJoinService {
         RefreshToken validRefreshToken = refreshTokenRepository.findByKey(user.getEmail()).orElseThrow(CustomRefreshTokenException::new);
 
         // 리프레시 토큰 불일치 여부 확인
-        if (!validRefreshToken.getToken().equals(refreshToken))
-            throw new CustomRefreshTokenException();
+        if (!validRefreshToken.getToken().equals(refreshToken)) throw new CustomRefreshTokenException();
 
         // 액세스 토큰 재발급
         return jwtProvider.refreshAccessToken(user.getEmail(), user.getUid(), user.getRoleSet(), user.isSocial());

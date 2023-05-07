@@ -32,7 +32,7 @@ public class PlaceService {
         List<DocumentDto> addressResults = kakaoAddressSearchService.requestAddressSearch(address).getDocumentList();
 
         if (Objects.isNull(addressResults) || addressResults.isEmpty()) {
-            log.error("[PlaceService getPlaceLongitudeAndLatitude] address search result is null");
+            log.warn("[PlaceService getPlaceLongitudeAndLatitude] address search result is null");
             throw new SearchResultNotFoundException();
         }
 
@@ -50,28 +50,23 @@ public class PlaceService {
 
     public List<String> placePersist(KakaoApiResponseDto dto) {
 
-        // 저장 시간 비교 계산용 측정
-        long beforeTime = System.currentTimeMillis();
-
         List<DocumentDto> results = dto.getDocumentList();
 
         // 결과 HashMap
         Map<String, Long> resultMap = new HashMap<>();
 
         if (Objects.isNull(results) || results.isEmpty()) {
-            log.error("[PlaceService placePersistV2] category search result is null");
+            log.warn("[PlaceService placePersist] category search result is null");
             resultMap.put("number of saved places : ", null);
             throw new SearchResultNotFoundException();
         }
 
         // 전달 받은 장소 리스트 DB 내 중복 여부 체크 후 DB에 저장
-        log.info("[PlaceService placePersistV2] DocumentDto -> Repository save start");
         int convertResultCount = 0;
         int nestedResultCount = 0;
 
         List<String> region2List = new ArrayList<>();
 
-        log.info("[PlaceService placePersistV2] get region2DepthName list....");
         for (DocumentDto result : results) {
             result.splitAddress(result.getAddressName());
             String region2DepthName = result.getRegion2DepthName();
@@ -80,16 +75,8 @@ public class PlaceService {
             }
         }
 
-        log.info("[PlaceService placePersistV2] get region2DepthName list complete, {}", region2List);
-
         String region1DepthName = results.get(0).getRegion1DepthName();
-
-        log.info("[PlaceService placePersistV2] get placeId list");
-
         List<String> placeIds = placeRepository.findPlaceIdByRegion1DepthNameAndRegion2DepthName(region1DepthName, region2List);
-
-        log.info("[PlaceService placePersistV2] duplication check and persist");
-
         for (DocumentDto result : results) {
 
             result.splitAddress(result.getAddressName());
@@ -117,10 +104,6 @@ public class PlaceService {
                 convertResultCount += 1;
             }
         }
-
-        // 저장 시간 비교 계산용 측정
-        long afterTime = System.currentTimeMillis();
-        log.info("elapsed time : " + (afterTime - beforeTime));
 
         resultMap.put("number of saved places : ", Long.valueOf(convertResultCount));
         resultMap.put("number of nested places : ", Long.valueOf(nestedResultCount));

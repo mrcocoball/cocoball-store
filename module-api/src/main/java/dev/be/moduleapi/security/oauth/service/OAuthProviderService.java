@@ -91,8 +91,6 @@ public class OAuthProviderService {
     // 카카오 언링크 요청
     public void kakaoUnlink(String accessToken) {
 
-        log.info("[OAuthProviderService kakaoUnlink] unlink start");
-
         String unlinkUrl = env.getProperty("social.kakao.url.unlink");
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -101,13 +99,10 @@ public class OAuthProviderService {
 
         HttpEntity<LinkedMultiValueMap<String, String>> request = new HttpEntity<>(null, httpHeaders);
 
-        log.info("[OAuthProviderService kakaoUnlink] request complete");
-
         ResponseEntity<String> response = restTemplate.postForEntity(unlinkUrl, request, String.class);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             log.info("[OAuthProviderService kakaoUnlink] unlink complete");
-            log.info("unlink " + response.getBody());
             return;
         }
 

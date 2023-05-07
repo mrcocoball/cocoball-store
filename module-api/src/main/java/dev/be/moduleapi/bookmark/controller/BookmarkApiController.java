@@ -46,7 +46,6 @@ public class BookmarkApiController {
 
         User user = (User) authentication.getPrincipal();
         String nickname = user.getNickname();
-        log.info("authentication, nickname : {}", nickname);
 
         return responseService.getSingleResult(bookmarkService.saveBookmark(nickname, placeId));
     }
@@ -62,7 +61,6 @@ public class BookmarkApiController {
 
         User user = (User) authentication.getPrincipal();
         String email = user.getEmail();
-        log.info("authentication, username : {}", email);
 
         return responseService.getPageResult(bookmarkApiService.getBookmarkList(email, pageable));
     }

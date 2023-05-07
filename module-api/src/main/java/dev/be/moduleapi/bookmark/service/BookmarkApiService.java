@@ -21,16 +21,7 @@ public class BookmarkApiService {
 
     public Page<BookmarkDto> getBookmarkList(String email, Pageable pageable) {
 
-        // 인덱스 계산용 시간 측정
-        long beforeTime = System.currentTimeMillis();
-
-        log.info("[BookmarkApiService getBookmarkList] get bookmark list start...");
         Page<BookmarkDto> dtos = bookmarkRepository.findByUser_Email(email, pageable).map(bookmark -> BookmarkDto.from(bookmark));
-        log.info("[BookmarkApiService getBookmarkList] get bookmark list complete, size : {}", dtos.getSize());
-
-        // 인덱스 계산용 시간 측정
-        long afterTime = System.currentTimeMillis();
-        log.info("elapsed time : " + (afterTime-beforeTime));
 
         return dtos;
     }
