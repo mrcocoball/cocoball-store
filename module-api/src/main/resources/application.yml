@@ -4,11 +4,14 @@ spring:
     group:
       local:
         - common
+        - swagger-on
       local2:
         - common
-      prod:
-        - common
+        - swagger-on
       dev:
+        - common
+        - swagger-on
+      prod:
         - common
     include: jwt
 
@@ -32,13 +35,6 @@ management:
       exposure:
         include: "*"
         exclude: "env,beans"
-
-springdoc:
-  swagger-ui:
-    operations-sorter: alpha
-    tags-sorter: alpha
-  paths-to-match:
-    - /api/**
 
 logging:
   level:
@@ -67,6 +63,19 @@ social:
       token: https://kauth.kakao.com/oauth/token
       profile: https://kapi.kakao.com/v2/user/me
       unlink: https://kapi.kakao.com/v1/user/unlink
+
+---
+spring:
+  config:
+    activate:
+      on-profile: swagger-on
+
+springdoc:
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+  paths-to-match:
+    - /api/**
 
 ---
 spring:
@@ -190,20 +199,78 @@ spring:
   servlet:
     multipart:
       enabled: true
-      location: /home/mrcocoball/date_planner/image
+      location: /home/mrcocoball/date_planner_dev/image
       max-request-size: 5MB
       max-file-size: 4MB
 
 com:
   dateplanner:
     upload:
-      path: /home/mrcocoball/date_planner_api/image
+      path: /home/mrcocoball/date_planner_dev/image
     webdriver:
       path: /usr/src/chrome/chromedriver
 
 logging:
   file:
-    path: /home/mrcocoball/date_planner_api/logs
+    path: /home/mrcocoball/date_planner_dev/logs
+
+url:
+  base: https://dateplanner.ykstyle.info:85/
+
+server:
+  port: 8084
+  tomcat:
+    mbeanregistry:
+      enabled: true
+  ssl:
+    enabled: true
+    key-store: /home/mrcocoball/date_planner_dev/keystore.p12
+    key-store-password: ${KEY_STORE_PASSWORD}
+    keyStoreType: PKCS12
+    keyAlias: tomcat
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://backend-database-prod:3306/backend-database-prod
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      generate-ddl: true
+      ddl-auto: update
+      use-new-id-generator-mappings: false # hibernate_sequence false
+    properties:
+      hibernate:
+        #show_sql: true
+        format_sql: true
+        hibernate.default_batch_fetch_size: 100
+    use_sql_comments: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+  servlet:
+    multipart:
+      enabled: true
+      location: /home/mrcocoball/date_planner_prod/image
+      max-request-size: 5MB
+      max-file-size: 4MB
+
+com:
+  dateplanner:
+    upload:
+      path: /home/mrcocoball/date_planner_prod/image
+    webdriver:
+      path: /usr/src/chrome/chromedriver
+
+logging:
+  file:
+    path: /home/mrcocoball/date_planner_prod/logs
 
 url:
   base: https://dateplanner.ykstyle.info:81/
@@ -215,9 +282,14 @@ server:
       enabled: true
   ssl:
     enabled: true
-    key-store: /home/mrcocoball/date_planner_api/keystore.p12
+    key-store: /home/mrcocoball/date_planner_prod/keystore.p12
     key-store-password: ${KEY_STORE_PASSWORD}
     keyStoreType: PKCS12
     keyAlias: tomcat
 
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
 ---

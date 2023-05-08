@@ -45,7 +45,7 @@ public class SecurityConfig {
     @Bean
     @Profile({"local", "local2"})
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        
+
         // AuthenticationManager 설정
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
