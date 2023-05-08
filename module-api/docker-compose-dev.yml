@@ -1,13 +1,13 @@
 version: "2" # 원래 3.8이었으나 리눅스 환경에서 build 하기 위해 2.0으로 변경
 services:
-  backend-database-prod:
-    container_name: backend-database-prod
+  backend-database:
+    container_name: backend-database
     build:
-      dockerfile: Dockerfile
+      dockerfile: ./database/Dockerfile
       context: ./database
-    image: mrcocoball/backend-database-prod
+    image: mrcocoball/backend-database
     environment:
-      - MARIADB_DATABASE=backend-database-prod
+      - MARIADB_DATABASE=backend-database
       - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
     volumes:
       - ./database/config:/etc/mysql/conf.d
@@ -15,33 +15,33 @@ services:
     env_file:
       - .env
     ports:
-      - "3308:3306"
+      - "3307:3306"
     networks:
-      - prodnetwork
-  prodnetwork.backend-app:
-    container_name: prodnetwork.backend-app
+      - devnetwork
+  devnetwork.backend-app:
+    container_name: devnetwork.backend-app
     depends_on:
-      - backend-database-prod
-    image: mrcocoball/dateplanner_backend:prod
+      - backend-database
+    image: mrcocoball/dateplanner_backend:dev
     environment: # .env 파일에 저장했던 환경 변수
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
       - KAKAO_REST_API_KEY=${KAKAO_REST_API_KEY}
-      - VIRTUAL_HOST=prodnetwork.backend-app
+      - VIRTUAL_HOST=devnetwork.backend-app
       - KEY_STORE_PASSWORD=${KEY_STORE_PASSWORD}
     ports:
-      - "81:8084" # 기본 포트
-      - "93:9000" # actuator 포트
+      - "85:8084" # 기본 포트
+      - "90:9000" # actuator 포트
     networks:
-      - prodnetwork
+      - devnetwork
     volumes:
-      - /home/mrcocoball/date_planner_prod/image:/home/mrcocoball/date_planner_prod/image
-      - /home/mrcocoball/date_planner_prod/logs:/home/mrcocoball/date_planner_prod/logs
-      - /home/mrcocoball/date_planner_prod/keystore.p12:/home/mrcocoball/date_planner_prod/keystore.p12
+      - /home/mrcocoball/date_planner_dev/image:/home/mrcocoball/date_planner_dev/image
+      - /home/mrcocoball/date_planner_dev/logs:/home/mrcocoball/date_planner_dev/logs
+      - /home/mrcocoball/date_planner_dev/keystore.p12:/home/mrcocoball/date_planner_dev/keystore.p12
     restart: always # depends on은 실행 순서만 컨트롤, 컨테이너 안의 서비스가 실행 가능한 상태인지는 확인하지 않으므로
     # DB가 실행 가능한 상태가 아니여서 실패할 경우 재시작하도록 설정
 
 # API 서버 - 어드민 서버 컨테이너 간 연결을 위한 network
 networks:
-  prodnetwork:
+  devnetwork:
     external: true
