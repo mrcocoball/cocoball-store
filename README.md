@@ -1,6 +1,9 @@
-# Date-planner (가칭) Backend API
+# Pla&Plan (플랜플랜) Backend API & Admin
 
-## 사용 스택
+## 정적 페이지 링크
+* https://mrcocoball.github.io/
+
+## 사용 기술 스택
 
 ### Language
 * Java
@@ -14,7 +17,7 @@
 * QueryDSL
 * Spring Security
 * Spring Retry
-* Swagger-UI (springdoc)
+* Swagger-UI 3.0 (springdoc)
 * Selenium-java & chromedriver
 
 ### Monitoring Tool
@@ -30,3 +33,5 @@
 ### Infrastructure
 * Ubuntu
 * Docker
+* Docker-compose
+* Portainer
