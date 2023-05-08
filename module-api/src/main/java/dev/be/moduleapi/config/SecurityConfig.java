@@ -45,9 +45,7 @@ public class SecurityConfig {
     @Bean
     @Profile({"local", "local2"})
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-        log.info("[local SecurityFilterChain Injected]");
-
+        
         // AuthenticationManager 설정
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
@@ -91,10 +89,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Profile("dev")
+    @Profile({"dev", "prod"})
     public SecurityFilterChain securityFilterChainDev(HttpSecurity http) throws Exception {
-
-        log.info("[dev SecurityFilterChain Injected]");
 
         // AuthenticationManager 설정
         AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -139,7 +135,6 @@ public class SecurityConfig {
                 .build();
     }
 
-    // 소셜 로그인 테스트 페이지용 설정
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web -> web.ignoring()
