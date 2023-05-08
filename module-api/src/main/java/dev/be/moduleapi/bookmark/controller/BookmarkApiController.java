@@ -86,9 +86,13 @@ public class BookmarkApiController {
                     "사용자가 북마크의 id를 알 가능성은 낮으나, 만약 북마크 id를 알아서 다른 북마크를 삭제하려 할 가능성이 있다면 로직이 바뀔 수 있습니다.")
     @DeleteMapping("/api/v1/bookmarks/place/{place_id}")
     public CommonResult deleteBookmarkByPlaceIdV1(
+            @Parameter(description = "요청한 유저의 인증 정보", required = true) Authentication authentication,
             @Parameter(description = "북마크 정보 내의 장소 id (String)", required = true) @PathVariable("place_id") String placeId) {
 
-        bookmarkService.deleteBookmarkByPlaceId(placeId);
+        User user = (User) authentication.getPrincipal();
+        String email = user.getEmail();
+
+        bookmarkService.deleteBookmarkByPlaceId(email, placeId);
 
         return responseService.getSuccessResult();
     }

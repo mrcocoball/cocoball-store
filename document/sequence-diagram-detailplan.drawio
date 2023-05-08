@@ -1,0 +1,253 @@
+<mxfile host="app.diagrams.net" modified="2023-05-07T13:46:42.725Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="Oh6Z4S7N55tT72b5HjMc" version="21.2.9" type="device">
+  <diagram name="Page-1" id="13e1069c-82ec-6db2-03f1-153e76fe0fe0">
+    <mxGraphModel dx="1509" dy="744" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7baba1c4bc27f4b0-2" value="시스템" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="490" y="109" width="100" height="851" as="geometry" />
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-4" value="DB" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="895" y="109" width="100" height="851" as="geometry" />
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-8" value="유저" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;rounded=1;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fontFamily=Verdana;fontSize=12;align=center;" parent="1" vertex="1">
+          <mxGeometry x="80" y="109" width="100" height="851" as="geometry" />
+        </mxCell>
+        <mxCell id="7baba1c4bc27f4b0-11" value="1. (로그인된 사용자) 세부 플랜 작성 ([POST] /api/v1/detailPlans)" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" parent="1" edge="1" target="7baba1c4bc27f4b0-2">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="223" as="sourcePoint" />
+            <mxPoint x="430" y="223" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-8" value="2. 세부 플랜 작성 시 기입한 플랜 ID로 플랜 조회 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" parent="1" edge="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.6666666666667" y="257.83333333333337" as="sourcePoint" />
+            <mxPoint x="944.5" y="258" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-12" value="5. 세부 플랜 저장 완료 후 결과 전달" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" parent="1" edge="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="944.5" y="335" as="sourcePoint" />
+            <mxPoint x="540" y="336" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-28" value="유저" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="80" y="960" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-29" value="시스템" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="490" y="960" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-31" value="DB" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="895" y="960" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="d7kwrDIypniRsh-_axAG-33" value="&lt;span style=&quot;font-size: 25px;&quot;&gt;&lt;b&gt;세부 플랜 생성 / 삭제 API&lt;/b&gt;&lt;/span&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry x="348" y="40" width="405" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-1" value="세부 플랜 작성 (api/v1/detailPlans)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=210;height=20;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="170" width="920" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-2" value="1-2. 로그인된 사용자가 아닐 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="245" as="sourcePoint" />
+            <mxPoint x="130" y="245" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-3" value="6. 세부 플랜 저장 결과 제공" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="348" as="sourcePoint" />
+            <mxPoint x="130" y="348" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-4" value="7. (로그인된 사용자) 세부 플랜 삭제 ([DELETE] /api/v1/detailPlans/{id})" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="436" as="sourcePoint" />
+            <mxPoint x="540" y="436" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-5" value="9. id를 통한 세부 플랜 검색 후 세부 플랜 삭제 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9992" relative="1" as="geometry">
+            <mxPoint x="540" y="472" as="sourcePoint" />
+            <mxPoint x="944.5" y="472" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-6" value="10. 세부 플랜 삭제 완료 후 결과 전달" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="944.5" y="503" as="sourcePoint" />
+            <mxPoint x="540" y="504" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-7" value="세부 플랜 삭제 (api/v1/detailPlans/{id})" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=240;height=21;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="80" y="380" width="920" height="151" as="geometry" />
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-8" value="7-2. 로그인된 사용자가 아닐 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="459" as="sourcePoint" />
+            <mxPoint x="130" y="459" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-9" value="11. 세부 플랜 삭제 결과 제공" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="518" as="sourcePoint" />
+            <mxPoint x="130" y="518" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-65" value="2-2. 플랜이 존재하지 않을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="270" as="sourcePoint" />
+            <mxPoint x="130" y="270" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-66" value="3. 세부 플랜 작성 시 기입한 장소 ID로 장소 조회 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.9966666666668" y="284.16333333333336" as="sourcePoint" />
+            <mxPoint x="944.83" y="284.33" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-67" value="3-2. 장소가 존재하지 않을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="295" as="sourcePoint" />
+            <mxPoint x="130" y="295" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-68" value="4. 세부 플랜 저장 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.9966666666668" y="309.00333333333333" as="sourcePoint" />
+            <mxPoint x="944.83" y="309.16999999999996" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-70" value="9-2. 세부 플랜이 없을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="490" as="sourcePoint" />
+            <mxPoint x="130" y="490" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-91" value="12. (로그인된 사용자) 세부 플랜 조회 ([GET] /api/v1/detailPlans/{id})" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="129.5" y="606" as="sourcePoint" />
+            <mxPoint x="540" y="606" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-92" value="13. id를 통한 세부 플랜 검색" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9992" relative="1" as="geometry">
+            <mxPoint x="540" y="642" as="sourcePoint" />
+            <mxPoint x="944.5" y="642" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-93" value="14. 세부 플랜 정보 전달" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="944.5" y="673" as="sourcePoint" />
+            <mxPoint x="540" y="674" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-94" value="세부 플랜 조회 (api/v1/detailPlans/{id}) (현재 미사용)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=310;height=20;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="550" width="920" height="151" as="geometry" />
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-95" value="12-2. 로그인된 사용자가 아닐 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="629" as="sourcePoint" />
+            <mxPoint x="130" y="629" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-96" value="15. 세부 플랜 정보 제공" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="688" as="sourcePoint" />
+            <mxPoint x="130" y="688" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-97" value="13-2. 세부 플랜이 없을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="660" as="sourcePoint" />
+            <mxPoint x="130" y="660" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-99" value="16. (로그인된 사용자) 세부 플랜 수정 ([PUT] /api/v1/detailPlans/{id})" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9992" relative="1" as="geometry">
+            <mxPoint x="129.5" y="773" as="sourcePoint" />
+            <mxPoint x="540" y="773" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-100" value="17. 세부 플랜 작성 시 기입한 플랜 ID로 플랜 조회 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.6666666666667" y="807.8333333333334" as="sourcePoint" />
+            <mxPoint x="944.5" y="808" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-101" value="20. 세부 플랜 수정 완료 후 결과 전달" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-0.9957" relative="1" as="geometry">
+            <mxPoint x="944.5" y="885" as="sourcePoint" />
+            <mxPoint x="540" y="886" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-102" value="세부 플랜 수정 (api/v1/detailPlans/{id}) (현재 미사용)" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;width=310;height=20;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="80" y="720" width="920" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-103" value="16-2. 로그인된 사용자가 아닐 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="795" as="sourcePoint" />
+            <mxPoint x="130" y="795" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-104" value="21. 세부 플랜 수정 결과 제공" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#000000;strokeColor=#000000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="540" y="898" as="sourcePoint" />
+            <mxPoint x="130" y="898" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-105" value="17-2. 플랜이 존재하지 않을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="820" as="sourcePoint" />
+            <mxPoint x="130" y="820" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-106" value="18. 세부 플랜 작성 시 기입한 장소 ID로 장소 조회 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.9966666666668" y="834.1633333333334" as="sourcePoint" />
+            <mxPoint x="944.83" y="834.3299999999999" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-107" value="18-2. 장소가 존재하지 않을 경우 예외 처리" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=right;dashed=1;fontStyle=1;fontColor=#ff0000;strokeColor=#ff0000;" edge="1" parent="1">
+          <mxGeometry x="-0.9967" relative="1" as="geometry">
+            <mxPoint x="539.5000000000002" y="845" as="sourcePoint" />
+            <mxPoint x="130" y="845" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="MBMuwZcIth6A8b6VbHb0-108" value="19. 세부 플랜 수정 요청" style="html=1;verticalAlign=bottom;endArrow=block;labelBackgroundColor=none;fontFamily=Helvetica;fontSize=12;edgeStyle=elbowEdgeStyle;elbow=vertical;align=left;fontStyle=1" edge="1" parent="1">
+          <mxGeometry x="-1" relative="1" as="geometry">
+            <mxPoint x="539.9966666666668" y="859.0033333333333" as="sourcePoint" />
+            <mxPoint x="944.83" y="859.17" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

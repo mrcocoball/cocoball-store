@@ -43,8 +43,8 @@ public class BookmarkService {
         bookmarkRepository.deleteById(id);
     }
 
-    public void deleteBookmarkByPlaceId(String placeId) {
-        bookmarkRepository.deleteByPlace_PlaceId(placeId);
+    public void deleteBookmarkByPlaceId(String email, String placeId) {
+        bookmarkRepository.deleteByUser_EmailAndPlace_PlaceId(email, placeId);
     }
 
     public boolean isExist(String placeId, String nickname) {
