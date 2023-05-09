@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 @Slf4j(topic = "SERVICE")
 @RequiredArgsConstructor
@@ -32,7 +33,6 @@ public class PlaceCrawlingService {
 
     @Value("${com.dateplanner.webdriver.path}")
     private String webDriverPath;
-
 
     public List<PlaceCrawlingDto> searchAndCrawlingV1() {
 
@@ -52,6 +52,37 @@ public class PlaceCrawlingService {
         for (String placeId : placeIds) {
             PlaceCrawlingDto dto = crawlingV1(placeId);
             results.add(dto);
+            updatePlacesV1(dto);
+            count += 1;
+            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, placeIds.size());
+        }
+
+        // 저장 시간 비교 계산용 측정
+        long afterTime = System.currentTimeMillis();
+        log.info("elapsed time : " + (afterTime - beforeTime));
+
+        return results;
+    }
+
+    public List<PlaceCrawlingDto> searchAndCrawlingLimitV1() {
+
+        List<String> placeIds = placeAdminRepository.findPlaceIdByImageUrlIsNull().stream().limit(200).collect(Collectors.toList());
+
+        List<PlaceCrawlingDto> results = new ArrayList<>();
+
+        if (ObjectUtils.isEmpty(placeIds) || placeIds == null) {
+            return Collections.emptyList();
+        }
+
+        // 저장 시간 비교 계산용 측정
+        long beforeTime = System.currentTimeMillis();
+
+        int count = 0;
+
+        for (String placeId : placeIds) {
+            PlaceCrawlingDto dto = crawlingV1(placeId);
+            results.add(dto);
+            updatePlacesV1(dto);
             count += 1;
             log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, placeIds.size());
         }
@@ -149,34 +180,27 @@ public class PlaceCrawlingService {
      * 장소 크롤링 후 업데이트
      */
 
-    public Long updatePlacesV1(List<PlaceCrawlingDto> dtos) {
+    public void updatePlacesV1(PlaceCrawlingDto dto) {
 
         // 저장 시간 비교 계산용 측정
         long beforeTime = System.currentTimeMillis();
 
-        Long count = 0L;
-
-        for (PlaceCrawlingDto dto : dtos) {
-            List<String> tags = dto.getTags();
-            StringJoiner stringJoiner = new StringJoiner(", ");
-            stringJoiner.setEmptyValue("");
-            if (!ObjectUtils.isEmpty(tags) || tags != null) {
-                for (String tag : tags) {
-                    stringJoiner.add(tag);
-                }
+        List<String> tags = dto.getTags();
+        StringJoiner stringJoiner = new StringJoiner(", ");
+        stringJoiner.setEmptyValue("");
+        if (!ObjectUtils.isEmpty(tags) || tags != null) {
+            for (String tag : tags) {
+                stringJoiner.add(tag);
             }
-            String description = String.valueOf(stringJoiner);
-            if (description.equals("")) {description = null;}
-            placeAdminRepository.updateImageUrlAndDescriptionAndReviews(dto.getPlaceId(), dto.getImageUrl(), description, (long) dto.getReviewScore(), dto.getReviewCount());
-            count += 1L;
-            log.info("[PlaceCrawlingService searchAndCrawling] - {} of {} complete", count, dtos.size());
         }
+        String description = String.valueOf(stringJoiner);
+        if (description.equals("")) {description = null;}
+        placeAdminRepository.updateImageUrlAndDescriptionAndReviews(dto.getPlaceId(), dto.getImageUrl(), description, (long) dto.getReviewScore(), dto.getReviewCount());
 
         // 저장 시간 비교 계산용 측정
         long afterTime = System.currentTimeMillis();
         log.info("elapsed time : " + (afterTime - beforeTime));
 
-        return count;
     }
 
 }
