@@ -12,7 +12,10 @@
     <div class="reverse-align">
       <button type="button" class="btn btn-search" onclick="location.href='/admin/places/nullPlaces'">리스트 업데이트</button>
       <form class="crawling_form" action="/api/v1/admin/crawlingAndUpdate" method="post">
-        <button type="submit" class="btn btn-update">크롤링 요청</button>
+        <button type="submit" class="btn btn-update">크롤링 요청 (전체)</button>
+      </form>
+      <form class="crawling_form" action="/api/v1/admin/crawlingAndUpdateLimit" method="post">
+        <button type="submit" class="btn btn-update">크롤링 요청 (200개)</button>
       </form>
     </div>
   </div>
