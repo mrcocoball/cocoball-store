@@ -1,5 +1,6 @@
 package dev.be.moduleadmin.place.controller;
 
+import dev.be.moduleadmin.api.model.ListResult;
 import dev.be.moduleadmin.api.model.SingleResult;
 import dev.be.moduleadmin.api.service.ResponseService;
 import dev.be.moduleadmin.place.dto.PlaceCrawlingDto;
@@ -21,13 +22,16 @@ public class PlaceCrawlingApiController {
     private final PlaceCrawlingService placeCrawlingService;
     private final ResponseService responseService;
 
-
     @PostMapping("/api/v1/admin/crawlingAndUpdate")
-    public SingleResult<Long> crawlingAndUpdatePlacesV1() {
+    public SingleResult<Integer> crawlingAndUpdatePlacesV1() {
 
-        List<PlaceCrawlingDto> dtos = placeCrawlingService.searchAndCrawlingV1();
+        return responseService.getSingleResult(placeCrawlingService.searchAndCrawlingV1().size());
+    }
 
-        return responseService.getSingleResult(placeCrawlingService.updatePlacesV1(dtos));
+    @PostMapping("/api/v1/admin/crawlingAndUpdateLimit")
+    public SingleResult<Integer> crawlingAndUpdatePlacesLimitV1() {
+
+        return responseService.getSingleResult(placeCrawlingService.searchAndCrawlingLimitV1().size());
     }
 
 }
