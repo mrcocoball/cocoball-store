@@ -10,8 +10,9 @@ RUN mkdir chrome
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/src/chrome
 WORKDIR /
 ARG JAR_FILE=build/libs/module-admin.jar
+ARG ARG_PROFILE
 COPY ${JAR_FILE} ./module-admin.jar
 ENV TZ=Asia/Seoul
-ENV SPRING_PROFILE="dev"
+ENV SPRING_PROFILE=${ARG_PROFILE}
 ENTRYPOINT ["java", "-Dspring.profiles.active=${SPRING_PROFILE}", "-jar", "./module-admin.jar"]
 EXPOSE 8085
