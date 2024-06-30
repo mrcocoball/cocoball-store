@@ -1,7 +1,7 @@
 # Pla&Plan (플랜플랜) Backend API & Admin
 
 ## 정적 페이지 링크
-* https://mrcocoball.github.io/
+* https://dateplanner.cocoball.info
 
 ## 사용 기술 스택
 
